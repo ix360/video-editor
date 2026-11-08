@@ -1,6 +1,6 @@
 <div dir="rtl">
 
-# 🎬 Video Studio — بلقن تحرير الفيديو لـ Claude Code
+# 🎬 Video Editor — بلقن تحرير الفيديو لـ Claude Code
 
 <p align="center"><b>تتكلم للكاميرا… وتستلم ريل عمودي جاهز للنشر.</b><br>
 يشيل السكتات، يكتب كابشن عربي يمشي مع فمك، ويرسم موشن قرافيكس بألوانك — بلا برنامج مونتاج — من الجوال أو الكمبيوتر.</p>
@@ -14,7 +14,7 @@
 
 أول مرة يسألك كلود **أي لغة تبي** ويحفظها: العربية · English · Français · Español · Português · Deutsch · Türkçe · اردو · فارسی · Bahasa Indonesia.
 كلامه معك، **تفريغ الصوت، والكابشن** كلها بلغتك. تبي تغيّرها؟ اكتب «غيّر اللغة» / "change language".
-التفاصيل: [`language.md`](video-ad-editor/references/language.md).
+التفاصيل: [`language.md`](video-editor/references/language.md).
 
 ---
 
@@ -68,7 +68,7 @@
 <div dir="ltr">
 
 ```
-abdoix/video-ad-editor
+ix360/video-editor
 ```
 
 </div>
@@ -92,12 +92,12 @@ abdoix/video-ad-editor
 <div dir="ltr">
 
 ```
-abdoix/video-ad-editor
+ix360/video-editor
 ```
 
 </div>
 
-**4.** يطلع لك **video-studio** — أضفه.
+**4.** يطلع لك **video-editor** — أضفه.
 
 **5.** بعدين **Add** ← **Manage marketplaces** ← **⋮** ← شغّل **Sync automatically** (حتى كل تحديث يوصلك بروحه).
 
@@ -105,7 +105,7 @@ abdoix/video-ad-editor
 
 <p align="center"><img src="_pkg/step-6-sync.jpg" alt="النقاط الثلاث ثم Sync automatically" width="360"></p>
 
-> ✅ **تأكد إنه انضاف:** بـ**Plugins** تشوف **video-studio** بالقائمة. ما طلع؟ أعد الخطوة 3.
+> ✅ **تأكد إنه انضاف:** بـ**Plugins** تشوف **video-editor** بالقائمة. ما طلع؟ أعد الخطوة 3.
 
 ### 2️⃣ افتح محادثة جديدة
 
@@ -206,11 +206,11 @@ abdoix/video-ad-editor
 
 > ☝️ **اختر طريقة وحدة بس** — لو ثبّتّه بأكثر من طريقة يصير عندك نسخ مكررة من نفس السكلات. عندك أكثر من وحدة؟ شيل النسخ الزايدة من **Customize ← Plugins**.
 
-> 🏷️ **اسمين لا تتلخبط فيهم:** المتجر `abdoix/video-ad-editor` (اسمه `abdoix-plugins`) · اسم البلقن `video-studio`. أمر الإضافة ياخذ اسم **المستودع** (`abdoix/video-ad-editor`)، وأمر التنصيب ياخذ **البلقن@المتجر** (`video-studio@abdoix-plugins`).
+> 🏷️ **اسمين لا تتلخبط فيهم:** المتجر `ix360/video-editor` (اسمه `ix360-plugins`) · اسم البلقن `video-editor`. أمر الإضافة ياخذ اسم **المستودع** (`ix360/video-editor`)، وأمر التنصيب ياخذ **البلقن@المتجر** (`video-editor@ix360-plugins`).
 
 ### حمّل الملف وارفعه
 
-1. [**حمّل البلقن**](https://github.com/abdoix/video-ad-editor/releases/latest/download/video-studio.plugin) (ملف `video-studio.plugin`)
+1. [**حمّل البلقن**](https://github.com/ix360/video-editor/releases/latest/download/video-editor.plugin) (ملف `video-editor.plugin`)
 2. افتح تطبيق **كلود** ← **Customize** ← **Plugins** ← **Upload plugin** ← اختر الملف
 
 > ⚠️ هالطريقة **ما تتحدّث بروحها** — كل نسخة جديدة حمّلها وارفعها من جديد.
@@ -224,7 +224,7 @@ abdoix/video-ad-editor
 <div dir="ltr">
 
 ```
-claude plugin marketplace add abdoix/video-ad-editor
+claude plugin marketplace add ix360/video-editor
 ```
 
 ```
@@ -232,13 +232,13 @@ claude plugin marketplace list
 ```
 
 ```
-claude plugin install video-studio@abdoix-plugins
+claude plugin install video-editor@ix360-plugins
 ```
 
 </div>
 
-- **تحقق بعد الأمر الأول:** الأمر الثاني (`marketplace list`) **لازم يظهر فيه `abdoix-plugins`**. ما ظهر؟ شغّل الأمر الأول مرة ثانية (لو الاتصال تقطّع)، وبعدها ارجع للقائمة.
-- **طلع لك `Failed to add marketplace … extraKnownMarketplaces`؟** لا تكمّل على أساس إنه «مضاف من قبل». شغّل `claude plugin marketplace list` — لو `abdoix-plugins` ما يظهر، المتجر ناقص فعلاً: أعد الأمر الأول.
+- **تحقق بعد الأمر الأول:** الأمر الثاني (`marketplace list`) **لازم يظهر فيه `ix360-plugins`**. ما ظهر؟ شغّل الأمر الأول مرة ثانية (لو الاتصال تقطّع)، وبعدها ارجع للقائمة.
+- **طلع لك `Failed to add marketplace … extraKnownMarketplaces`؟** لا تكمّل على أساس إنه «مضاف من قبل». شغّل `claude plugin marketplace list` — لو `ix360-plugins` ما يظهر، المتجر ناقص فعلاً: أعد الأمر الأول.
 - **أعد تشغيل `claude`** بعد التثبيت، وإلا ما تظهر السكلات بالجلسة.
 
 بعدها **شغّل التحديث التلقائي**: بالطرفية (تيرمنال) العادية اكتب `claude` ← Enter، وبعدين:
@@ -246,23 +246,23 @@ claude plugin install video-studio@abdoix-plugins
 <div dir="ltr">
 
 ```
-/plugin  →  Marketplaces  →  abdoix-plugins  →  Enable auto-update
+/plugin  →  Marketplaces  →  ix360-plugins  →  Enable auto-update
 ```
 
 </div>
 
-> ℹ️ أمر `/plugin` تفاعلي ويشتغل **بالطرفية (تيرمنال) العادية بس** — ما يشتغل داخل تطبيق الديسكتوب (تبويب Code). وخطوة «Enable auto-update» تظهر فقط لو `marketplace list` فيه `abdoix-plugins`.
+> ℹ️ أمر `/plugin` تفاعلي ويشتغل **بالطرفية (تيرمنال) العادية بس** — ما يشتغل داخل تطبيق الديسكتوب (تبويب Code). وخطوة «Enable auto-update» تظهر فقط لو `marketplace list` فيه `ix360-plugins`.
 
 <p align="center"><img src="_pkg/install.gif" alt="الخطوات داخل Claude Code بالطرفية (تيرمنال)" width="100%"></p>
 
-> 🔁 **تبي آخر نسخة الحين؟** بالطرفية (تيرمنال): `claude plugin update video-studio@abdoix-plugins`
+> 🔁 **تبي آخر نسخة الحين؟** بالطرفية (تيرمنال): `claude plugin update video-editor@ix360-plugins`
 >
 > 🧹 **منصّب النسخة القديمة كسكل (ملف `.skill`)؟** شيلها حتى ما تتكرر — البلقن فيه كل شي.
 >
-> 📦 **تبي سكل الريل بروحه؟** [نزّل `video-ad-editor.skill`](https://github.com/abdoix/video-ad-editor/releases/latest/download/video-ad-editor.skill) ← دبل كليك ← وافق. (سكل وحدة بكل الأوضاع، بس ما فيها باقي سكلات البلقن)
+> 📦 **تبي سكل الريل بروحه؟** [نزّل `video-editor.skill`](https://github.com/ix360/video-editor/releases/latest/download/video-editor.skill) ← دبل كليك ← وافق. (سكل وحدة بكل الأوضاع، بس ما فيها باقي سكلات البلقن)
 >
 >
-> 🤖 **كودكس وأي وكيل يشغّل أوامر:** يقرأ `SKILL.md` ومجلد `references/` كتعليمات ويشغّل نفس السكربتات ([`any-environment.md`](video-ad-editor/references/any-environment.md)) — *غير مجرَّب بعد على كودكس نفسه.*
+> 🤖 **كودكس وأي وكيل يشغّل أوامر:** يقرأ `SKILL.md` ومجلد `references/` كتعليمات ويشغّل نفس السكربتات ([`any-environment.md`](video-editor/references/any-environment.md)) — *غير مجرَّب بعد على كودكس نفسه.*
 
 </details>
 
@@ -277,28 +277,28 @@ claude plugin install video-studio@abdoix-plugins
 
 <details><summary><b>💬 كلمة بآخر الريل ← رابط بالخاص</b> (اختياري)</summary>
 
-ريلات الحلقة تنتهي بـ«اكتب [كلمة] توصلك الحلقة كاملة». عشان الرد يصير تلقائي: [زورجا](https://zorcha.com) — الأوتوميشن مجاني، والتحكم فيه من كلود (MCP) باشتراك. التفاصيل: [`keyword-automation.md`](video-ad-editor/references/keyword-automation.md).
+ريلات الحلقة تنتهي بـ«اكتب [كلمة] توصلك الحلقة كاملة». عشان الرد يصير تلقائي: [زورجا](https://zorcha.com) — الأوتوميشن مجاني، والتحكم فيه من كلود (MCP) باشتراك. التفاصيل: [`keyword-automation.md`](video-editor/references/keyword-automation.md).
 
 </details>
 
 <details><summary><b>📜 سجل الإصدارات</b></summary>
 
 ### جديد — ستوك مجاني · تعليق صوتي · صور وفيديو من جوجل
-- **ستوك مجاني** (`38_stock.py`): بحث وتنزيل من Pexels وPixabay وUnsplash مع حفظ الإسناد ← [`stock.md`](video-ad-editor/references/stock.md).
-- **سكل التعليق الصوتي `voiceover-video`:** يتأكد إن ElevenLabs موصول (وإلا يعرض لك زر الربط)، يعرض أصواتك، ويولّد التعليق — بصوتك المستنسخ أو بتسجيل عينة جديدة بالمتصفح ← [`voiceover.md`](video-ad-editor/references/voiceover.md).
-- **صور من AI Studio** بمفتاح `GEMINI_API_KEY` (أرخص من fal) + **جوجل فلو من المتصفح** للمقاطع بلا تكلفة API (تجريبي) ← [`google-flow.md`](video-ad-editor/references/google-flow.md).
-- **تختار مرة وحدة:** (أ) API جوجل (مفتاح AI Studio) أو (ب) اشتراكك بجوجل فلو عبر كروم — وبعدها **فحص بسيط** يتأكد من ElevenLabs وإضافة كروم ودخول فلو، ولو فلو ما فتح يفتح لك كروم تدخل حسابك ← [`setup-check.md`](video-ad-editor/references/setup-check.md).
+- **ستوك مجاني** (`38_stock.py`): بحث وتنزيل من Pexels وPixabay وUnsplash مع حفظ الإسناد ← [`stock.md`](video-editor/references/stock.md).
+- **سكل التعليق الصوتي `voiceover-video`:** يتأكد إن ElevenLabs موصول (وإلا يعرض لك زر الربط)، يعرض أصواتك، ويولّد التعليق — بصوتك المستنسخ أو بتسجيل عينة جديدة بالمتصفح ← [`voiceover.md`](video-editor/references/voiceover.md).
+- **صور من AI Studio** بمفتاح `GEMINI_API_KEY` (أرخص من fal) + **جوجل فلو من المتصفح** للمقاطع بلا تكلفة API (تجريبي) ← [`google-flow.md`](video-editor/references/google-flow.md).
+- **تختار مرة وحدة:** (أ) API جوجل (مفتاح AI Studio) أو (ب) اشتراكك بجوجل فلو عبر كروم — وبعدها **فحص بسيط** يتأكد من ElevenLabs وإضافة كروم ودخول فلو، ولو فلو ما فتح يفتح لك كروم تدخل حسابك ← [`setup-check.md`](video-editor/references/setup-check.md).
 - الترتيب دايماً الأرخص أول: ستوك ← Gemini ← فلو ← fal.
 
 ### جديد — اختيار اللغة
 - **10 لغات:** يسألك كلود أول مرة ويحفظ اختيارك (`00_onboard.py lang set <رمز>`)، والتفريغ والكابشن وكلامه معك بلغتك (`scripts/_lang.py`).
-- المتجر صار متجرك: `abdoix/video-ad-editor` · البلقن `video-studio`.
+- المتجر صار متجرك: `ix360/video-editor` · البلقن `video-editor`.
 
 ### جديد في 6.3 — «اشرح لي شلون يشتغل …»
 - **وضع جديد بسكل الموشن:** أي جهاز يصير آلة مقصوصة ترتسم بالحبر خط خط، ثم تشتغل (دوران، توهّج، موجات، بخار) وتحتها 2–3 خطوات.
 - **الحقائق قبل الرسم:** كل جملة على الشاشة لها مصدر واقتباس بـ`facts.md` — اللي ما له مصدر يطلع بالرسمة بلا كابشن.
 - **جملة المستخدم تنكتب بفقاعة** فوق الآلة (`ask`) — المشاهد يشوف شنو انطلب بالضبط.
-- مثال شغّال: `motion/examples/machine/` (استشوار + مايكرويف) · الدليل: [`machine-explainer.md`](video-ad-editor/references/machine-explainer.md).
+- مثال شغّال: `motion/examples/machine/` (استشوار + مايكرويف) · الدليل: [`machine-explainer.md`](video-editor/references/machine-explainer.md).
 - أدوات الرسم الإيزومتري من مشروع [Anatomy](https://github.com/wheresryan22/anatomy) (رخصة MIT).
 
 ### 🆕 جديد في 6.2.1 — دروس ريل «1000$ بيوم»
@@ -378,7 +378,7 @@ claude plugin install video-studio@abdoix-plugins
 
 <details><summary><b>🛠️ للمطوّرين</b></summary>
 
-خريطة كل السكربتات والملفات: [`references/script-map.md`](video-ad-editor/references/script-map.md) · التعليمات: [`SKILL.md`](video-ad-editor/SKILL.md) · السكلات الثانية: [`motion-video`](motion-video/SKILL.md) · [`podcast-video`](podcast-video/SKILL.md) · [`montage-video`](montage-video/SKILL.md) · [`thumbnail-video`](thumbnail-video/SKILL.md)
+خريطة كل السكربتات والملفات: [`references/script-map.md`](video-editor/references/script-map.md) · التعليمات: [`SKILL.md`](video-editor/SKILL.md) · السكلات الثانية: [`motion-video`](motion-video/SKILL.md) · [`podcast-video`](podcast-video/SKILL.md) · [`montage-video`](montage-video/SKILL.md) · [`thumbnail-video`](thumbnail-video/SKILL.md)
 
 <b>الإصدارات السابقة</b>
 
@@ -394,7 +394,7 @@ claude plugin install video-studio@abdoix-plugins
 - **5.0.0** بنك الحركات 100 (39 جديدة، منها حركات عربية وآية بسكينة بخط أميري قرآن) + إصلاح التاء المربوطة بخط الرقعة وذيول الحروف بالطلعة المتتابعة
 - **4.7.0** بنك الحركات 61: 11 حركة جديدة (مدار، جدار الكنبة، عالم الواجهات، كسر الإطار، جدار العناوين، رسومات ترجف، غلاف مجلة، كلام زجاجي، الفيديو داخل الجوال، قرين سكرين بالنص، قصاصة ورق) — 7 منها بقصّ الشخص (ماك) ولها شكل بديل
 - **4.5.0** بنك الحركات: 50 حركة مرقّمة بمصادرها + لوحة حركات لكل فيديو (عائلة + 3 أساسيات + لهجات) ما تتكرر + قسم «الحركات» بصفحة التعارف (يختار بنفسه أو يخليها على كلود)
-- **4.4.4** صوتك الحقيقي ما ينقص أبداً (القطع تغطي التسجيل كامل والحدود بأهدأ نقطة، ‎-20 LUFS تلقائياً) + سكتة نهاية 0.7 ث بالريل + طريقة التيرمنال صارت على المتجر الموحد `abdoix-plugins`
+- **4.4.4** صوتك الحقيقي ما ينقص أبداً (القطع تغطي التسجيل كامل والحدود بأهدأ نقطة، ‎-20 LUFS تلقائياً) + سكتة نهاية 0.7 ث بالريل + طريقة التيرمنال صارت على المتجر الموحد `ix360-plugins`
 - **4.4.3** مثال الونشوت الجديد: زوم إن للأسود ← زوم آوت لجوال ولابتوب، بموشن بلير حقيقي
 - **4.4.2** وضع «مونتاج داخل كاب كت»: بدل MP4 يكتب مشروع كاب كت تعدّله بيدك (لقطات بزوم، كابشن ونصوص كاب كت، فويس، مؤثرات، خلفية صوتية، موشن شفاف بألوانك) ← `references/capcut.md`
 - **4.4.1** كلمة الختام ← رابط الحلقة بالخاص (أوتوميشن) + كرت الختام من الثيم + طريقة العمل مع كل حلقة بودكاست

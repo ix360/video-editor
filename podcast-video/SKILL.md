@@ -1,12 +1,12 @@
 ---
 name: podcast-video
-description: يمنتج البودكاست والمقابلات — كاميرتين أو أكثر لنفس الجلسة إلى ريلات 9:16 بكابشن عربي وهوك مكتوب، أو الحلقة كاملة 16:9 لليوتيوب، أو حلقة ساعة إلى عدة ريلات. Use when user says "بودكاست"، "كاميرتين"، "الحلقة كاملة بالعرض"، "حلقة يوتيوب"، "ريلات من الحلقة"، "طلّع ريلات من المقابلة"، or sends multi-camera files or a long episode. Not for a single talking video (use video-ad-editor).
+description: يمنتج البودكاست والمقابلات — كاميرتين أو أكثر لنفس الجلسة إلى ريلات 9:16 بكابشن عربي وهوك مكتوب، أو الحلقة كاملة 16:9 لليوتيوب، أو حلقة ساعة إلى عدة ريلات. Use when user says "بودكاست"، "كاميرتين"، "الحلقة كاملة بالعرض"، "حلقة يوتيوب"، "ريلات من الحلقة"، "طلّع ريلات من المقابلة"، or sends multi-camera files or a long episode. Not for a single talking video (use video-editor).
 ---
 
 # البودكاست والمقابلات
 
 **المحرّك مشترك** مع سكل الريل. كل `scripts/` و`references/` من هني:
-`${CLAUDE_SKILL_DIR}/../video-ad-editor`
+`${CLAUDE_SKILL_DIR}/../video-editor`
 
 ## الخطوات
 
@@ -22,7 +22,7 @@ description: يمنتج البودكاست والمقابلات — كاميرت
 3. **🪝 كل ريل من حلقة أو مقابلة يبدأ بهوك مكتوب — إلزامي** ← `references/podcast-hook.md`
    - وضع الكاميرات: طبّقه **قبل** `15_podcast.py plan`.
 4. **ريل من قطعة وحدة:** كمّل الخطوات 5-11 من سكل الريل:
-   `${CLAUDE_SKILL_DIR}/../video-ad-editor/SKILL.md`
+   `${CLAUDE_SKILL_DIR}/../video-editor/SKILL.md`
 5. **كل لحمة بين قطعتين تنفحص** (`19_seam_check.py`) — إلزامي.
 6. إضافات البودكاست ← `references/podcast-upgrades.md`
 7. **كلمة الختام + رابط الحلقة بالخاص (أوتوميشن):** غيّر `theme.json ← outro` لكرت بكلمة الحلقة ← `references/keyword-automation.md`

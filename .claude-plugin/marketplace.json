@@ -1,13 +1,13 @@
 {
-  "name": "abdoix-plugins",
+  "name": "ix360-plugins",
   "owner": {
-    "name": "abdoix",
-    "url": "https://github.com/abdoix"
+    "name": "ix360",
+    "url": "https://github.com/ix360"
   },
   "description": "Video editing plugins for Claude Code",
   "plugins": [
     {
-      "name": "video-studio",
+      "name": "video-editor",
       "source": "./",
       "description": "6 skills: reels from talking videos · 3D motion explainers · podcasts · beat-synced montage · covers & thumbnails · ElevenLabs voiceover (+ free stock, Gemini and Google Flow assets)"
     }

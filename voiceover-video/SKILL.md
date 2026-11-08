@@ -1,12 +1,12 @@
 ---
 name: voiceover-video
-description: Voiceover for videos with ElevenLabs — lists the user's own voices (including their cloned voice), generates the narration from a script, or records/clones the user's voice from a short sample. Connects ElevenLabs if it is not connected yet. Use when the user says "voiceover", "narrate this", "read this script", "use my voice", "clone my voice", "record my voice", "تعليق صوتي", "سو لي فويس أوفر", "بصوتي", "استنسخ صوتي", "سجّل صوتي", "voix off", "locución". The output is an audio file that the video skills (video-ad-editor, motion-video) then cut, caption and mix.
+description: Voiceover for videos with ElevenLabs — lists the user's own voices (including their cloned voice), generates the narration from a script, or records/clones the user's voice from a short sample. Connects ElevenLabs if it is not connected yet. Use when the user says "voiceover", "narrate this", "read this script", "use my voice", "clone my voice", "record my voice", "تعليق صوتي", "سو لي فويس أوفر", "بصوتي", "استنسخ صوتي", "سجّل صوتي", "voix off", "locución". The output is an audio file that the video skills (video-editor, motion-video) then cut, caption and mix.
 ---
 
 # Voiceover — your voice, via ElevenLabs
 
 The engine is shared with the reel skill: all `scripts/` and `references/` live in
-`${CLAUDE_SKILL_DIR}/../video-ad-editor`.
+`${CLAUDE_SKILL_DIR}/../video-editor`.
 
 ## 🌐 Language
 Work in the user's saved language (`python3 scripts/_lang.py`, see `references/language.md`). Ask once if none is saved.

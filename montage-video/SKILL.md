@@ -1,12 +1,12 @@
 ---
 name: montage-video
-description: مونتاج مقاطع بلا كلام على الإيقاع — مجلد مقاطع (مقهى، سفرة، منتج، مكان، فعالية) يتحوّل لفيديو واحد 9:16 يختار أحلى لحظة من كل مقطع ويقطع على نبضات الصوت. Use when user says "مونتاج من هالمقاطع"، "سو فيديو من هالكلبات"، "ركّب المقاطع على الأغنية"، "مونتاج على الإيقاع"، or sends a folder of clips without speech. Not for a talking video (use video-ad-editor).
+description: مونتاج مقاطع بلا كلام على الإيقاع — مجلد مقاطع (مقهى، سفرة، منتج، مكان، فعالية) يتحوّل لفيديو واحد 9:16 يختار أحلى لحظة من كل مقطع ويقطع على نبضات الصوت. Use when user says "مونتاج من هالمقاطع"، "سو فيديو من هالكلبات"، "ركّب المقاطع على الأغنية"، "مونتاج على الإيقاع"، or sends a folder of clips without speech. Not for a talking video (use video-editor).
 ---
 
 # مونتاج مقاطع بلا كلام
 
 **المحرّك مشترك** مع سكل الريل. كل `scripts/` و`references/` من هني:
-`${CLAUDE_SKILL_DIR}/../video-ad-editor`
+`${CLAUDE_SKILL_DIR}/../video-editor`
 
 ## الخطوات
 

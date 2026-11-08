@@ -1,13 +1,13 @@
 {
-  "name": "video-studio",
-  "version": "6.3.0",
+  "name": "video-editor",
+  "version": "7.0.0",
   "description": "Video editing for Claude Code in your own language (10 languages, Arabic by default) — 6 skills: talking-head reels, 3D motion explainers, podcasts, beat-synced montage, covers & thumbnails, ElevenLabs voiceover — plus free stock, Gemini and Google Flow assets.",
   "author": {
-    "name": "abdoix",
-    "url": "https://github.com/abdoix"
+    "name": "ix360",
+    "url": "https://github.com/ix360"
   },
-  "homepage": "https://github.com/abdoix/video-ad-editor",
-  "repository": "https://github.com/abdoix/video-ad-editor",
+  "homepage": "https://github.com/ix360/video-editor",
+  "repository": "https://github.com/ix360/video-editor",
   "license": "MIT",
   "skills": [
     "./"

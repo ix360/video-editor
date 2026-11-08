@@ -2,14 +2,14 @@ node_modules/
 *.mov
 *.mp4
 .DS_Store
-video-studio.plugin
-!video-ad-editor/motion/moves/previews/*.mp4
+video-editor.plugin
+!video-editor/motion/moves/previews/*.mp4
 dist/
 # أدوات سويفت تنبني محلياً من ملفات .swift (03_cut_zoom.py يبني hdr2sdr) — ما تدخل المستودع ولا الإصدار
-video-ad-editor/scripts/hdr2sdr
-video-ad-editor/scripts/facetrack
+video-editor/scripts/hdr2sdr
+video-editor/scripts/facetrack
 # deep-filter بايناري ينزل محلياً (--extras) — ما يدخل المستودع
-video-ad-editor/bin/
+video-editor/bin/
 
 # رسم أمثلة الموشن يتولّد محلياً (node render.js) — ما يدخل المستودع
-video-ad-editor/motion/examples/*/renders/
+video-editor/motion/examples/*/renders/
