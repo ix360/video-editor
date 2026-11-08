@@ -5,6 +5,7 @@
    python3 15_podcast.py plan <work>                   ← إعادة الخطة فقط (بعد تعديل النص أو الثيم)
    بين prep و make: اكتب fixes.json (تصحيح التفريغ) — أو خلّه يمشي بالنص كما هو.
    ماك فقط (Vision للوجوه وقصّ الشخص)."""
+import _lang
 import sys as _sys, builtins as _bi
 try:
     _sys.stdout.reconfigure(encoding="utf-8", errors="replace", line_buffering=True); _sys.stderr.reconfigure(encoding="utf-8", errors="replace")
@@ -87,7 +88,7 @@ def prep(W,args):
         hi=os.path.join(W,f"cam{c['id']}"); os.makedirs(hi,exist_ok=True)
         procs.append(subprocess.Popen(["ffmpeg","-v","error","-y","-ss",f"{start-c['offset']:.3f}","-t",f"{total:.3f}","-i",c["file"],"-vf",f"fps={FPS}","-q:v","3",os.path.join(hi,"%05d.jpg")]))
     # التفريغ بالتوازي مع الفريمات
-    wh=subprocess.Popen([PY,"-m","whisper",os.path.join(W,"a.wav"),"--language","ar","--model","medium","--word_timestamps","True","--output_format","json","--output_dir",W,"--fp16","False"],stdout=open(os.path.join(W,"whisper.log"),"w"),stderr=subprocess.STDOUT)
+    wh=subprocess.Popen([PY,"-m","whisper",os.path.join(W,"a.wav"),"--language",_lang.whisper(),"--model","medium","--word_timestamps","True","--output_format","json","--output_dir",W,"--fp16","False"],stdout=open(os.path.join(W,"whisper.log"),"w"),stderr=subprocess.STDOUT)
     for p in procs: p.wait()
     for c in cams:
         lo=os.path.join(W,"lo",f"cam{c['id']}")

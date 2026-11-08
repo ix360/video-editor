@@ -135,7 +135,7 @@ from faster_whisper import WhisperModel
 import wave, numpy as np
 w=wave.open("a.wav","rb"); audio=np.frombuffer(w.readframes(w.getnframes()),dtype=np.int16).astype(np.float32)/32768
 m=WhisperModel("medium",device="cpu",compute_type="int8",cpu_threads=2)   # يتنزّل من HuggingFace تلقائياً
-segs,_=m.transcribe(audio,language="ar",word_timestamps=True,vad_filter=True,beam_size=5)
+segs,_=m.transcribe(audio,language=os.environ.get("VAE_LANG","ar"),word_timestamps=True,vad_filter=True,beam_size=5)
 ```
 - ⛔ **مرّر `audio` كمصفوفة `numpy` لا مسار ملف.** مسار الملف يمرّ بـPyAV وطلّع خطأ `av.open(... metadata_errors)` بهالبيئة.
 - اكتب النتيجة بنفس صيغة `whisper` JSON (`segments[].words[]` بـ`word,start,end`) حتى تشتغل بقية السكربتات.

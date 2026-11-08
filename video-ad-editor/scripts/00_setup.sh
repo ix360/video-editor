@@ -27,22 +27,22 @@ fi
 # 🔄 تحديث تلقائي (v2.9): نقارن VERSION المحلي بآخر إصدار على قت هب بصمت (5 ثوانٍ كحد أقصى).
 #    لو فيه أحدث: نطبع سطراً واحداً — وكلود يسأل المستخدم ثم يشغّل: bash scripts/00_setup.sh --update
 SKROOT="$(cd "$(dirname "$0")/.." && pwd)"; LOCALV="$(cat "$SKROOT/VERSION" 2>/dev/null || echo 0)"
-# v4: لو السكل منصّب كـplugin (majed-video) التحديث يكون من مدير الإضافات — مو بالاستبدال اليدوي
+# v4: لو السكل منصّب كـplugin (video-studio) التحديث يكون من مدير الإضافات — مو بالاستبدال اليدوي
 case "$SKROOT" in */.claude/plugins/*) PLUGIN=1 ;; *) PLUGIN=0 ;; esac
-PLUG_UPD="claude plugin marketplace update majed-video && claude plugin update majed-video@majed-video"
+PLUG_UPD="claude plugin marketplace update abdoix-plugins && claude plugin update video-studio@abdoix-plugins"
 if [ "$1" = "--update" ] && [ "$PLUGIN" = 1 ]; then
   echo "ℹ️ السكل منصّب كـplugin — شغّل: $PLUG_UPD  (ثم افتح جلسة جديدة)"; exit 0
 fi
 if [ "$1" = "--update" ]; then
   TMP="$(mktemp -d)"; echo "⬇️ أنزّل آخر إصدار…"
-  if curl -sL -m 120 -o "$TMP/skill.zip" https://github.com/majedphotos/video-ad-editor/releases/latest/download/video-ad-editor.skill \
+  if curl -sL -m 120 -o "$TMP/skill.zip" https://github.com/abdoix/video-ad-editor/releases/latest/download/video-ad-editor.skill \
      && unzip -q -o "$TMP/skill.zip" -d "$TMP/x" && [ -f "$TMP/x/video-ad-editor/SKILL.md" ]; then
     rsync -a --delete --exclude=bin --exclude=hdr2sdr --exclude=personmask --exclude=facetrack --exclude=node_modules "$TMP/x/video-ad-editor/" "$SKROOT/" \
       && echo "✅ انحدّث السكل إلى v$(cat "$SKROOT/VERSION" 2>/dev/null) — كمّل شغلك عادي" || echo "⚠️ ما قدرت أستبدل الملفات"
   else echo "⚠️ ما قدرت أنزّل التحديث — جرّب لاحقاً"; fi
   rm -rf "$TMP"; exit 0
 fi
-LATEST="$(curl -sL -m 5 https://api.github.com/repos/majedphotos/video-ad-editor/releases/latest 2>/dev/null | sed -n 's/.*"tag_name": *"v\([0-9.]*\)".*/\1/p' | head -1)"
+LATEST="$(curl -sL -m 5 https://api.github.com/repos/abdoix/video-ad-editor/releases/latest 2>/dev/null | sed -n 's/.*"tag_name": *"v\([0-9.]*\)".*/\1/p' | head -1)"
 if [ -n "$LATEST" ] && [ "$LATEST" != "$LOCALV" ] && [ "$(printf '%s\n%s' "$LOCALV" "$LATEST" | sort -V | tail -1)" = "$LATEST" ]; then
   if [ "$PLUGIN" = 1 ]; then
     echo "🆕 فيه إصدار أحدث من السكل: v$LATEST (عندك v$LOCALV) — اسأل المستخدم، ولو وافق شغّل: $PLUG_UPD  (ثم جلسة جديدة)"

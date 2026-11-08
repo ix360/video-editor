@@ -10,6 +10,7 @@
   fixes.json — قالب التصحيح (لو ما كان موجود): صحّح كل جملة بنفس عدد الكلمات · "" تشيل كلمة · نص وحدة لو وِسبر هلوس
   src.mov    — رابط للحلقة (03_cut_zoom يقصّ منها مباشرة، والعرضي يطلع بالطول حول الوجه)
 بعدها: 02_captions.py ← 03_cut_zoom.py ← … ← 19_seam_check.py (إلزامي)."""
+import _lang
 import sys as _sys, builtins as _bi
 try:
     _sys.stdout.reconfigure(encoding="utf-8", errors="replace"); _sys.stderr.reconfigure(encoding="utf-8", errors="replace")
@@ -53,10 +54,10 @@ if os.path.islink(src) or not os.path.exists(src):
 print(f"القطع ({sum(b-a for a,b in keep):.1f} ث):\n" + "\n".join(log))
 try:
     import mlx_whisper
-    tr = lambda seg: mlx_whisper.transcribe(seg, path_or_hf_repo="mlx-community/whisper-large-v3-turbo", language="ar", word_timestamps=True, condition_on_previous_text=False)
+    tr = lambda seg: mlx_whisper.transcribe(seg, path_or_hf_repo="mlx-community/whisper-large-v3-turbo", language=_lang.whisper(), word_timestamps=True, condition_on_previous_text=False)
 except ImportError:
     import whisper; _m = whisper.load_model(os.environ.get("WHISPER_MODEL", "turbo"))
-    tr = lambda seg: _m.transcribe(seg, language="ar", word_timestamps=True, condition_on_previous_text=False, fp16=False)
+    tr = lambda seg: _m.transcribe(seg, language=_lang.whisper(), word_timestamps=True, condition_on_previous_text=False, fp16=False)
 segs = []
 for k, (a, b) in enumerate(keep):
     pts = [a]

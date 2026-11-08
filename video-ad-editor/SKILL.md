@@ -37,15 +37,13 @@ description: يمنتج فيديو كلام للكاميرا إلى ريل أو 
 - يبي يعدّل بنفسه؟ افتح له الاستوديو ← `references/studio.md`
 - شاشة ريموشن بس لو طلبها بالاسم ← `references/remotion.md`
 
-<!-- davinci -->
-**🎬 دافنشي:** قال «سوّه بدافنشي» أو «أبي أعدّل بنفسي بدافنشي»؟ صار **بلقن إضافة منفصل** (`majed-davinci`) يستخدم هالمحرّك نفسه.
-- منصّب؟ سكله `davinci-video` أولى — خلّه يكمّل.
-- مو منصّب؟ قله بجملة: «دافنشي صار إضافة لحالها» وأعطه: `/plugin install majed-davinci@majed-plugins` (يحتاج دافنشي ريزولف **ستوديو 21.1+** من موقع بلاك ماجك، ماك). لا تحاول تسويه بدونه.
-<!-- /davinci -->
-
 **🎞️ وضع كاب كت:** قال «سوّه بكاب كت» أو «أبي أعدّل بنفسي بكاب كت»؟ بدل MP4 يطلع مشروع كاب كت قابل للتعديل (لقطات بزوم، كابشن ونصوص كاب كت، فويس، مؤثرات، خلفية صوتية، موشن شفاف) ← `references/capcut.md` (سكربت واحد `scripts/40_capcut.py`).
 
 ---
+
+## 🌐 اللغة
+
+التعليمات بالعربية لك أنت، **والمستخدم يختار لغته** (10 لغات) — `references/language.md`. أول مرة تسأله مرة وحدة، وبعدها كل كلامك معه ولغة التفريغ والكابشن على اختياره (`scripts/_lang.py` يعطيك الرمز). جمل العامية بالأمثلة تحت معناها بس، لا تنسخها لمستخدم يتكلم لغة ثانية.
 
 ## ⛔ أسلوبك مع المستخدم
 
@@ -159,7 +157,7 @@ bash scripts/02b_enhance_audio.sh <work> --local
 
 ```bash
 ffmpeg -v error -i <work>/src.mov -vn -ac 1 -ar 16000 -y <work>/a.wav
-python3 -m whisper <work>/a.wav --language ar --model medium --word_timestamps True \
+python3 -m whisper <work>/a.wav --language $(python3 scripts/_lang.py) --model medium --word_timestamps True \
   --output_format json --output_dir <work> --fp16 False --verbose False > <work>/whisper.log 2>&1
 ```
 
@@ -310,7 +308,13 @@ bash scripts/07_contact_sheet.sh <work> <work>/sheet.jpg 1.2 4.6 12.3 27.6 31.0 
 | كولاج (الشاشة ورقة وهو قصاصة) | `references/collage.md` |
 | عنصر يلحق إيده — شعار يطلع من كفه (ماك) | تحت ↓ |
 | دوّر لقطة بالمعنى داخل البي-رول | `references/find-shots.md` |
-| مشاهد مولّدة بالذكاء الاصطناعي (تحتاج `FAL_KEY`) | `references/gen-scenes.md` |
+| 🆕 فحص الإعداد: مصدر الأصول (API أو اشتراك جوجل فلو) + التأكد من ElevenLabs وكروم وفلو | `references/setup-check.md` |
+| 🆕 ستوك مجاني (فيديو وصور) — Pexels · Pixabay · Unsplash | `references/stock.md` |
+| مشاهد مولّدة بالذكاء الاصطناعي: صور بمفتاح AI Studio (`GEMINI_API_KEY`) أو fal (`FAL_KEY`) | `references/gen-scenes.md` |
+| 🆕 صور ومقاطع من جوجل فلو بالمتصفح بلا تكلفة API (تجريبي) | `references/google-flow.md` |
+| 🆕 تعليق صوتي بصوته أو صوت جاهز — ElevenLabs (سكل `voiceover-video`) | `references/voiceover.md` |
+
+**ترتيب المصادر (الأرخص أول):** ستوك ← صور Gemini ← فلو ← fal المدفوع. ما تصرف إلا لو اللي قبله ما كفى.
 | أنت بمكان ثاني وتتكلم بصوتك (أفاتار) | `references/talking-avatar.md` — ⛔ اقرأ «جُرّب وفشل» قبل أي صرف |
 | الاستوديو — يعدّل التايملاين بيده | `references/studio.md` |
 
@@ -444,7 +448,7 @@ node scripts/08_safe_check.js <work> --shot
 
 ```bash
 ffmpeg -v error -i <work>/ad-final.mp4 -vn -ac 1 -ar 16000 -y <work>/fa.wav
-python3 -m whisper <work>/fa.wav --language ar --model small --output_format json --output_dir <work> --fp16 False --verbose False > <work>/whisper.log 2>&1
+python3 -m whisper <work>/fa.wav --language $(python3 scripts/_lang.py) --model small --output_format json --output_dir <work> --fp16 False --verbose False > <work>/whisper.log 2>&1
 ```
 
 **2. الصوت** — سطر `06b_master.sh` الأخير: قرابة ‎-14 LUFS، والذروة ‎-1.5 dBTP أو أقل.

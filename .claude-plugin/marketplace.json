@@ -1,15 +1,15 @@
 {
-  "name": "majed-video",
+  "name": "abdoix-plugins",
   "owner": {
-    "name": "Majed Alzaabi",
-    "url": "https://github.com/majedphotos"
+    "name": "abdoix",
+    "url": "https://github.com/abdoix"
   },
-  "description": "Arabic video editing plugin for Claude Code",
+  "description": "Video editing plugins for Claude Code",
   "plugins": [
     {
-      "name": "majed-video",
+      "name": "video-studio",
       "source": "./",
-      "description": "5 skills: reels from talking videos · 3D motion explainers · podcasts · beat-synced montage · covers & thumbnails"
+      "description": "6 skills: reels from talking videos · 3D motion explainers · podcasts · beat-synced montage · covers & thumbnails · ElevenLabs voiceover (+ free stock, Gemini and Google Flow assets)"
     }
   ]
 }

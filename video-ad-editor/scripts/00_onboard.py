@@ -12,6 +12,7 @@
   python3 scripts/00_onboard.py theme DIR [--force]
       يكتب DIR/theme.json من الملف (ما يلمس ثيماً موجوداً إلا بـ--force) وينسخ الشعار.
   python3 scripts/00_onboard.py onacc DIR       يحسب لون النص فوق التمييز ويكتبه theme.onAcc (بعد ما تكتب ألواناً بيدك)
+  python3 scripts/00_onboard.py lang [list|set <رمز>]   لغة المستخدم (ar en fr es pt de tr ur fa id) — تُحفظ بـlang.json
   python3 scripts/00_onboard.py path            يطبع مسار الملف
 
   VAE_HOME=<مجلد> يغيّر مكان الحفظ (للتجربة) بدل ~/.video-ad-editor
@@ -481,6 +482,29 @@ def to_theme(args):
     return 0
 
 
+def lang_cmd(rest):
+    """lang → يطبع اللغة الحالية · lang list → المدعومة · lang set <رمز> → يحفظها بـ~/.video-ad-editor/lang.json."""
+    import _lang
+    if not rest:
+        print(_lang.get())
+        return 0
+    if rest[0] == "list":
+        for k, (n, _, r) in _lang.LANGS.items():
+            print(f"{k}\t{n}\t{'rtl' if r else 'ltr'}")
+        return 0
+    if rest[0] == "set" and len(rest) > 1:
+        c = rest[1].strip().lower()
+        if c not in _lang.LANGS:
+            log("❌ لغة غير مدعومة: %s — المدعومة: %s" % (c, ", ".join(_lang.LANGS)))
+            return 1
+        # ملف لحاله (lang.json) — لا يدخل profile.json حتى ما يظنه show «اختيارات محفوظة» ويتخطى صفحة التعارف
+        atomic_write(HOME / "lang.json", json.dumps({"lang": c}, ensure_ascii=False))
+        print(c)
+        return 0
+    log("usage: 00_onboard.py lang [list | set <code>]")
+    return 1
+
+
 def main():
     a = sys.argv[1:]
     cmd = a[0] if a and not a[0].startswith("--") else "serve"
@@ -493,6 +517,8 @@ def main():
     if cmd == "path":
         print(PROFILE)
         return 0
+    if cmd == "lang":
+        return lang_cmd(rest)
     if cmd == "theme":
         return to_theme(rest)
     if cmd == "onacc":

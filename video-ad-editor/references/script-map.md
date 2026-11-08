@@ -28,7 +28,12 @@
 | `14_backdrop.py` | خلفية باهتة (`references/backdrop.md`) | الخفيف |
 | `23_headcrop.py` (+`facetrack.swift`) | **قصّ الكرت من فوق الراس** — ثابت طول الفيديو، يكتب `studio.json ← cardTop` (الخطوة 6.1) | ماك |
 | `15_podcast.py` · `16_render_pod.js` · `compose.PODCAST.html` · `facetrack.swift` | **وضع البودكاست** (`references/podcast.md`) | مستقل (ماك) |
-| `17_gen_scenes.py` | مشاهد مولّدة (`references/gen-scenes.md`) | الخفيف |
+| `17_gen_scenes.py` | مشاهد مولّدة: صور Gemini أو fal، ومقاطع fal، و`import` لملف جاهز (`references/gen-scenes.md`) | الخفيف |
+| `38_stock.py` | بحث وتنزيل ستوك مجاني Pexels/Pixabay/Unsplash + إسناد (`references/stock.md`) | — |
+| `39_record_voice.py` | تسجيل عينة صوته من المتصفح + رفعها للاستنساخ (`references/voiceover.md`) | ElevenLabs |
+| `00_check.py` | فحص الإعداد واختيار مصدر الأصول (`references/setup-check.md`) | — |
+| `_setup.py` | إعدادات محفوظة (`setup.json`) | — |
+| `_lang.py` | لغة المستخدم (`references/language.md`) | — |
 | `18_long_transcribe.py` | تفريغ حلقة كاملة بقطع 20 ث عند السكتات (mlx على الماك ~8× أسرع) → `words.json` + `transcript.txt` | مشترك |
 | `20_episode_cuts.py` | حلقة ← ريل: `spec.json` (قطع بالكلمات) → `cut.json` بحدود على السكتة + `a.json` (تفريغ لكل قطعة، `seg`) + قالب `fixes.json` + `src.mov` | مشترك |
 | `19_seam_check.py` | يفرّغ الريل النهائي حول كل لحمة ويكشف الكلمة المكررة أو بقايا كلام من برّا | مشترك |

@@ -6,6 +6,7 @@
     uv run --python 3.12 --with mlx-whisper --with numpy python 18_long_transcribe.py <فيديو> <مجلد>
   غيره (أبطأ): python3 18_long_transcribe.py <فيديو> <مجلد>   (openai-whisper، موديل WHISPER_MODEL=turbo افتراضاً)
 يكتب <مجلد>/words.json ([{start,end,text,words:[{w,s,e}]}] بثواني الأصل) و<مجلد>/transcript.txt (دقيقة:ثانية + النص)."""
+import _lang
 import json, os, sys, subprocess, time, numpy as np
 src, out = sys.argv[1], sys.argv[2]; os.makedirs(out, exist_ok=True); SR = 16000
 raw = subprocess.run(["ffmpeg", "-v", "error", "-i", src, "-vn", "-ac", "1", "-ar", str(SR), "-f", "f32le", "-"], capture_output=True).stdout
@@ -13,13 +14,13 @@ x = np.frombuffer(raw, np.float32); dur = len(x) / SR
 BAD = ["اشتركوا في القناة", "ترجمة نانسي قنقر", "شكرا للمشاهدة"]
 try:
     import mlx_whisper
-    def tr(seg): return mlx_whisper.transcribe(seg, path_or_hf_repo="mlx-community/whisper-large-v3-turbo", language="ar",
+    def tr(seg): return mlx_whisper.transcribe(seg, path_or_hf_repo="mlx-community/whisper-large-v3-turbo", language=_lang.whisper(),
                                                word_timestamps=True, condition_on_previous_text=False)
     ENG = "mlx turbo"
 except ImportError:
     import whisper
     _m = whisper.load_model(os.environ.get("WHISPER_MODEL", "turbo"))
-    def tr(seg): return _m.transcribe(seg, language="ar", word_timestamps=True, condition_on_previous_text=False, fp16=False)
+    def tr(seg): return _m.transcribe(seg, language=_lang.whisper(), word_timestamps=True, condition_on_previous_text=False, fp16=False)
     ENG = "openai-whisper"
 hop = SR // 100; db = 20 * np.log10(np.sqrt(np.convolve(x[:len(x)//hop*hop].reshape(-1, hop).var(1) + 1e-12, np.ones(25) / 25, "same")) + 1e-9)
 def cut_near(t):                       # أهدأ نقطة بين t-6 و t+6

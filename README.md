@@ -1,6 +1,6 @@
 <div dir="rtl">
 
-<p align="center"><img src="_pkg/hero.png" alt="بلقن تحرير الفيديو — لـ Claude Code" width="100%"></p>
+# 🎬 Video Studio — بلقن تحرير الفيديو لـ Claude Code
 
 <p align="center"><b>تتكلم للكاميرا… وتستلم ريل عمودي جاهز للنشر.</b><br>
 يشيل السكتات، يكتب كابشن عربي يمشي مع فمك، ويرسم موشن قرافيكس بألوانك — بلا برنامج مونتاج — من الجوال أو الكمبيوتر.</p>
@@ -9,6 +9,12 @@
 <sub>مجاني · يشتغل من <b>الجوال</b> والكمبيوتر · ما تحتاج تيرمنال ولا تحمّل ملفات</sub></p>
 
 <br>
+
+## 🌐 تختار لغتك — Choose your language
+
+أول مرة يسألك كلود **أي لغة تبي** ويحفظها: العربية · English · Français · Español · Português · Deutsch · Türkçe · اردو · فارسی · Bahasa Indonesia.
+كلامه معك، **تفريغ الصوت، والكابشن** كلها بلغتك. تبي تغيّرها؟ اكتب «غيّر اللغة» / "change language".
+التفاصيل: [`language.md`](video-ad-editor/references/language.md).
 
 ---
 
@@ -55,14 +61,14 @@
 
 ## 🚀 ابدأ هنا — 3 خطوات
 
-<p align="center"><img src="_pkg/start-steps.png" alt="3 خطوات: 1 ثبّت البلقن مرة وحدة من claude.ai، 2 افتح محادثة جديدة واختار Opus 5.5 Max، 3 أرفق الفيديو واكتب «منتج هذا المقطع»" width="100%"></p>
+**3 خطوات:** ① ثبّت البلقن مرة وحدة من claude.ai ② افتح محادثة جديدة (Opus 5.5 · Max) ③ أرفق الفيديو واكتب «منتج هذا المقطع».
 
 <p align="center"><b>انسخ اسم المتجر من هني</b> (زر النسخ على يمين المربع) والصقه بـ<b>Add marketplace</b>:</p>
 
 <div dir="ltr">
 
 ```
-majedphotos/majed-plugins
+abdoix/video-ad-editor
 ```
 
 </div>
@@ -86,14 +92,12 @@ majedphotos/majed-plugins
 <div dir="ltr">
 
 ```
-majedphotos/majed-plugins
+abdoix/video-ad-editor
 ```
 
 </div>
 
-**4.** يطلع لك **Majed video** — أضفه.
-
-<p align="center"><img src="_pkg/step-4-majed-video.jpg" alt="Majed video من majed-plugins" width="360"></p>
+**4.** يطلع لك **video-studio** — أضفه.
 
 **5.** بعدين **Add** ← **Manage marketplaces** ← **⋮** ← شغّل **Sync automatically** (حتى كل تحديث يوصلك بروحه).
 
@@ -101,7 +105,7 @@ majedphotos/majed-plugins
 
 <p align="center"><img src="_pkg/step-6-sync.jpg" alt="النقاط الثلاث ثم Sync automatically" width="360"></p>
 
-> ✅ **تأكد إنه انضاف:** بـ**Plugins** تشوف **Majed video** بالقائمة. ما طلع؟ أعد الخطوة 3.
+> ✅ **تأكد إنه انضاف:** بـ**Plugins** تشوف **video-studio** بالقائمة. ما طلع؟ أعد الخطوة 3.
 
 ### 2️⃣ افتح محادثة جديدة
 
@@ -122,17 +126,6 @@ majedphotos/majed-plugins
 > ⏱️ السحابة أبطأ من الكمبيوتر (قص الشخص عن الخلفية ≈ 18 دقيقة لفيديو 40 ثانية)، فخلّه يشتغل وارجع له. حد حجم الفيديو المرفق حسب التطبيق.
 
 > 🧑‍💻 **تستخدم الطرفية (تيرمنال) أو تبي تحمّل الملف بيدك؟** [طرق التثبيت الثانية تحت](#install).
-
-<br>
-
----
-
-## 📺 الشرح بالفيديو — على يوتيوب
-
-<p align="center"><a href="https://www.youtube.com/playlist?list=PLP3JSi62X3BE"><img src="_pkg/yt-playlist-video.jpg" alt="فيديو: شرح بلقن تحرير الفيديو كامل على يوتيوب (مو رابط تحميل)" width="560"></a></p>
-<p align="center">▶️ <b><a href="https://www.youtube.com/playlist?list=PLP3JSi62X3BE">افتح الشرح على يوتيوب</a></b> — 11 فيديو قصير (حوالي نص ساعة): التثبيت، صفحة التعارف، وشلون تطلع أول فيديو، خطوة بخطوة.<br>
-<sub>هذي الصورة <b>فيديو شرح</b>، مو تحميل — التثبيت من الخطوات فوق ↑</sub></p>
-
 
 <br>
 
@@ -167,8 +160,6 @@ majedphotos/majed-plugins
 
 > يشتغل من **كلود على الكمبيوتر** (تطبيق الديسكتوب أو Claude Code) لأنه يكتب ملفات المشروع بجهازك — مو من الجوال. وتحتاج **كاب كت ديسكتوب** (ماك أو ويندوز)، مو تطبيق الجوال.
 
-> يشتغل من **كلود على الكمبيوتر** (تطبيق الديسكتوب أو Claude Code) لأنه يكتب ملفات المشروع بجهازك — مو من الجوال. وتحتاج **كاب كت ديسكتوب** (ماك أو ويندوز)، مو تطبيق الجوال.
-
 <sub>كاب كت علامة تجارية لشركة بايت دانس — البلقن ما له علاقة رسمية فيها.</sub>
 </details>
 
@@ -181,7 +172,6 @@ majedphotos/majed-plugins
 | تشوف الحركات وتختار | «ورني بنك الحركات» |
 | تغيّر ألوانك وخطك | «غيّر إعداداتي» |
 | تستخدم منصة توليد عندك (fal · Higgsfield · ElevenLabs) | «استخدم fal للبي-رول» |
-| نفس الريل بدافنشي ([إضافة منفصلة](https://github.com/majedphotos/majed-davinci)) | «سوّه بدافنشي» |
 
 <a id="taste"></a>
 
@@ -204,35 +194,23 @@ majedphotos/majed-plugins
 
 ---
 
-## 🎓 البلقن مجاني — الدورة تعلّمك شلون تسوي مثله وأكثر
-كل اللي فوق انبنى بكلود. بالدورة تتعلم شلون تبني أدواتك انت: سكلات، أتمتة، ومحتوى يشتغل لك — من الصفر وبالعربي.
-
-<p align="center">
-  <a href="https://www.dawrat.com/course/ahtrf-klwd-90f4"><img alt="دورة احترف كلود 2026" src="_pkg/course-banner.png" width="49%"></a>
-  <a href="https://www.instagram.com/channel/Abb1FvYoeUSGuaVM/"><img alt="قروب كلود المجاني على انستقرام" src="_pkg/group-banner.png" width="49%"></a>
-</p>
-
-
-
----
-
 ## 📚 تفاصيل (اضغط تفتح)
 
-<details><summary><b>🧰 طرق تثبيت ثانية — للمتقدمين</b> (الطرفية · ملف البلقن · دافنشي)</summary>
+<details><summary><b>🧰 طرق تثبيت ثانية — للمتقدمين</b> (الطرفية · ملف البلقن)</summary>
 
 <a id="install"></a>
 
 > معظم الناس يكفيهم [ابدأ هنا](#start). هذي لو تستخدم الطرفية أو تبي ملف البلقن بيدك.
 
-**البلقن = 5 سكلات بحزمة وحدة** (ريل · موشن · بودكاست · مونتاج · كفر وثمبنيل). ودافنشي [إضافة منفصلة](https://github.com/majedphotos/majed-davinci) لمن عنده دافنشي ريزولف ستوديو.
+**البلقن = 6 سكلات (آخرها التعليق الصوتي) بحزمة وحدة** (ريل · موشن · بودكاست · مونتاج · كفر وثمبنيل).
 
 > ☝️ **اختر طريقة وحدة بس** — لو ثبّتّه بأكثر من طريقة يصير عندك نسخ مكررة من نفس السكلات. عندك أكثر من وحدة؟ شيل النسخ الزايدة من **Customize ← Plugins**.
 
-> 🏷️ **اسمين لا تتلخبط فيهم:** المتجر الموحد `majedphotos/majed-plugins` (نفسه بـclaude.ai والتيرمنال) · اسم البلقن `majed-video`. أمر الإضافة ياخذ اسم **المستودع** (`majedphotos/majed-plugins`)، وأمر التنصيب ياخذ **البلقن@المتجر** (`majed-video@majed-plugins`).
+> 🏷️ **اسمين لا تتلخبط فيهم:** المتجر `abdoix/video-ad-editor` (اسمه `abdoix-plugins`) · اسم البلقن `video-studio`. أمر الإضافة ياخذ اسم **المستودع** (`abdoix/video-ad-editor`)، وأمر التنصيب ياخذ **البلقن@المتجر** (`video-studio@abdoix-plugins`).
 
 ### حمّل الملف وارفعه
 
-1. [**حمّل البلقن**](https://github.com/majedphotos/video-ad-editor/releases/latest/download/majed-video.plugin) (ملف `majed-video.plugin`)
+1. [**حمّل البلقن**](https://github.com/abdoix/video-ad-editor/releases/latest/download/video-studio.plugin) (ملف `video-studio.plugin`)
 2. افتح تطبيق **كلود** ← **Customize** ← **Plugins** ← **Upload plugin** ← اختر الملف
 
 > ⚠️ هالطريقة **ما تتحدّث بروحها** — كل نسخة جديدة حمّلها وارفعها من جديد.
@@ -246,7 +224,7 @@ majedphotos/majed-plugins
 <div dir="ltr">
 
 ```
-claude plugin marketplace add majedphotos/majed-plugins
+claude plugin marketplace add abdoix/video-ad-editor
 ```
 
 ```
@@ -254,55 +232,43 @@ claude plugin marketplace list
 ```
 
 ```
-claude plugin install majed-video@majed-plugins
+claude plugin install video-studio@abdoix-plugins
 ```
 
 </div>
 
-- **تحقق بعد الأمر الأول:** الأمر الثاني (`marketplace list`) **لازم يظهر فيه `majed-plugins`**. ما ظهر؟ شغّل الأمر الأول مرة ثانية (لو الاتصال تقطّع)، وبعدها ارجع للقائمة.
-- **طلع لك `Failed to add marketplace … extraKnownMarketplaces`؟** لا تكمّل على أساس إنه «مضاف من قبل». شغّل `claude plugin marketplace list` — لو `majed-plugins` ما يظهر، المتجر ناقص فعلاً: أعد الأمر الأول.
+- **تحقق بعد الأمر الأول:** الأمر الثاني (`marketplace list`) **لازم يظهر فيه `abdoix-plugins`**. ما ظهر؟ شغّل الأمر الأول مرة ثانية (لو الاتصال تقطّع)، وبعدها ارجع للقائمة.
+- **طلع لك `Failed to add marketplace … extraKnownMarketplaces`؟** لا تكمّل على أساس إنه «مضاف من قبل». شغّل `claude plugin marketplace list` — لو `abdoix-plugins` ما يظهر، المتجر ناقص فعلاً: أعد الأمر الأول.
 - **أعد تشغيل `claude`** بعد التثبيت، وإلا ما تظهر السكلات بالجلسة.
-- **ركّبته قبل من المتجر القديم (`majedphotos/video-ad-editor`)؟** شيله حتى ما يتكرر البلقن: `claude plugin marketplace remove majed-video` — المتجر الموحد `majed-plugins` فيه نفس البلقن + مصنع المحتوى، ونفس المتجر اللي بـclaude.ai.
 
 بعدها **شغّل التحديث التلقائي**: بالطرفية (تيرمنال) العادية اكتب `claude` ← Enter، وبعدين:
 
 <div dir="ltr">
 
 ```
-/plugin  →  Marketplaces  →  majed-plugins  →  Enable auto-update
+/plugin  →  Marketplaces  →  abdoix-plugins  →  Enable auto-update
 ```
 
 </div>
 
-> ℹ️ أمر `/plugin` تفاعلي ويشتغل **بالطرفية (تيرمنال) العادية بس** — ما يشتغل داخل تطبيق الديسكتوب (تبويب Code). وخطوة «Enable auto-update» تظهر فقط لو `marketplace list` فيه `majed-plugins`.
+> ℹ️ أمر `/plugin` تفاعلي ويشتغل **بالطرفية (تيرمنال) العادية بس** — ما يشتغل داخل تطبيق الديسكتوب (تبويب Code). وخطوة «Enable auto-update» تظهر فقط لو `marketplace list` فيه `abdoix-plugins`.
 
 <p align="center"><img src="_pkg/install.gif" alt="الخطوات داخل Claude Code بالطرفية (تيرمنال)" width="100%"></p>
 
-> 🔁 **تبي آخر نسخة الحين؟** بالطرفية (تيرمنال): `claude plugin update majed-video@majed-plugins`
+> 🔁 **تبي آخر نسخة الحين؟** بالطرفية (تيرمنال): `claude plugin update video-studio@abdoix-plugins`
 >
 > 🧹 **منصّب النسخة القديمة كسكل (ملف `.skill`)؟** شيلها حتى ما تتكرر — البلقن فيه كل شي.
 >
-> 📦 **تبي سكل الريل بروحه؟** [نزّل `video-ad-editor.skill`](https://github.com/majedphotos/video-ad-editor/releases/latest/download/video-ad-editor.skill) ← دبل كليك ← وافق. (سكل وحدة بكل الأوضاع، بس ما فيها باقي سكلات البلقن)
+> 📦 **تبي سكل الريل بروحه؟** [نزّل `video-ad-editor.skill`](https://github.com/abdoix/video-ad-editor/releases/latest/download/video-ad-editor.skill) ← دبل كليك ← وافق. (سكل وحدة بكل الأوضاع، بس ما فيها باقي سكلات البلقن)
 >
 >
 > 🤖 **كودكس وأي وكيل يشغّل أوامر:** يقرأ `SKILL.md` ومجلد `references/` كتعليمات ويشغّل نفس السكربتات ([`any-environment.md`](video-ad-editor/references/any-environment.md)) — *غير مجرَّب بعد على كودكس نفسه.*
-
-<p align="center">🎬 <b>فيديو كامل منتجه البلقن:</b></p>
-
-https://github.com/user-attachments/assets/1047c4e8-141c-4f45-b601-c58d1353fe4c
-
-### 🎬 دافنشي — إضافة منفصلة
-عندك **دافنشي ريزولف ستوديو**؟ نصّب الإضافة [`majed-davinci`](https://github.com/majedphotos/majed-davinci) — نفس العقل، والمخرج تايملاين تعدّل عليه بإيدك:
-```
-/plugin install majed-davinci@majed-plugins
-```
-
 
 </details>
 
 <details><summary><b>🔧 المتطلبات والخصوصية</b></summary>
 
-**المتطلبات:** البلقن ينزّلها بنفسه بعد إذنك: **ffmpeg** (القص والصوت) · **Whisper** (التفريغ بتوقيت الكلمة) · **Chrome** (الرسم). ماك وويندوز. وضع دافنشي يحتاج **دافنشي ريزولف ستوديو 21.1** أو أحدث — من موقع بلاك ماجك، مو من آب ستور (ما فيها البرمجة).
+**المتطلبات:** البلقن ينزّلها بنفسه بعد إذنك: **ffmpeg** (القص والصوت) · **Whisper** (التفريغ بتوقيت الكلمة) · **Chrome** (الرسم). ماك وويندوز. 
 
 **الخصوصية:** على الكمبيوتر كل شي على جهازك — **فيديوك ما يرتفع لأي سيرفر.** من الجوال، الفيديو يروح لسحابة كلود بحسابك (هي اللي تمنتجه). الاستثناءات اختيارية وتشغّلها أنت (المشاهد المولّدة بالذكاء الاصطناعي).
 
@@ -311,11 +277,22 @@ https://github.com/user-attachments/assets/1047c4e8-141c-4f45-b601-c58d1353fe4c
 
 <details><summary><b>💬 كلمة بآخر الريل ← رابط بالخاص</b> (اختياري)</summary>
 
-ريلات الحلقة تنتهي بـ«اكتب [كلمة] توصلك الحلقة كاملة». عشان الرد يصير تلقائي: [زورجا](https://zorcha.com) — الأوتوميشن مجاني، والتحكم فيه من كلود (MCP) باشتراك. كود **MAJED** (كود شراكة) يعطيك **15% على الخطة الربع سنوية و30% على السنوية**. التفاصيل: [`keyword-automation.md`](video-ad-editor/references/keyword-automation.md).
+ريلات الحلقة تنتهي بـ«اكتب [كلمة] توصلك الحلقة كاملة». عشان الرد يصير تلقائي: [زورجا](https://zorcha.com) — الأوتوميشن مجاني، والتحكم فيه من كلود (MCP) باشتراك. التفاصيل: [`keyword-automation.md`](video-ad-editor/references/keyword-automation.md).
 
 </details>
 
 <details><summary><b>📜 سجل الإصدارات</b></summary>
+
+### جديد — ستوك مجاني · تعليق صوتي · صور وفيديو من جوجل
+- **ستوك مجاني** (`38_stock.py`): بحث وتنزيل من Pexels وPixabay وUnsplash مع حفظ الإسناد ← [`stock.md`](video-ad-editor/references/stock.md).
+- **سكل التعليق الصوتي `voiceover-video`:** يتأكد إن ElevenLabs موصول (وإلا يعرض لك زر الربط)، يعرض أصواتك، ويولّد التعليق — بصوتك المستنسخ أو بتسجيل عينة جديدة بالمتصفح ← [`voiceover.md`](video-ad-editor/references/voiceover.md).
+- **صور من AI Studio** بمفتاح `GEMINI_API_KEY` (أرخص من fal) + **جوجل فلو من المتصفح** للمقاطع بلا تكلفة API (تجريبي) ← [`google-flow.md`](video-ad-editor/references/google-flow.md).
+- **تختار مرة وحدة:** (أ) API جوجل (مفتاح AI Studio) أو (ب) اشتراكك بجوجل فلو عبر كروم — وبعدها **فحص بسيط** يتأكد من ElevenLabs وإضافة كروم ودخول فلو، ولو فلو ما فتح يفتح لك كروم تدخل حسابك ← [`setup-check.md`](video-ad-editor/references/setup-check.md).
+- الترتيب دايماً الأرخص أول: ستوك ← Gemini ← فلو ← fal.
+
+### جديد — اختيار اللغة
+- **10 لغات:** يسألك كلود أول مرة ويحفظ اختيارك (`00_onboard.py lang set <رمز>`)، والتفريغ والكابشن وكلامه معك بلغتك (`scripts/_lang.py`).
+- المتجر صار متجرك: `abdoix/video-ad-editor` · البلقن `video-studio`.
 
 ### جديد في 6.3 — «اشرح لي شلون يشتغل …»
 - **وضع جديد بسكل الموشن:** أي جهاز يصير آلة مقصوصة ترتسم بالحبر خط خط، ثم تشتغل (دوران، توهّج، موجات، بخار) وتحتها 2–3 خطوات.
@@ -370,7 +347,7 @@ https://github.com/user-attachments/assets/1047c4e8-141c-4f45-b601-c58d1353fe4c
 - 7 منها تقصّك من الخلفية (ماك)؛ على غيره تطلع بشكل بديل (كرت أو فقاعة) بدون ما تنكسر.
 
 ### جديد في 4.6
-- **دافنشي صار إضافة لحالها** ([`majed-davinci`](https://github.com/majedphotos/majed-davinci)) — البلقن الأساسي أخف، واللي ما عنده دافنشي ما يشيل ملفاته.
+- **دافنشي صار إضافة لحالها** — البلقن الأساسي أخف.
 - **ملف البلقن أخف:** مكتبة الثري دي صارت ملف واحد ينفك أول مرة — مكان لإضافات جاية.
 
 ### جديد في 4.5
@@ -401,7 +378,7 @@ https://github.com/user-attachments/assets/1047c4e8-141c-4f45-b601-c58d1353fe4c
 
 <details><summary><b>🛠️ للمطوّرين</b></summary>
 
-خريطة كل السكربتات والملفات: [`references/script-map.md`](video-ad-editor/references/script-map.md) · التعليمات: [`SKILL.md`](video-ad-editor/SKILL.md) · السكلات الثانية: [`motion-video`](motion-video/SKILL.md) · [`podcast-video`](podcast-video/SKILL.md) · [`montage-video`](montage-video/SKILL.md) · [`thumbnail-video`](thumbnail-video/SKILL.md) · [`davinci-video`](davinci-video/SKILL.md)
+خريطة كل السكربتات والملفات: [`references/script-map.md`](video-ad-editor/references/script-map.md) · التعليمات: [`SKILL.md`](video-ad-editor/SKILL.md) · السكلات الثانية: [`motion-video`](motion-video/SKILL.md) · [`podcast-video`](podcast-video/SKILL.md) · [`montage-video`](montage-video/SKILL.md) · [`thumbnail-video`](thumbnail-video/SKILL.md)
 
 <b>الإصدارات السابقة</b>
 
@@ -417,10 +394,10 @@ https://github.com/user-attachments/assets/1047c4e8-141c-4f45-b601-c58d1353fe4c
 - **5.0.0** بنك الحركات 100 (39 جديدة، منها حركات عربية وآية بسكينة بخط أميري قرآن) + إصلاح التاء المربوطة بخط الرقعة وذيول الحروف بالطلعة المتتابعة
 - **4.7.0** بنك الحركات 61: 11 حركة جديدة (مدار، جدار الكنبة، عالم الواجهات، كسر الإطار، جدار العناوين، رسومات ترجف، غلاف مجلة، كلام زجاجي، الفيديو داخل الجوال، قرين سكرين بالنص، قصاصة ورق) — 7 منها بقصّ الشخص (ماك) ولها شكل بديل
 - **4.5.0** بنك الحركات: 50 حركة مرقّمة بمصادرها + لوحة حركات لكل فيديو (عائلة + 3 أساسيات + لهجات) ما تتكرر + قسم «الحركات» بصفحة التعارف (يختار بنفسه أو يخليها على كلود)
-- **4.4.4** صوتك الحقيقي ما ينقص أبداً (القطع تغطي التسجيل كامل والحدود بأهدأ نقطة، ‎-20 LUFS تلقائياً) + سكتة نهاية 0.7 ث بالريل + طريقة التيرمنال صارت على المتجر الموحد `majed-plugins`
+- **4.4.4** صوتك الحقيقي ما ينقص أبداً (القطع تغطي التسجيل كامل والحدود بأهدأ نقطة، ‎-20 LUFS تلقائياً) + سكتة نهاية 0.7 ث بالريل + طريقة التيرمنال صارت على المتجر الموحد `abdoix-plugins`
 - **4.4.3** مثال الونشوت الجديد: زوم إن للأسود ← زوم آوت لجوال ولابتوب، بموشن بلير حقيقي
 - **4.4.2** وضع «مونتاج داخل كاب كت»: بدل MP4 يكتب مشروع كاب كت تعدّله بيدك (لقطات بزوم، كابشن ونصوص كاب كت، فويس، مؤثرات، خلفية صوتية، موشن شفاف بألوانك) ← `references/capcut.md`
-- **4.4.1** كلمة الختام ← رابط الحلقة بالخاص (أوتوميشن) + كرت الختام من الثيم + طريقة العمل مع كل حلقة بودكاست + خصم زورجا بكود MAJED
+- **4.4.1** كلمة الختام ← رابط الحلقة بالخاص (أوتوميشن) + كرت الختام من الثيم + طريقة العمل مع كل حلقة بودكاست
 - **4.4.0** وضع «الونشوت» (فيديو كله لقطة وحدة بلا قص) + مثال شغّال `motion/examples/one-take/` + مكتبة أمثلة من الناس (`references/examples.md`) + التثبيت من claude.ai بإضافة الماركت بليس
 - **4.3.5** إصلاح «Zip cannot contain nested zip files» (كان بـ4.3.3 و4.3.4) · **4.3.4** يشتغل بالجوال والسحابة · **4.3.3** أقل من 200 ملف
 

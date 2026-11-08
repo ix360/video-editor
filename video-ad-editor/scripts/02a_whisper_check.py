@@ -8,6 +8,7 @@
 يكشف: نفس الجملة 3 مرات ورا بعض · جمل الهلوسة المعروفة · كلمة ×4 ورا بعض · compression_ratio > 2.4 ·
        فجوة ≥ 1 ث (أو أول/آخر الملف) فيها كلام ≥ 0.6 ث بالصوت بلا تفريغ.
 يحتاج: ffmpeg + numpy (والإصلاح: openai-whisper — نفس الخطوة 4). WHISPER_MODEL يغيّر الموديل (الافتراضي medium)."""
+import _lang
 import sys as _sys
 try:
     _sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -95,7 +96,7 @@ for a, b, _ in win:
     cuts.append(b2)
     new = []
     for c0, c1 in zip(cuts, cuts[1:]):
-        r = m.transcribe(x[int(c0 * SR):int(c1 * SR)].copy(), language="ar", word_timestamps=True,
+        r = m.transcribe(x[int(c0 * SR):int(c1 * SR)].copy(), language=_lang.whisper(), word_timestamps=True,
                          condition_on_previous_text=False, fp16=False)
         for s in r["segments"]:
             if not s["text"].strip() or any(k in s["text"] for k in BAD): continue

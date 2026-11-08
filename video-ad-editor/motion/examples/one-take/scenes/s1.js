@@ -10,7 +10,7 @@ const PHC = { x: PH.x + PH.w / 2, y: PH.y + PH.h / 2 };
 const LAP = { x: 120, y: 430, w: 840, h: 525 };          // شاشة اللابتوب
 const SPH = W / PH.w;                                     // زوم الجوال لين يملا الإطار
 const BLUR = [[0.95, 2.0], [4.35, 5.15], [9.2, 11.1], [13.0, 14.6]];
-const URL = 'majedphotos/majed-plugins';
+const URL = 'abdoix/video-ad-editor';
 
 MOTION.scene({
   id: 's1', start: 0, end: 16,
@@ -38,7 +38,7 @@ MOTION.scene({
     const worldA = (Y, ta) => {
       Y.fillStyle = P.bg; Y.fillRect(0, 0, W, H);
       ctx.text(Y, 'ضيف الماركت بليس', 540, 360, { family: 'display', size: 112, color: P.ink, align: 'center', maxWidth: 960 });
-      ctx.text(Y, 'بلقنات ماجد كلها بخطوة وحدة', 540, 440, { family: 'body', weight: 500, size: 42, color: P.mut, align: 'center' });
+      ctx.text(Y, 'بلقناتنا كلها بخطوة وحدة', 540, 440, { family: 'body', weight: 500, size: 42, color: P.mut, align: 'center' });
       Y.save(); Y.shadowColor = 'rgba(27,26,23,0.16)'; Y.shadowBlur = 50; Y.shadowOffsetY = 18;
       Y.fillStyle = '#FFFFFF'; Y.beginPath(); Y.roundRect(110, 540, 860, 860, 48); Y.fill(); Y.restore();
       [0, 1, 2].forEach((n) => { Y.fillStyle = ['#E8A283', '#D9D3C7', '#D9D3C7'][n]; Y.beginPath(); Y.arc(170 + n * 36, 600, 11, 0, 6.2832); Y.fill(); });
@@ -88,7 +88,7 @@ MOTION.scene({
       const out = (d) => E.expoIn(C(prog(t, 7.25 + d, 7.75 + d), 0, 1)) * -1500;
       const hd = at(t, 5.05, 5.5, 'expoOut');
       Y.save(); Y.globalAlpha = hd; ctx.text(Y, 'بلقنين جاهزين', 540, 520 + 60 * (1 - hd) + out(0), { family: 'display', size: 120, color: '#FFFFFF', align: 'center' }); Y.restore();
-      [['content-engine-v5', 'مصنع المحتوى', 820, 5.2, 6.15], ['majed-video', 'بلقن الفيديو', 1110, 5.42, 6.75]].forEach(([n, a, y, t0, ck], i) => {
+      [['content-engine-v5', 'مصنع المحتوى', 820, 5.2, 6.15], ['video-studio', 'بلقن الفيديو', 1110, 5.42, 6.75]].forEach(([n, a, y, t0, ck], i) => {
         const dy = (1 - SPR(prog(t, t0, t0 + 0.6))) * 1300 + out(0.07 * (i + 1));
         Y.save(); Y.translate(0, y + dy);
         Y.save(); Y.shadowColor = 'rgba(80,30,10,0.22)'; Y.shadowBlur = 40; Y.shadowOffsetY = 16; Y.fillStyle = '#FFFFFF'; Y.beginPath(); Y.roundRect(90, -115, 900, 230, 44); Y.fill(); Y.restore();
