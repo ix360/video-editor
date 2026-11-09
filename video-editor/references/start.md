@@ -68,14 +68,13 @@ python3 scripts/00_onboard.py show
 
 The result `{}` = no saved choices.
 
-**1. It printed choices** → don't open anything:
+**1. It printed choices** → **never skip silently.** Tell the user what you found in one line and let them see/change it:
 
-```bash
-python3 scripts/00_onboard.py theme <work>
-```
+> "I have your saved taste: **<palette name>**, <platform>, <length>. Use it, or open the page to change it?"
 
-And say in one line: "Going with your settings: these colors, this caption style."
-(Exit code 4 = a `theme.json` already exists — leave it.)
+- **Use it** → `python3 scripts/00_onboard.py theme <work>` (exit code 4 = a `theme.json` already exists — leave it). The colors, font and caption style are **theirs** — never invent a palette.
+- **Change it** → `python3 scripts/00_onboard.py --work <work>` opens the page pre-filled; after "save", `theme <work> --force`.
+(Saved choices live in `~/.video-ad-editor/profile.json` — a taste page opened once, even in a test, is remembered. That is why the page "doesn't appear" the second time: it is skipped, so always say so.)
 
 **2. It printed `{}` and they have an identity file** (`.auto-memory/creator-profile.md`) → don't open the page, go to step 1.
 

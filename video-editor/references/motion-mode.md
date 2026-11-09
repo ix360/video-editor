@@ -23,6 +23,14 @@ The user's own prompt, verbatim:
 
 That means: 3D, line drawing, and kinetic type. The eye never rests.
 
+## ⛔ Use the move bank — every film, every scene
+
+The film's motion language comes from `references/moves.md`: `python3 scripts/35_moves.py plan …` gives the 3 core moves + accents, and the scenes call them as `ctx.FX.<id>(ctx, t, {...})` (`const { X, P, FX } = ctx`). Hand-drawn canvas code is for the *content* (a chart, a diagram); the **movement** (zooms, camera pushes, kinetic type, transitions, counters) comes from the bank.
+- Every scene has a camera move or zoom (`pushIn`, `pullOut`, `kenBurns`, `snapZoom`, `punchCut`, `dollyZoom`, `handheld`, `parallax`), including photo scenes — a photo that doesn't move is a failure.
+- A punch-in lands on the hook and on each key word (use `ctx.wordTime(...)` for the timing).
+- The plan's core and accent moves all appear; never the same move twice in a row.
+- Run `python3 scripts/42_start.py audit <project>` before rendering; it must pass.
+
 ## ⛔ Not graphics only — plan every scene before drawing
 
 A film made only of graphics reads as a slideshow. Before writing any scene, give each scene a type (this is the `script.md` shot list from the `script-writer` skill):

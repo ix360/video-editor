@@ -5,18 +5,20 @@
   python3 42_start.py set <work> key=value [key=value ...]     saves the brief into <work>/brief.json
         keys: topic goal audience platform length format voice cta language   (any key is allowed)
   python3 42_start.py status <work>                            prints the stages done / missing and the NEXT step (JSON with --json)
+  python3 42_start.py audit <project>                          motion film only: checks the scenes really use the move bank (FX.*), camera moves/zooms and the saved plan. Exit 0 = pass, 3 = fix it before rendering
 
 Stages (in order): brief → script → voice → theme → assets → build.  `assets` is optional (graphic-only films skip it).
 The files it looks for:  brief.json · script.md · vo.mp3 (or a talking video: a.wav / input.*) · theme.json · gen.json or stock/credits.json · final.mp4 (or out.mp4 / output*.mp4) at the top level.
 Python standard library only."""
 import sys, os, json, glob
 
-STAGES = ["brief", "script", "voice", "theme", "assets", "build"]
+STAGES = ["brief", "script", "voice", "theme", "moves", "assets", "build"]
 HINT = {
     "brief": "ask the one-question brief (topic, goal, platform, length, on camera or not) and save it with `set`",
     "script": "write the script with the script-writer skill (hook → story → CTA) and save it as script.md",
     "voice": "get the voice: an attached mp3 of the user, their ElevenLabs voice, or the footage's own audio",
     "theme": "run the taste page / theme step (references/start.md, step 0.5 and 1)",
+    "moves": "make the film's move palette: python3 scripts/35_moves.py plan --title \"…\" --cues … > <work>/moves_plan.json (mandatory — references/moves.md)",
     "assets": "fill the scenes that need photos or clips (stock → Gemini → Flow); skip if the film is graphics only",
     "build": "build the film with the chosen skill, show frames, deliver the file",
 }
@@ -37,6 +39,7 @@ def stages(work):
         "script": _has(work, "script.md") and os.path.getsize(os.path.join(work, "script.md")) > 20,
         "voice": _has(work, "vo.mp3", "vo.wav", "a.wav", "input.*"),
         "theme": _has(work, "theme.json"),
+        "moves": _has(work, "moves_plan.json"),
         "assets": _has(work, "gen.json", "stock/credits.json", "gen/*"),
         "build": _has(work, "final*.mp4", "*_final.mp4", "out.mp4", "output*.mp4"),
     }
@@ -56,6 +59,41 @@ def status(work, as_json):
     print("NEXT:", ("%s — %s" % (nxt, HINT[nxt])) if nxt else "all done — deliver the file")
 
 
+CAMERA = {"pushIn", "pullOut", "handheld", "kenBurns", "snapZoom", "punchCut", "dollyZoom", "rackFocus", "parallax", "shake", "crossZoom", "zoomWipe", "dotZoom"}
+
+
+def audit(proj):
+    """A motion film must be built WITH the move bank (zooms, camera moves, kinetic type) — not hand-drawn graphics only."""
+    import re
+    sc = sorted(glob.glob(os.path.join(proj, "scenes", "*.js")))
+    sc = [f for f in sc if os.path.basename(f) != "stage.js"]
+    if not sc: sys.exit("❌ no scenes/*.js in %s" % proj)
+    problems, used_all, cam_scenes = [], set(), 0
+    for f in sc:
+        src = open(f, encoding="utf-8").read()
+        ids = set(re.findall(r"\bFX\.(\w+)", src)); used_all |= ids
+        cam = ids & CAMERA
+        if not ids: problems.append("%s uses no FX.* move at all" % os.path.basename(f))
+        if cam: cam_scenes += 1
+    if cam_scenes < max(1, int(len(sc) * 0.7 + 0.5)):
+        problems.append("only %d of %d scenes have a camera move/zoom (%s) — aim for at least 70%%, with a punch-in on the hook and on key words" % (cam_scenes, len(sc), ", ".join(sorted(CAMERA)[:6]) + "…"))
+    if len(used_all) < 4: problems.append("only %d different moves used (%s) — the plan's 3 core moves + accents should all appear" % (len(used_all), ", ".join(sorted(used_all)) or "none"))
+    plan_p = os.path.join(os.path.dirname(os.path.abspath(proj)), "moves_plan.json")
+    plan_ids = set()
+    try:
+        raw = open(plan_p, encoding="utf-8").read(); raw = raw[raw.index("{"):]
+        pl = json.loads(raw); plan_ids = set(pl.get("core", [])) | set(pl.get("accents", []))
+    except Exception:
+        problems.append("no readable moves_plan.json next to the project (run 35_moves.py plan … > moves_plan.json)")
+    if plan_ids:
+        miss = sorted(plan_ids - used_all)
+        if miss: problems.append("planned moves never used: %s" % ", ".join(miss))
+    print("Scenes: %d · camera/zoom scenes: %d · distinct moves: %s" % (len(sc), cam_scenes, ", ".join(sorted(used_all)) or "none"))
+    if problems:
+        print("❌ AUDIT FAILED — fix before rendering:"); [print("  -", p) for p in problems]; sys.exit(3)
+    print("✅ audit passed")
+
+
 def set_(work, kv):
     os.makedirs(work, exist_ok=True)
     p = os.path.join(work, "brief.json")
@@ -71,6 +109,7 @@ def main():
     a = sys.argv[1:]
     if len(a) < 2: sys.exit(__doc__)
     if a[0] == "status": return status(a[1], "--json" in a)
+    if a[0] == "audit": return audit(a[1])
     if a[0] == "set": return set_(a[1], a[2:])
     sys.exit(__doc__)
 
