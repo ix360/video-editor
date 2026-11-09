@@ -425,7 +425,7 @@ h2{font-size:18px;margin:0;font-weight:700}
   <label class="switch"><input type="checkbox" name="movesOn" id="movesOn"><span class="k"></span><span>أبي أختار الحركات بنفسي</span></label>
   <div id="movesf" hidden style="margin-top:12px">
     <p class="qs" style="margin:0 0 10px">افتح البنك واضغط «أبي» على اللي تحبها و«لا» على اللي ما تبيها أبد، واحفظ هناك. والباقي أختار منه حسب المونتاج.</p>
-    <a class="btn btn-ghost" href="/moves/?from=onboard" target="_blank" rel="noopener" style="display:inline-flex;text-decoration:none">افتح بنك الحركات</a>
+    <a class="btn btn-ghost" href="/moves/?from=onboard" onclick="this.href='/moves/?from=onboard&lang='+encodeURIComponent(LANG)" target="_blank" rel="noopener" style="display:inline-flex;text-decoration:none">افتح بنك الحركات</a>
     <span id="movesSaved" data-dyn style="margin-inline-start:10px;color:var(--ink2);font-size:14px"></span>
   </div>
 </section>

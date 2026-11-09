@@ -20,7 +20,7 @@ description: A 3D motion-graphics film with no person and no filming — from a 
 6b. **A fixed frame + a 3D slide wall — only when the user asks** (not the default): section "One shot with a fixed frame" in `references/motion-mode.md`, and the example `motion/examples/stage-wall/`. Motion blur (`motionBlur`) suits any film with fast movement.
 7. **The move bank — a palette for every video (mandatory, and checked):** save the plan as `<work>/moves_plan.json`, use `ctx.FX.<id>` in every scene, and run `python3 scripts/42_start.py audit <project>` before rendering — it fails a film made of static graphics.
    Original rule: `references/moves.md`. Before the first scene: `python3 scripts/35_moves.py plan --title "…"` → 3 core moves the film revolves around + accents for special moments, called with `ctx.FX.<id>`.
-8. **Footage or images for scenes:** free stock → `references/stock.md`; generated → `references/gen-scenes.md` / `references/google-flow.md`; a voiceover → the `voiceover-video` skill.
+8. **Footage for scenes — Flow video clips by default, plus 3D:** every film = graphics + at least one 3D scene + ≥2 Flow clips (`references/google-flow.md`, played with `ctx.drawClip`, imported with `17_gen_scenes.py … --project`). Photos/stock/Gemini only as the fallback (`references/stock.md`, `references/gen-scenes.md`); a voiceover → the `voiceover-video` skill.
 
 ## 🌐 Language
 

@@ -19,6 +19,12 @@ Details: [`language.md`](video-editor/references/language.md).
 
 ## 🆕 What's new
 
+### Motion films that move: Flow video clips, 3D, the move bank (7.2)
+- **Every motion film = motion graphics + at least one 3D scene + Google Flow video clips.** Flow clips are imported straight into the project (`17_gen_scenes.py … import <k> <file> --project <project>`) and played by the engine with `ctx.drawClip` — zoomed, panned, looped, under the move bank's camera moves → [`motion-mode.md`](video-editor/references/motion-mode.md), [`google-flow.md`](video-editor/references/google-flow.md).
+- **Zooms and camera moves are required, and checked:** every film saves a move plan (`35_moves.py plan`), and `42_start.py audit <project>` fails a film whose scenes don't use the move bank.
+- **The move gallery speaks English, Français and العربية** (switcher at the top; English by default).
+- Saved taste is announced ("I have your saved taste: deep-mint… use it or change it?") instead of being skipped silently.
+
 ### One command for the whole workflow · a script writer
 - **`/video-editor:start`** runs everything in order — setup check → a one-message brief → script → voice → look and assets → build → delivery — and picks the right skill for you (reel, podcast, montage, motion film, cover). It remembers where you are, so you can stop and come back (`42_start.py status`).
 - **The `script-writer` skill:** three hooks to choose from (the first word already carries the point — no greetings), a story skeleton that fits your goal, **one** direct call to action, and a shot list saying what the viewer sees on every line → [`script-writing.md`](video-editor/references/script-writing.md).

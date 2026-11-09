@@ -18,6 +18,14 @@ Order of preference for scene assets (cheapest first):
 - Quotas and watermarks depend on the user's plan. After the first clip, check whether the result has a watermark; if it does, tell the user before using it.
 - **Never** type a password or 2-step code. If Google asks to sign in, ask the user to sign in themselves in the tab, then continue.
 
+## What the Flow page looks like today (tested 9 Nov 2026)
+Flow opens a project with a **chat agent** on the right ("What do you want to create?"). Don't hunt for old buttons — talk to the agent:
+- **Settings first:** the sliders icon beside the send arrow → *Agent settings*: *Image generation default* → **9:16**, **x1** (one output per prompt); *Video generation default* → **9:16**, **x1**; keep *Confirm before generating: Always* if the user wants a safety net. Save.
+- **Prompt as plain English:** "Generate one vertical 9:16 image: …" / "Generate one vertical 9:16 video of … (4 seconds, no text, no logos)". Submit with the send arrow. Images take about 30–50 s, video minutes. Do not resubmit while it runs; the card shows a percentage.
+- **Download:** click the finished item → editor → the **download icon** (top right) → pick **1K original** (free). 2K/4K "upscaled" may cost credits or need an upgrade — don't pick them without asking. The file lands in `~/Downloads` (e.g. `Human_eye_macro_photograph_<hash>.jpg`). For video the same menu offers the video sizes: take the smallest that is ≥720p.
+- Switch between the project's items with the little thumbnails at the top of the editor.
+- Everything was done with the user's PRO account: no watermark was visible on the downloaded images. Check each video the same way.
+
 ## Procedure
 Use the Chrome tools (`mcp__claude-in-chrome__*`; load them with ToolSearch in ONE call: `tabs_context_mcp, tabs_create_mcp, navigate, read_page, find, computer, javascript_tool`). Don't hard-code selectors — Google changes the UI. Find controls by reading the page (`read_page` / `find`) and verify with a screenshot.
 

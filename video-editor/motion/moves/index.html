@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>بنك الحركات</title>
+<title>Move bank</title>
 <!-- يُفتح عبر: python3 scripts/35_moves.py — الاختيار ينحفظ بـprofile.json تحت "moves" -->
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;700&family=Lalezar&family=Inter:wght@700;900&display=swap" rel="stylesheet">
 <style>
@@ -40,57 +40,99 @@ h3 small{font-family:'IBM Plex Sans Arabic';font-size:13px;color:var(--mut)}
 .ro .bar,.ro .btns,.ro .rw{display:none} .ro{padding-bottom:40px}
 .done{position:fixed;inset:0;background:var(--bg);display:none;place-items:center;text-align:center;padding:20px}
 .done h1{font-size:48px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.acts{display:flex;gap:8px;align-items:center}
+.acts select,.acts button{font:600 15px Inter,sans-serif;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:8px 12px;cursor:pointer}
+[dir=ltr] body,[dir=ltr] .btns button,[dir=ltr] .bar button{font-family:Inter,system-ui,sans-serif}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{font-family:Inter,sans-serif;font-weight:800;letter-spacing:-.01em}
+[dir=ltr] h1{font-size:38px} [dir=ltr] h2{font-size:24px} [dir=ltr] h3{font-size:19px}
+[dir=ltr] .n{right:auto;left:10px} [dir=ltr] .badge{left:auto;right:10px} [dir=ltr] .mac{right:auto;left:10px}
 </style>
 </head>
 <body>
 <header>
-  <h1>بنك الحركات</h1>
-  <p>كل فيديو يطلع بلوحة حركات خاصة فيه: عائلة وحدة و3 حركات أساسية يدور حولها الفيديو، ولهجة للحظات الخاصة. وما تتكرر من فيديو لفيديو.<br>
-  المعاينات بألوان مثال. بفيديوك الحركة تطلع بألوان هويتك ونصك وتوقيت كلامك.</p>
-  <p class="rw">ما يحتاج تختار شي. بس لو فيه حركة ما تبيها أبد اضغط «لا»، ولو فيه وحدة تحبها اضغط «أبي» وتنقدّم بالاختيار.</p>
+  <div class="top"><h1 id="h1"></h1><div class="acts"><select id="langSel" aria-label="Language"></select><button id="themeBtn" type="button" aria-label="Theme">◐</button></div></div>
+  <p id="intro"></p>
+  <p class="rw" id="hint"></p>
 </header>
 <div class="g" id="main"></div>
-<h2>زيادة من المحرّك <small>حركات عربية خالصة</small></h2>
+<h2><span id="h2"></span> <small id="h2s"></small></h2>
 <div class="g" id="bonus"></div>
-<div class="bar"><div class="sum" id="sum">ما اخترت شي للحين</div><button id="save">احفظ</button></div>
-<div class="done" id="done"><div><h1>انحفظ ✓</h1><p id="doneP">ارجع للمحادثة، اختيارك صار عند كلود.</p></div></div>
+<div class="bar"><div class="sum" id="sum"></div><button id="save"></button></div>
+<div class="done" id="done"><div><h1 id="doneH"></h1><p id="doneP"></p></div></div>
 <script>
+const UI = {
+  en: { title: 'Move bank', intro: 'Every video gets its own palette of moves: one family and 3 core moves the whole video revolves around, plus accents for special moments. They change from video to video.<br>Previews use sample colors. In your video the move takes your identity colors, your text and the timing of your voice.',
+        hint: 'You do not have to choose anything. But if there is a move you never want, press "No", and if you love one, press "Yes" and it gets priority.',
+        h2: 'More from the engine', h2s: 'Arabic-first motion', yes: 'Yes ✓', no: 'No ✗', on: 'Yes', off: 'No', mac: 'Mac', source: 'Source', none: 'Nothing chosen yet', yesL: 'Yes', noL: 'No', save: 'Save', saved: 'Saved ✓',
+        back: 'Go back to the chat, your choice is now with Claude.', backOnb: 'Go back to the intro page and carry on. You can close this page.', sep: ', ' },
+  fr: { title: 'Banque de mouvements', intro: 'Chaque vidéo reçoit sa propre palette de mouvements : une famille et 3 mouvements de base autour desquels toute la vidéo tourne, plus des accents pour les moments spéciaux. Ils changent d\'une vidéo à l\'autre.<br>Les aperçus utilisent des couleurs d\'exemple. Dans votre vidéo, le mouvement prend les couleurs de votre identité, votre texte et le rythme de votre voix.',
+        hint: 'Vous n\'avez rien à choisir. Mais si un mouvement ne vous plaît jamais, appuyez sur « Non » ; si vous en aimez un, appuyez sur « Oui » et il passe en priorité.',
+        h2: 'En plus du moteur', h2s: 'mouvements pensés pour l\'arabe', yes: 'Oui ✓', no: 'Non ✗', on: 'Oui', off: 'Non', mac: 'Mac', source: 'Source', none: 'Rien de choisi pour l\'instant', yesL: 'Oui', noL: 'Non', save: 'Enregistrer', saved: 'Enregistré ✓',
+        back: 'Retournez dans le chat, votre choix est maintenant chez Claude.', backOnb: 'Retournez à la page d\'accueil et continuez. Vous pouvez fermer cette page.', sep: ', ' },
+  ar: { title: 'بنك الحركات', intro: 'كل فيديو يطلع بلوحة حركات خاصة فيه: عائلة وحدة و3 حركات أساسية يدور حولها الفيديو، ولهجة للحظات الخاصة. وما تتكرر من فيديو لفيديو.<br>المعاينات بألوان مثال. بفيديوك الحركة تطلع بألوان هويتك ونصك وتوقيت كلامك.',
+        hint: 'ما يحتاج تختار شي. بس لو فيه حركة ما تبيها أبد اضغط «لا»، ولو فيه وحدة تحبها اضغط «أبي» وتنقدّم بالاختيار.',
+        h2: 'زيادة من المحرّك', h2s: 'حركات عربية خالصة', yes: 'أبي ✓', no: 'لا ✗', on: 'أبي', off: 'لا', mac: 'ماك', source: 'المصدر', none: 'ما اخترت شي للحين', yesL: 'أبي', noL: 'لا', save: 'احفظ', saved: 'انحفظ ✓',
+        back: 'ارجع للمحادثة، اختيارك صار عند كلود.', backOnb: 'ارجع لصفحة التعارف وكمّل. تقدر تسكّر هالصفحة.', sep: '، ' }
+};
+const NAMES = { en: 'English', fr: 'Français', ar: 'العربية' };
+const qs = new URLSearchParams(location.search);
+let LANG = 'en';
+try { const q = qs.get('lang'); const st = localStorage.getItem('vae-moves-lang'); LANG = UI[q] ? q : (UI[st] ? st : 'en'); } catch (e) { const q = qs.get('lang'); if (UI[q]) LANG = q; }
 const state = {}; let CAT = [];
+const T = k => (UI[LANG] || UI.en)[k];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+const tx = (m, f) => { const i = m.i18n && m.i18n[LANG]; return (i && i[f]) || m[f] || ''; };      // Arabic is the source: used when a translation is missing
 function card(m) {
-  const src = m.source.url ? `المصدر: <a href="${esc(m.source.url)}" target="_blank" rel="noopener">${esc(m.source.label)}</a>` : `المصدر: ${esc(m.source.label)}`;
-  const el = document.createElement('article'); el.className = 'c'; el.dataset.id = m.id;
-  el.innerHTML = `<div class="v"><video src="${esc(m.preview)}" autoplay muted loop playsinline preload="metadata"></video><b class="n">${m.n}</b><span class="badge"></span>${m.mac ? '<span class="mac">ماك</span>' : ''}</div>
-    <h3>${esc(m.name)} <small>${esc(m.sub)}</small></h3><p>${esc(m.desc)}</p><p class="s">${src}</p>
-    <div class="btns"><button class="yes">أبي ✓</button><button class="no">لا ✗</button></div>`;
+  const el = document.createElement('article'); el.className = 'c'; el.dataset.id = m.id; el.dataset.n = m.n; paintCard(el, m); return el;
+}
+function paintCard(el, m) {
+  const src = m.source.url ? `${esc(T('source'))}: <a href="${esc(m.source.url)}" target="_blank" rel="noopener">${esc(m.source.label)}</a>` : `${esc(T('source'))}: ${esc(m.source.label)}`;
+  el.innerHTML = `<div class="v"><video src="${esc(m.preview)}" autoplay muted loop playsinline preload="metadata"></video><b class="n">${m.n}</b><span class="badge"></span>${m.mac ? '<span class="mac">' + esc(T('mac')) + '</span>' : ''}</div>
+    <h3>${esc(tx(m, 'name'))} <small>${esc(tx(m, 'sub'))}</small></h3><p>${esc(tx(m, 'desc'))}</p><p class="s">${src}</p>
+    <div class="btns"><button class="yes">${esc(T('yes'))}</button><button class="no">${esc(T('no'))}</button></div>`;
   el.querySelector('.yes').onclick = () => set(m.id, state[m.id] === 'on' ? null : 'on');
   el.querySelector('.no').onclick = () => set(m.id, state[m.id] === 'off' ? null : 'off');
   el.querySelector('.v').onclick = () => set(m.id, state[m.id] === 'on' ? 'off' : state[m.id] === 'off' ? null : 'on');
-  return el;
 }
 function set(id, v) { if (v) state[id] = v; else delete state[id]; paint(); }
 function paint() {
   document.querySelectorAll('.c').forEach(el => { const v = state[el.dataset.id]; el.classList.toggle('on', v === 'on'); el.classList.toggle('off', v === 'off');
-    el.querySelector('.badge').textContent = v === 'on' ? 'أبي' : v === 'off' ? 'لا' : ''; });
+    el.querySelector('.badge').textContent = v === 'on' ? T('on') : v === 'off' ? T('off') : ''; });
   const by = s => CAT.filter(m => state[m.id] === s).map(m => m.n);
   const on = by('on'), off = by('off');
   document.getElementById('sum').innerHTML = on.length || off.length
-    ? `${on.length ? 'أبي: <b>' + on.join('، ') + '</b>' : ''}${on.length && off.length ? ' · ' : ''}${off.length ? 'لا: <b>' + off.join('، ') + '</b>' : ''}`
-    : 'ما اخترت شي للحين';
+    ? `${on.length ? T('yesL') + ': <b>' + on.join(T('sep')) + '</b>' : ''}${on.length && off.length ? ' · ' : ''}${off.length ? T('noL') + ': <b>' + off.join(T('sep')) + '</b>' : ''}`
+    : T('none');
+}
+function applyLang(c) {
+  LANG = UI[c] ? c : 'en'; try { localStorage.setItem('vae-moves-lang', LANG); } catch (e) {}
+  const h = document.documentElement; h.lang = LANG; h.dir = LANG === 'ar' ? 'rtl' : 'ltr'; document.title = T('title');
+  document.getElementById('h1').textContent = T('title'); document.getElementById('intro').innerHTML = T('intro'); document.getElementById('hint').textContent = T('hint');
+  document.getElementById('h2').textContent = T('h2'); document.getElementById('h2s').textContent = T('h2s');
+  document.getElementById('save').textContent = T('save'); document.getElementById('doneH').textContent = T('saved');
+  document.getElementById('doneP').textContent = qs.get('from') === 'onboard' ? T('backOnb') : T('back');
+  document.getElementById('langSel').value = LANG;
+  document.querySelectorAll('.c').forEach(el => paintCard(el, CAT.find(m => m.id === el.dataset.id)));
+  paint();
 }
 document.getElementById('save').onclick = async () => {
   const pickIds = s => CAT.filter(m => state[m.id] === s).map(m => m.id);
   const r = await fetch('/api/save', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ on: pickIds('on'), off: pickIds('off') }) });
-  if (r.ok) { if (new URLSearchParams(location.search).get('from') === 'onboard') document.getElementById('doneP').textContent = 'ارجع لصفحة التعارف وكمّل. تقدر تسكّر هالصفحة.'; document.getElementById('done').style.display = 'grid'; } else alert('ما انحفظ: ' + await r.text());
+  if (r.ok) document.getElementById('done').style.display = 'grid';
 };
+document.getElementById('themeBtn').onclick = () => { const r = document.documentElement; const dark = (r.dataset.theme || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light')) === 'dark'; r.dataset.theme = dark ? 'light' : 'dark'; };
 (async () => {
+  const sel = document.getElementById('langSel'); Object.keys(NAMES).forEach(k => sel.add(new Option(NAMES[k], k))); sel.onchange = () => applyLang(sel.value);
   CAT = (await (await fetch('catalog.json')).json()).moves;
+  let saved = null; try { saved = localStorage.getItem('vae-moves-lang'); } catch (e) {}
   try { const r = await fetch('/api/state'); if (!r.ok) throw 0; const st = await r.json();
     (st.moves.on || []).forEach(id => state[id] = 'on'); (st.moves.off || []).forEach(id => state[id] = 'off');
+    if (!qs.get('lang') && !saved && UI[st.lang]) LANG = st.lang;
     if (st.colors && /^#[0-9a-f]{6}$/i.test(st.colors.acc || '')) document.documentElement.style.setProperty('--acc', st.colors.acc);
-  } catch (e) { document.body.classList.add('ro'); }       // مفتوحة من صفحة التعارف: فرجة بس، بلا اختيار
+  } catch (e) { document.body.classList.add('ro'); }       // opened from the intro page: browse only, no choosing
   CAT.forEach(m => document.getElementById(m.bonus ? 'bonus' : 'main').appendChild(card(m)));
-  paint();
+  applyLang(LANG);
 })();
 </script>
 </body>

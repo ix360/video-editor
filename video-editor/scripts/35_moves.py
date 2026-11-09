@@ -105,7 +105,11 @@ class Handler(BaseHTTPRequestHandler):
         if u == "/api/state":
             p = load_profile()
             cols = ((p.get("identity") or {}).get("colors")) or {}
-            return self._send(200, {"moves": p.get("moves") or {"on": [], "off": []}, "colors": cols})
+            try:
+                sys.path.insert(0, str(Path(__file__).resolve().parent)); import _lang; lg = _lang.get()
+            except Exception:
+                lg = "en"
+            return self._send(200, {"moves": p.get("moves") or {"on": [], "off": []}, "colors": cols, "lang": lg})
         f = (MOVES / u.lstrip("/")).resolve()
         if MOVES.resolve() in f.parents and f.is_file() and f.suffix in TYPES:
             return self._send(200, f.read_bytes(), TYPES[f.suffix])

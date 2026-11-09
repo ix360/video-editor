@@ -18,7 +18,19 @@
    "role": "caption",
    "energy": 3,
    "families": [],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Live Word",
+     "sub": "Karaoke captions",
+     "desc": "The word being spoken sits in a pill that slides from word to word. Captions readable with the sound off."
+    },
+    "fr": {
+     "name": "Mot actif",
+     "sub": "Sous-titres karaoké",
+     "desc": "Le mot prononcé est dans une capsule qui glisse de mot en mot. Les sous-titres se lisent sans le son."
+    }
+   }
   },
   {
    "n": 2,
@@ -38,7 +50,19 @@
    "families": [
     "calm"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Blur Clear",
+     "sub": "Blur-in entrance",
+     "desc": "Each word comes out of a blur into sharp focus and settles. For calm lines."
+    },
+    "fr": {
+     "name": "Flou qui s'éclaircit",
+     "sub": "Entrée floue",
+     "desc": "Chaque mot passe du flou au net puis se pose. Pour les phrases calmes."
+    }
+   }
   },
   {
    "n": 3,
@@ -60,7 +84,19 @@
     "punch",
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Staggered Rise",
+     "sub": "Mask rise-up",
+     "desc": "Words rise from a hidden line one after another from the right, and exit upward at the end."
+    },
+    "fr": {
+     "name": "Montée en cascade",
+     "sub": "Montée depuis un masque",
+     "desc": "Les mots sortent d'une ligne cachée l'un après l'autre depuis la droite, puis montent pour sortir à la fin."
+    }
+   }
   },
   {
    "n": 4,
@@ -82,7 +118,19 @@
    ],
    "cues": [
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Word Swap",
+     "sub": "Word wheel",
+     "desc": "The sentence stays put and the last word spins with a spring. Great for hooks."
+    },
+    "fr": {
+     "name": "Mot qui change",
+     "sub": "Roue de mots",
+     "desc": "La phrase reste fixe et le dernier mot tourne avec un effet ressort. Idéal pour le hook."
+    }
+   }
   },
   {
    "n": 5,
@@ -103,7 +151,19 @@
     "calm",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Focus Lens",
+     "sub": "Moving brackets",
+     "desc": "The sentence is blurred except one word, and corner brackets jump between the key words."
+    },
+    "fr": {
+     "name": "Objectif focus",
+     "sub": "Crochets mobiles",
+     "desc": "La phrase est floue sauf un mot, et des crochets d'angle passent d'un mot clé à l'autre."
+    }
+   }
   },
   {
    "n": 6,
@@ -126,7 +186,19 @@
    "cues": [
     "reveal",
     "tech"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Decrypt",
+     "sub": "Scrambling letters",
+     "desc": "Random Arabic letters flicker and settle from the right, with the letter joins kept intact."
+    },
+    "fr": {
+     "name": "Décryptage",
+     "sub": "Lettres qui défilent",
+     "desc": "Des lettres arabes aléatoires défilent puis se fixent depuis la droite, les liaisons restent intactes."
+    }
+   }
   },
   {
    "n": 7,
@@ -149,7 +221,19 @@
    ],
    "cues": [
     "number"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Counter",
+     "sub": "Number wheels",
+     "desc": "Each digit spins on its own and stops in sequence with a bounce. For strong numbers."
+    },
+    "fr": {
+     "name": "Compteur",
+     "sub": "Roues de chiffres",
+     "desc": "Chaque chiffre tourne seul et s'arrête à son tour avec un rebond. Pour les chiffres forts."
+    }
+   }
   },
   {
    "n": 8,
@@ -170,7 +254,19 @@
     "onetake",
     "punch"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Cross Zoom",
+     "sub": "Zoom and blur transition",
+     "desc": "The two scenes blend through a zoom and blur that peaks in the middle. Feels like a single shot."
+    },
+    "fr": {
+     "name": "Zoom fondu",
+     "sub": "Transition zoom et flou",
+     "desc": "Les deux scènes se mêlent par un zoom et un flou qui culminent au milieu. On dirait un seul plan."
+    }
+   }
   },
   {
    "n": 9,
@@ -191,7 +287,19 @@
     "calm",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Wipe",
+     "sub": "Soft wipe to the left",
+     "desc": "The new scene wipes in from right to left with a feathered edge."
+    },
+    "fr": {
+     "name": "Volet",
+     "sub": "Volet doux vers la gauche",
+     "desc": "La nouvelle scène balaie l'écran de droite à gauche avec un bord adouci."
+    }
+   }
   },
   {
    "n": 10,
@@ -211,7 +319,19 @@
    "families": [
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Iris",
+     "sub": "Circle from a dot",
+     "desc": "A dot grows, swallows the screen and reveals the next scene."
+    },
+    "fr": {
+     "name": "Iris",
+     "sub": "Cercle depuis un point",
+     "desc": "Un point grandit, avale l'écran et révèle la scène suivante."
+    }
+   }
   },
   {
    "n": 11,
@@ -231,7 +351,19 @@
    "families": [
     "punch"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Whip",
+     "sub": "Whip pan",
+     "desc": "A fast whip to the left with motion blur, no hard cut."
+    },
+    "fr": {
+     "name": "Whip",
+     "sub": "Whip pan",
+     "desc": "Un panoramique rapide vers la gauche avec flou de mouvement, sans coupe franche."
+    }
+   }
   },
   {
    "n": 12,
@@ -253,7 +385,19 @@
     "onetake",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Push-In",
+     "sub": "Slow zoom forward",
+     "desc": "Zoom from 1 to 1.12 over 1.6 s on the key line, with the background blurring slightly."
+    },
+    "fr": {
+     "name": "Push-in",
+     "sub": "Zoom lent vers l'avant",
+     "desc": "Zoom de 1 à 1.12 en 1.6 s sur la phrase importante, l'arrière-plan se floute légèrement."
+    }
+   }
   },
   {
    "n": 13,
@@ -275,7 +419,19 @@
    ],
    "cues": [
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Pull Out",
+     "sub": "Camera pulls back",
+     "desc": "Start tight on the subject and the camera pulls back to reveal what's around it."
+    },
+    "fr": {
+     "name": "Recul",
+     "sub": "La caméra recule",
+     "desc": "On part collé au sujet et la caméra recule pour révéler ce qui l'entoure."
+    }
+   }
   },
   {
    "n": 14,
@@ -295,7 +451,19 @@
    "families": [
     "punch"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Zoom Wipe",
+     "sub": "Zoom then wipe",
+     "desc": "The clip rushes forward, and at the peak of the zoom the next scene wipes in from the right."
+    },
+    "fr": {
+     "name": "Zoom et volet",
+     "sub": "Zoom puis volet",
+     "desc": "Le plan fonce vers l'avant et, au pic du zoom, la scène suivante arrive en volet par la droite."
+    }
+   }
   },
   {
    "n": 15,
@@ -318,7 +486,19 @@
    ],
    "cues": [
     "list"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Notifications",
+     "sub": "Stacking notifications",
+     "desc": "Each point drops in as a phone notification, pushing the previous ones down."
+    },
+    "fr": {
+     "name": "Notifications",
+     "sub": "Notifications empilées",
+     "desc": "Chaque point arrive comme une notification de téléphone et pousse les précédentes vers le bas."
+    }
+   }
   },
   {
    "n": 16,
@@ -341,7 +521,19 @@
    ],
    "cues": [
     "emphasis"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Highlighter",
+     "sub": "Hand-drawn marker",
+     "desc": "A marker stroke behind a word from right to left, and an underline under another word."
+    },
+    "fr": {
+     "name": "Surligneur",
+     "sub": "Marqueur à main levée",
+     "desc": "Un trait de surligneur derrière un mot de droite à gauche, et un soulignement sous un autre mot."
+    }
+   }
   },
   {
    "n": 17,
@@ -365,7 +557,19 @@
    "cues": [
     "price",
     "cta"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Shine",
+     "sub": "Light sweep",
+     "desc": "A diagonal glint crosses the price and the button every two seconds. For prices and calls to order."
+    },
+    "fr": {
+     "name": "Reflet",
+     "sub": "Bande de lumière",
+     "desc": "Un reflet en biais traverse le prix et le bouton toutes les deux secondes. Pour les prix et la commande."
+    }
+   }
   },
   {
    "n": 18,
@@ -388,7 +592,19 @@
     "onetake",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Audio Lead",
+     "sub": "J-cut",
+     "desc": "Rule: the next shot's audio starts 4-12 frames before its picture, so the cut disappears."
+    },
+    "fr": {
+     "name": "Son en avance",
+     "sub": "J-cut",
+     "desc": "Règle : le son du plan suivant démarre 4 à 12 images avant l'image, et la coupe disparaît."
+    }
+   }
   },
   {
    "n": 19,
@@ -408,7 +624,19 @@
    "families": [
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Match Cut",
+     "sub": "Same shape",
+     "desc": "Rule: the shape continues in the same place and size in the next shot, and the motion carries on."
+    },
+    "fr": {
+     "name": "Raccord forme",
+     "sub": "Même forme",
+     "desc": "Règle : la forme continue au même endroit et à la même taille dans le plan suivant, et le mouvement se poursuit."
+    }
+   }
   },
   {
    "n": 20,
@@ -430,7 +658,19 @@
    ],
    "cues": [
     "hit"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Impact Slow-Mo",
+     "sub": "Speed ramp",
+     "desc": "Normal speed, then 25% at the moment of impact, then back to normal (FX.ramp)."
+    },
+    "fr": {
+     "name": "Ralenti d'impact",
+     "sub": "Speed ramp",
+     "desc": "Vitesse normale, puis 25% au moment de l'impact, puis retour à la normale (FX.ramp)."
+    }
+   }
   },
   {
    "n": 21,
@@ -454,7 +694,19 @@
    ],
    "cues": [
     "tech"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Typewriter",
+     "sub": "Typing with a cursor",
+     "desc": "The text types out with a cursor and the letters never break apart."
+    },
+    "fr": {
+     "name": "Machine à écrire",
+     "sub": "Frappe avec curseur",
+     "desc": "Le texte s'écrit avec un curseur et les lettres ne se cassent pas."
+    }
+   }
   },
   {
    "n": 22,
@@ -477,7 +729,19 @@
    ],
    "cues": [
     "emphasis"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Kashida Stretch",
+     "sub": "Stretching word",
+     "desc": "The key word stretches wide with kashida, then snaps back. A purely Arabic move."
+    },
+    "fr": {
+     "name": "Étirement kashida",
+     "sub": "Mot qui s'étire",
+     "desc": "Le mot clé s'étire en largeur grâce à la kashida, puis revient. Un mouvement purement arabe."
+    }
+   }
   },
   {
    "n": 23,
@@ -497,7 +761,19 @@
    "families": [
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Dot Zoom",
+     "sub": "Zoom through the dot",
+     "desc": "A dot at the end of the word, and the camera dives into it until it fills the screen."
+    },
+    "fr": {
+     "name": "Zoom dans le point",
+     "sub": "Entrée par le point",
+     "desc": "Un point en fin de mot, la caméra plonge dedans jusqu'à ce qu'il remplisse l'écran."
+    }
+   }
   },
   {
    "n": 24,
@@ -518,7 +794,19 @@
     "calm",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Dip to Color",
+     "sub": "Fade out and in",
+     "desc": "The scene dips to the background color for a moment and the next one comes up, with a light zoom breath. A calm break between two ideas."
+    },
+    "fr": {
+     "name": "Fondu couleur",
+     "sub": "Disparition et retour",
+     "desc": "La scène plonge un instant dans la couleur de fond et la suivante apparaît, avec un léger souffle de zoom. Une pause calme entre deux idées."
+    }
+   }
   },
   {
    "n": 25,
@@ -540,7 +828,19 @@
     "editorial",
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Card Over",
+     "sub": "Card from below",
+     "desc": "The new scene slides up from below as a rounded card and covers the old one, which recedes and darkens."
+    },
+    "fr": {
+     "name": "Carte par-dessus",
+     "sub": "Carte depuis le bas",
+     "desc": "La nouvelle scène monte du bas comme une carte aux coins arrondis et recouvre l'ancienne, qui recule et s'assombrit."
+    }
+   }
   },
   {
    "n": 26,
@@ -561,7 +861,19 @@
     "editorial",
     "punch"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Clock Wipe",
+     "sub": "Radial wipe",
+     "desc": "The next scene is revealed by a clock hand sweeping from the top. For time and stages (\"one hour later\")."
+    },
+    "fr": {
+     "name": "Volet horloge",
+     "sub": "Volet radial",
+     "desc": "La scène suivante se dévoile par une aiguille qui tourne depuis le haut. Pour le temps et les étapes (\"une heure plus tard\")."
+    }
+   }
   },
   {
    "n": 27,
@@ -582,7 +894,19 @@
     "punch",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Slices",
+     "sub": "Sliding slices",
+     "desc": "The new scene appears in vertical slices sliding from right to left, with a brand-colored edge."
+    },
+    "fr": {
+     "name": "Lamelles",
+     "sub": "Lamelles qui défilent",
+     "desc": "La nouvelle scène apparaît en lamelles verticales qui défilent de droite à gauche, avec un bord aux couleurs de la marque."
+    }
+   }
   },
   {
    "n": 28,
@@ -605,7 +929,19 @@
    "cues": [
     "tech",
     "hit"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Glitch",
+     "sub": "Shifting blocks",
+     "desc": "Blocks of the image shift and flicker for half a second and the scene flips. For tech, updates and impact."
+    },
+    "fr": {
+     "name": "Glitch",
+     "sub": "Blocs décalés",
+     "desc": "Des blocs de l'image se décalent et clignotent une demi-seconde, puis la scène bascule. Pour la tech, les mises à jour et l'impact."
+    }
+   }
   },
   {
    "n": 29,
@@ -628,7 +964,19 @@
    ],
    "cues": [
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Flip",
+     "sub": "Card flip",
+     "desc": "The frame flips like a card in perspective, with the second scene on its back. For comparisons: front and back."
+    },
+    "fr": {
+     "name": "Retournement",
+     "sub": "Carte qui se retourne",
+     "desc": "Le cadre se retourne comme une carte en perspective, la deuxième scène au dos. Pour comparer : recto et verso."
+    }
+   }
   },
   {
    "n": 30,
@@ -649,7 +997,19 @@
     "calm",
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Light Leak",
+     "sub": "Warm light sweep",
+     "desc": "Warm light blobs in your colors cross the screen while the scene changes underneath. Soft and cinematic."
+    },
+    "fr": {
+     "name": "Fuite de lumière",
+     "sub": "Lumière chaude qui passe",
+     "desc": "Des taches de lumière chaude à vos couleurs traversent l'écran et la scène change dessous. Doux et cinématographique."
+    }
+   }
   },
   {
    "n": 31,
@@ -671,7 +1031,19 @@
     "onetake",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Handheld",
+     "sub": "Soft shake",
+     "desc": "A small continuous motion, as if someone is holding the camera. Brings a static shot to life."
+    },
+    "fr": {
+     "name": "Caméra à l'épaule",
+     "sub": "Tremblement doux",
+     "desc": "Un petit mouvement continu, comme si quelqu'un tenait la caméra. Donne vie à un plan fixe."
+    }
+   }
   },
   {
    "n": 32,
@@ -692,7 +1064,19 @@
     "calm",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Ken Burns",
+     "sub": "Slow zoom and pan",
+     "desc": "A slow zoom and pan from point to point on a still shot or photo, without ever showing an empty edge."
+    },
+    "fr": {
+     "name": "Ken Burns",
+     "sub": "Zoom et panoramique lents",
+     "desc": "Zoom et panoramique lents d'un point à un autre sur un plan fixe ou une photo, sans jamais montrer de bord vide."
+    }
+   }
   },
   {
    "n": 33,
@@ -715,7 +1099,19 @@
    "cues": [
     "hit",
     "emphasis"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Snap Zoom",
+     "sub": "Zoom jump",
+     "desc": "A fast zoom jump on the key word that bounces and holds, then returns."
+    },
+    "fr": {
+     "name": "Snap zoom",
+     "sub": "Saut de zoom",
+     "desc": "Un saut de zoom rapide sur le mot important qui rebondit, se fige, puis revient."
+    }
+   }
   },
   {
    "n": 34,
@@ -737,7 +1133,19 @@
    ],
    "cues": [
     "hit"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Shake",
+     "sub": "Fading shake",
+     "desc": "A strong camera shake at the moment of impact that fades out in under a second."
+    },
+    "fr": {
+     "name": "Secousse",
+     "sub": "Secousse qui s'atténue",
+     "desc": "Une forte secousse de caméra au moment de l'impact, qui s'atténue et disparaît en moins d'une seconde."
+    }
+   }
   },
   {
    "n": 35,
@@ -761,7 +1169,19 @@
    ],
    "cues": [
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Rack Focus",
+     "sub": "Focus shift",
+     "desc": "Focus moves from the foreground to the background (or the reverse). Reveals the bigger picture."
+    },
+    "fr": {
+     "name": "Bascule de point",
+     "sub": "Le net se déplace",
+     "desc": "La netteté passe du premier plan à l'arrière-plan (ou l'inverse). Révèle la vue d'ensemble."
+    }
+   }
   },
   {
    "n": 36,
@@ -782,7 +1202,19 @@
     "onetake",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Parallax",
+     "sub": "Layers with depth",
+     "desc": "Layers move at different speeds, closer ones faster, giving depth to a single shot."
+    },
+    "fr": {
+     "name": "Parallaxe",
+     "sub": "Couches en profondeur",
+     "desc": "Des couches bougent à des vitesses différentes, les plus proches plus vite, ce qui donne de la profondeur à un seul plan."
+    }
+   }
   },
   {
    "n": 37,
@@ -805,7 +1237,19 @@
    ],
    "cues": [
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Dolly Zoom",
+     "sub": "Vertigo",
+     "desc": "The person stays the same size while the background stretches open behind them. For a moment of shock or realization."
+    },
+    "fr": {
+     "name": "Dolly zoom",
+     "sub": "Vertigo",
+     "desc": "La personne garde la même taille tandis que l'arrière-plan s'ouvre derrière elle. Pour un moment de choc ou de prise de conscience."
+    }
+   }
   },
   {
    "n": 38,
@@ -827,7 +1271,19 @@
     "onetake",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Read Reveal",
+     "sub": "Words wake up",
+     "desc": "The sentence is faded and each word wakes up (from blur and a tilt) as it is spoken."
+    },
+    "fr": {
+     "name": "Révélation à la lecture",
+     "sub": "Les mots s'éveillent",
+     "desc": "La phrase est pâle et chaque mot s'éveille (depuis le flou et une inclinaison) au moment où il est prononcé."
+    }
+   }
   },
   {
    "n": 39,
@@ -848,7 +1304,19 @@
     "punch",
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Word Drop",
+     "sub": "Drop and bounce",
+     "desc": "Each word drops from above, bounces and settles, and at the end they all fall away."
+    },
+    "fr": {
+     "name": "Chute de mots",
+     "sub": "Chute et rebond",
+     "desc": "Chaque mot tombe d'en haut, rebondit et se pose, puis tout tombe vers le bas à la fin."
+    }
+   }
   },
   {
    "n": 40,
@@ -871,7 +1339,19 @@
    "cues": [
     "hit",
     "emphasis"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Rubber Pop",
+     "sub": "Stretchy word",
+     "desc": "One word pops and stretches like rubber with impact lines. For impact and the key word."
+    },
+    "fr": {
+     "name": "Pop élastique",
+     "sub": "Mot élastique",
+     "desc": "Un mot éclate et s'étire comme du caoutchouc avec des traits d'impact. Pour l'impact et le mot clé."
+    }
+   }
   },
   {
    "n": 41,
@@ -895,7 +1375,19 @@
    "cues": [
     "emphasis",
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Stroke & Fill",
+     "sub": "Outline then fill",
+     "desc": "The word's outline draws on, then fills from bottom to top with a wave. The word stays whole, letters never come apart."
+    },
+    "fr": {
+     "name": "Contour et remplissage",
+     "sub": "Contour puis remplissage",
+     "desc": "Le contour du mot se dessine, puis se remplit de bas en haut avec une vague. Le mot reste entier, les lettres ne se séparent pas."
+    }
+   }
   },
   {
    "n": 42,
@@ -918,7 +1410,19 @@
    ],
    "cues": [
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Versus",
+     "sub": "Two words face off",
+     "desc": "Two words come in from both sides and face off with an × in the middle, then one wins."
+    },
+    "fr": {
+     "name": "Versus",
+     "sub": "Deux mots s'affrontent",
+     "desc": "Deux mots arrivent des deux côtés et s'affrontent avec un × au milieu, puis l'un gagne."
+    }
+   }
   },
   {
    "n": 43,
@@ -940,7 +1444,19 @@
    ],
    "cues": [
     "list"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Word Path",
+     "sub": "Traveling camera",
+     "desc": "Words sit along a path and the camera travels from word to word in one take, the line coloring in behind."
+    },
+    "fr": {
+     "name": "Chemin de mots",
+     "sub": "Caméra qui avance",
+     "desc": "Les mots sont sur un chemin et la caméra va de mot en mot en un seul plan, la ligne se colore derrière."
+    }
+   }
   },
   {
    "n": 44,
@@ -961,7 +1477,19 @@
     "editorial",
     "calm"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Name & Title",
+     "sub": "Lower third",
+     "desc": "A brand-colored bar grows and the name then the title come out of it, bottom right inside the safe area."
+    },
+    "fr": {
+     "name": "Nom et fonction",
+     "sub": "Lower third",
+     "desc": "Une barre aux couleurs de la marque grandit et en sortent le nom puis la fonction, en bas à droite dans la zone sûre."
+    }
+   }
   },
   {
    "n": 45,
@@ -984,7 +1512,19 @@
    ],
    "cues": [
     "list"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Checklist",
+     "sub": "Drawn checkmarks",
+     "desc": "Each point's circle fills and a checkmark draws in, while the line between points advances."
+    },
+    "fr": {
+     "name": "Checklist",
+     "sub": "Coches dessinées",
+     "desc": "Le cercle de chaque point se remplit et une coche se dessine, la ligne entre les points avance."
+    }
+   }
   },
   {
    "n": 46,
@@ -1007,7 +1547,19 @@
    ],
    "cues": [
     "price"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Price Tag",
+     "sub": "Price drop",
+     "desc": "A swinging tag: the old price gets struck through and the new one counts down until it stops."
+    },
+    "fr": {
+     "name": "Étiquette prix",
+     "sub": "Le prix baisse",
+     "desc": "Une étiquette qui se balance : l'ancien prix est barré et le nouveau décompte jusqu'à s'arrêter."
+    }
+   }
   },
   {
    "n": 47,
@@ -1031,7 +1583,19 @@
    ],
    "cues": [
     "cta"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Pulsing Button",
+     "sub": "Button and tap",
+     "desc": "A brand-colored button with pulse rings and a finger tapping it. For the end of the video: sign up, comment, follow."
+    },
+    "fr": {
+     "name": "Bouton pulsé",
+     "sub": "Bouton et clic",
+     "desc": "Un bouton aux couleurs de la marque avec des anneaux de pulsation, et un doigt qui appuie. Pour la fin de la vidéo : inscris-toi, commente, abonne-toi."
+    }
+   }
   },
   {
    "n": 48,
@@ -1055,7 +1619,19 @@
    "cues": [
     "contrast",
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Before & After",
+     "sub": "Comparison slider",
+     "desc": "A divider line moves from the right revealing \"after\", and sways like a comparison slider."
+    },
+    "fr": {
+     "name": "Avant / après",
+     "sub": "Curseur de comparaison",
+     "desc": "Une ligne de séparation part de la droite, révèle \"après\" et oscille comme un curseur de comparaison."
+    }
+   }
   },
   {
    "n": 49,
@@ -1079,7 +1655,19 @@
    ],
    "cues": [
     "number"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Percent Ring",
+     "sub": "Filling percentage",
+     "desc": "A ring fills to the percentage while the number counts up in its center, with what it means underneath."
+    },
+    "fr": {
+     "name": "Anneau de pourcentage",
+     "sub": "Pourcentage qui se remplit",
+     "desc": "Un anneau se remplit jusqu'au pourcentage, le chiffre défile au centre, et dessous ce qu'il signifie."
+    }
+   }
   },
   {
    "n": 50,
@@ -1103,7 +1691,19 @@
    "cues": [
     "number",
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Growing Bars",
+     "sub": "Bar chart",
+     "desc": "Bars rise one after another with counting numbers; the key bar is in brand color and the rest fade."
+    },
+    "fr": {
+     "name": "Barres qui montent",
+     "sub": "Graphique en barres",
+     "desc": "Les barres montent l'une après l'autre avec leurs chiffres qui défilent ; la barre clé est aux couleurs de la marque, les autres s'estompent."
+    }
+   }
   },
   {
    "n": 51,
@@ -1129,7 +1729,19 @@
     "hit"
    ],
    "mask": "required",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Orbit",
+     "sub": "Camera circles you",
+     "desc": "The camera circles you and your words form a spinning ring: the back ones pass behind you, the front ones in front, and the background turns with depth. Mac only (person cutout); without it, falls back to a video card."
+    },
+    "fr": {
+     "name": "Orbite",
+     "sub": "La caméra tourne autour de vous",
+     "desc": "La caméra tourne autour de vous et vos mots forment un anneau qui tourne : ceux de derrière passent derrière vous, ceux de devant devant vous, et le fond tourne en profondeur. Mac uniquement (détourage de la personne) ; sinon, retour à une carte vidéo."
+    }
+   }
   },
   {
    "n": 52,
@@ -1154,7 +1766,19 @@
     "reveal"
    ],
    "mask": "required",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Couch Wall",
+     "sub": "New scene behind you",
+     "desc": "You're cut out of your background and placed in a new scene: sitting on a couch with a wall of your posts appearing one by one behind you. Mac only (person cutout); without it, falls back to a video card."
+    },
+    "fr": {
+     "name": "Mur du canapé",
+     "sub": "Nouvelle scène derrière vous",
+     "desc": "Vous êtes détouré de votre fond et placé dans une nouvelle scène : assis sur un canapé, avec derrière vous un mur de vos posts qui apparaissent un par un. Mac uniquement (détourage de la personne) ; sinon, retour à une carte vidéo."
+    }
+   }
   },
   {
    "n": 53,
@@ -1178,7 +1802,19 @@
    "cues": [
     "tech"
    ],
-   "mask": "optional"
+   "mask": "optional",
+   "i18n": {
+    "en": {
+     "name": "UI World",
+     "sub": "Screens around you in depth",
+     "desc": "App cards (search, number, button, message) float around you at different depths: the back ones blurred behind you, the front ones bigger. Better with cutout (Mac), works without it."
+    },
+    "fr": {
+     "name": "Monde d'interfaces",
+     "sub": "Écrans autour de vous en profondeur",
+     "desc": "Des cartes d'appli (recherche, chiffre, bouton, message) flottent autour de vous à différentes profondeurs : celles de derrière floues, celles de devant plus grandes. Mieux avec détourage (Mac), fonctionne sans."
+    }
+   }
   },
   {
    "n": 54,
@@ -1204,7 +1840,19 @@
     "reveal"
    ],
    "mask": "required",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Frame Break",
+     "sub": "Head pops out of the card",
+     "desc": "You're inside a card, its edge drops until your head pops out of it, with the big word behind your head. Mac only (person cutout); without it, falls back to a video card."
+    },
+    "fr": {
+     "name": "Sortie du cadre",
+     "sub": "La tête sort de la carte",
+     "desc": "Vous êtes dans une carte, son bord descend jusqu'à ce que votre tête en sorte, avec le grand mot derrière votre tête. Mac uniquement (détourage de la personne) ; sinon, retour à une carte vidéo."
+    }
+   }
   },
   {
    "n": 55,
@@ -1229,7 +1877,19 @@
     "contrast"
    ],
    "mask": "required",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Headline Wall",
+     "sub": "Headlines pinned behind you",
+     "desc": "A board behind you where headlines on torn paper get pinned one by one with string between them, and the camera jolts with each pin. Mac only (person cutout); without it, falls back to a video card."
+    },
+    "fr": {
+     "name": "Mur de titres",
+     "sub": "Titres épinglés derrière vous",
+     "desc": "Un tableau derrière vous où des titres sur papier déchiré sont épinglés un par un, reliés par un fil, et la caméra tressaute à chaque épingle. Mac uniquement (détourage de la personne) ; sinon, retour à une carte vidéo."
+    }
+   }
   },
   {
    "n": 56,
@@ -1254,7 +1914,19 @@
     "emphasis",
     "hit"
    ],
-   "mask": "optional"
+   "mask": "optional",
+   "i18n": {
+    "en": {
+     "name": "Boiling Doodles",
+     "sub": "Hand-drawn around you",
+     "desc": "A hand-drawn circle, arrow and stars draw on around you, and the line boils (redrawn 12 times per second) like cartoon animation. Better with cutout (Mac), works without it."
+    },
+    "fr": {
+     "name": "Gribouillis vivants",
+     "sub": "Dessin à la main autour de vous",
+     "desc": "Un cercle, une flèche et des étoiles dessinés à la main apparaissent autour de vous, et le trait bouillonne (redessiné 12 fois par seconde) comme un dessin animé. Mieux avec détourage (Mac), fonctionne sans."
+    }
+   }
   },
   {
    "n": 57,
@@ -1279,7 +1951,19 @@
     "reveal"
    ],
    "mask": "required",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Magazine Cover",
+     "sub": "You're on the cover",
+     "desc": "A flash, and you become a magazine cover: the name behind your head, issue line, cover headlines and a barcode. Mac only (person cutout); without it, falls back to a video card."
+    },
+    "fr": {
+     "name": "Couverture magazine",
+     "sub": "Vous êtes en couverture",
+     "desc": "Un flash, et vous devenez une couverture de magazine : le nom derrière votre tête, la ligne du numéro, les titres et le code-barres. Mac uniquement (détourage de la personne) ; sinon, retour à une carte vidéo."
+    }
+   }
   },
   {
    "n": 58,
@@ -1302,7 +1986,19 @@
    ],
    "cues": [
     "emphasis"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Glass Type",
+     "sub": "Frosted glass",
+     "desc": "A big frosted-glass word refracts what's behind it, with a glass panel holding a line underneath and a glint crossing both."
+    },
+    "fr": {
+     "name": "Texte en verre",
+     "sub": "Verre dépoli",
+     "desc": "Un grand mot en verre dépoli déforme ce qu'il y a derrière, avec en dessous un panneau de verre avec une ligne, et un reflet qui les traverse."
+    }
+   }
   },
   {
    "n": 59,
@@ -1326,7 +2022,19 @@
    "cues": [
     "tech",
     "cta"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Video in a Phone",
+     "sub": "Shrinks to a phone screen",
+     "desc": "Your video shrinks until it becomes a phone screen with a Reels interface, and the phone sways in 3D perspective."
+    },
+    "fr": {
+     "name": "Vidéo dans le téléphone",
+     "sub": "Réduction en écran de téléphone",
+     "desc": "Votre vidéo rétrécit jusqu'à devenir l'écran d'un téléphone avec l'interface Reels, et le téléphone oscille en perspective 3D."
+    }
+   }
   },
   {
    "n": 60,
@@ -1351,7 +2059,19 @@
     "contrast"
    ],
    "mask": "required",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Green Screen Source",
+     "sub": "The source behind you",
+     "desc": "An article or screenshot appears as a full page that scrolls slowly, a marker highlights the line, and you're cut out in front of it at the bottom. Mac only (person cutout); without it, falls back to a video card."
+    },
+    "fr": {
+     "name": "Fond vert source",
+     "sub": "La source derrière vous",
+     "desc": "Un article ou une capture apparaît en pleine page et défile lentement, un surligneur marque la ligne, et vous êtes détouré devant, en bas. Mac uniquement (détourage de la personne) ; sinon, retour à une carte vidéo."
+    }
+   }
   },
   {
    "n": 61,
@@ -1377,7 +2097,19 @@
     "hit"
    ],
    "mask": "required",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Paper Cutout",
+     "sub": "Torn paper sticker",
+     "desc": "You become a paper sticker: torn white edge, paper texture and a shadow, slapped on with 12 fps stop-motion. Mac only (person cutout); without it, falls back to a video card."
+    },
+    "fr": {
+     "name": "Découpe papier",
+     "sub": "Autocollant papier déchiré",
+     "desc": "Vous devenez un autocollant en papier : bord blanc déchiré, texture papier et ombre, collé en stop motion à 12 images. Mac uniquement (détourage de la personne) ; sinon, retour à une carte vidéo."
+    }
+   }
   },
   {
    "n": 62,
@@ -1401,7 +2133,19 @@
    "cues": [
     "reveal",
     "emphasis"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Dots Drop",
+     "sub": "Letterforms first, then dots",
+     "desc": "The line appears without dots like early Quran manuscripts, then the dots drop one by one from the right and land with an ink tap, the last one coloring the key word. Not allowed on Quran text."
+    },
+    "fr": {
+     "name": "Points qui tombent",
+     "sub": "Le tracé d'abord, puis les points",
+     "desc": "La ligne apparaît sans points comme les premiers manuscrits du Coran, puis les points tombent un à un depuis la droite et se posent d'une touche d'encre, le dernier colore le mot clé. Interdit sur le texte du Coran."
+    }
+   }
   },
   {
    "n": 63,
@@ -1425,7 +2169,19 @@
    "cues": [
     "emphasis",
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Qalam Writing",
+     "sub": "Written at pen rhythm",
+     "desc": "Each connected part of the word is written with a slanted pen nib, the pen lifts between parts, the ink goes on light and dries, and dots land after their part."
+    },
+    "fr": {
+     "name": "Écriture au calame",
+     "sub": "Écrit au rythme du calame",
+     "desc": "Chaque partie liée du mot s'écrit avec une plume biseautée, la plume se lève entre les parties, l'encre apparaît claire puis sèche, et les points se posent après leur partie."
+    }
+   }
   },
   {
    "n": 64,
@@ -1450,7 +2206,19 @@
     "emphasis",
     "hit",
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Video in Text",
+     "sub": "Video inside the letters",
+     "desc": "A huge word with the live video playing only inside its letters; on exit the camera dives into a letter until the video fills the screen."
+    },
+    "fr": {
+     "name": "Vidéo dans le texte",
+     "sub": "La vidéo dans les lettres",
+     "desc": "Un mot énorme avec la vidéo qui joue uniquement dans ses lettres ; à la sortie, la caméra plonge dans une lettre jusqu'à ce que la vidéo remplisse l'écran."
+    }
+   }
   },
   {
    "n": 65,
@@ -1478,7 +2246,19 @@
    ],
    "mask": "required",
    "fallback": "بولارويد: الفريم كامل مجمّد بحد أبيض ونفس التقشير",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Sticker Freeze",
+     "sub": "Freeze with white border",
+     "desc": "A flash, the background turns your brand color with halftone dots, you freeze as a sticker with a peeling white border, and a word sticker slaps on. Mac only (person cutout); without it, the whole frame freezes as a Polaroid."
+    },
+    "fr": {
+     "name": "Arrêt autocollant",
+     "sub": "Figé avec bord blanc",
+     "desc": "Un flash, le fond prend la couleur de votre marque avec des points de trame, vous êtes figé en autocollant au bord blanc qui se décolle, et un autocollant de mot se colle. Mac uniquement (détourage de la personne) ; sinon, toute l'image se fige en Polaroid."
+    }
+   }
   },
   {
    "n": 66,
@@ -1502,7 +2282,19 @@
    "cues": [
     "emphasis",
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Letters Join",
+     "sub": "The joins form before you",
+     "desc": "The word appears as separate letters, each in its isolated form, then they pull together and join into the connected word with a shine on the joins."
+    },
+    "fr": {
+     "name": "Lettres qui s'assemblent",
+     "sub": "Les liaisons se forment",
+     "desc": "Le mot apparaît en lettres séparées, chacune sous sa forme isolée, puis elles se rapprochent et se lient pour former le mot attaché, avec un reflet sur les liaisons."
+    }
+   }
   },
   {
    "n": 67,
@@ -1526,7 +2318,19 @@
    "cues": [
     "emphasis",
     "tech"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Square Kufic",
+     "sub": "Word built from tiles",
+     "desc": "The word is built from tiles on a grid like square Kufic script, column by column from the right, then turns back into sharp text in the same place."
+    },
+    "fr": {
+     "name": "Coufique carré",
+     "sub": "Mot construit en carreaux",
+     "desc": "Le mot se construit en carreaux sur une grille comme le coufique carré, colonne par colonne depuis la droite, puis redevient du texte net au même endroit."
+    }
+   }
   },
   {
    "n": 68,
@@ -1550,7 +2354,19 @@
    "cues": [
     "tech",
     "list"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Beam Connect",
+     "sub": "Linked tools",
+     "desc": "Icons around a center with curved paths between them, a light beam travels along them and each node pulses when reached. For any integration or workflow."
+    },
+    "fr": {
+     "name": "Faisceau de liaison",
+     "sub": "Outils reliés",
+     "desc": "Des icônes autour d'un centre, des chemins courbes entre elles, un faisceau lumineux les parcourt et chaque nœud pulse à son arrivée. Pour toute connexion ou workflow."
+    }
+   }
   },
   {
    "n": 69,
@@ -1573,7 +2389,19 @@
    ],
    "cues": [
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Arabic Page Turn",
+     "sub": "Turns from the left",
+     "desc": "The page turns like an Arabic book (spine on the right): a slanted fold line moves across, the page back is faded, with a shadow on the new scene."
+    },
+    "fr": {
+     "name": "Page de livre arabe",
+     "sub": "Se tourne depuis la gauche",
+     "desc": "La page se tourne comme un livre arabe (reliure à droite) : une ligne de pli en biais avance, le dos de la page est pâle, et une ombre tombe sur la nouvelle scène."
+    }
+   }
   },
   {
    "n": 70,
@@ -1599,7 +2427,19 @@
     "emphasis"
    ],
    "mask": "optional",
-   "fallback": "الأشعة تنزل من فوق على الفيديو بـscreen"
+   "fallback": "الأشعة تنزل من فوق على الفيديو بـscreen",
+   "i18n": {
+    "en": {
+     "name": "Rays Behind You",
+     "sub": "Light from behind you",
+     "desc": "Light rays come out from behind your head and rotate slowly. With cutout (Mac) the rays sit behind your body; without it they fall from above like window light."
+    },
+    "fr": {
+     "name": "Rayons derrière vous",
+     "sub": "Lumière qui sort de derrière",
+     "desc": "Des rayons de lumière sortent de derrière votre tête et tournent lentement. Avec détourage (Mac), ils sont derrière votre corps ; sinon, ils tombent d'en haut comme la lumière d'une fenêtre."
+    }
+   }
   },
   {
    "n": 71,
@@ -1622,7 +2462,19 @@
    ],
    "cues": [
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Chapter Tilt",
+     "sub": "Chapter title in perspective",
+     "desc": "The video becomes a panel that tilts in 3D perspective and shrinks, the chapter title floats in front of it, then it returns. Same move for every chapter in the video."
+    },
+    "fr": {
+     "name": "Inclinaison chapitre",
+     "sub": "Titre de chapitre en perspective",
+     "desc": "La vidéo devient un panneau qui s'incline en perspective 3D et rétrécit, le titre du chapitre flotte devant, puis tout revient. Même mouvement pour chaque chapitre de la vidéo."
+    }
+   }
   },
   {
    "n": 72,
@@ -1648,7 +2500,19 @@
     "cta",
     "number",
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Dynamic Island",
+     "sub": "Pill becomes a notification",
+     "desc": "A black pill at the top springs open into a card with an icon, two lines and a counting number, with glass from the video behind it, then shrinks back to a pill."
+    },
+    "fr": {
+     "name": "Dynamic Island",
+     "sub": "La pilule devient notification",
+     "desc": "Une pilule noire en haut s'ouvre avec un effet ressort en carte avec une icône, deux lignes et un chiffre qui défile, avec derrière un verre tiré de la vidéo, puis redevient pilule."
+    }
+   }
   },
   {
    "n": 73,
@@ -1672,7 +2536,19 @@
    "cues": [
     "reveal",
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Truth Revealed",
+     "sub": "Redaction bars lift",
+     "desc": "The line is written with words covered by ink bars; each bar lifts on its word's timing to reveal it in brand color, and the last reveal comes with a \"Confidential\" stamp."
+    },
+    "fr": {
+     "name": "Vérité révélée",
+     "sub": "Les bandes noires se lèvent",
+     "desc": "La ligne est écrite avec des mots cachés par des bandes d'encre ; chaque bande se lève au moment de son mot et le révèle aux couleurs de la marque, et la dernière révélation s'accompagne d'un tampon \"Confidentiel\"."
+    }
+   }
   },
   {
    "n": 74,
@@ -1693,7 +2569,19 @@
     "url": "https://fiqh.islamonline.net/en/quranic-verses-in-flash-films"
    },
    "bonus": false,
-   "manual": true
+   "manual": true,
+   "i18n": {
+    "en": {
+     "name": "Serene Verse",
+     "sub": "Quran in Uthmani script",
+     "desc": "The verse in Uthmani script inside a thin geometric frame that draws on, words appearing calmly one by one, ending with the end-of-verse sign with the verse number. For verses only, with the text exactly as given by a trusted source."
+    },
+    "fr": {
+     "name": "Verset apaisé",
+     "sub": "Coran en écriture othmanie",
+     "desc": "Le verset en écriture othmanie dans un fin cadre géométrique qui se dessine, les mots apparaissent calmement un par un, et à la fin le signe de fin de verset avec son numéro. Uniquement pour les versets, texte tel quel depuis une source fiable."
+    }
+   }
   },
   {
    "n": 75,
@@ -1720,7 +2608,19 @@
    ],
    "mask": "required",
    "fallback": "3 كروت فيديو جنب بعض (المتأخرة بـframeAt) والملصقات فوقها",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Clone Trio",
+     "sub": "Three of you",
+     "desc": "Two copies of you pop up behind you, left and right, with a clap flash, each with a label: \"There are 3 kinds of people\". With delayed cutout, each copy moves on its own beat. Mac only (person cutout); without it, 3 video cards."
+    },
+    "fr": {
+     "name": "Trio de clones",
+     "sub": "Trois versions de vous",
+     "desc": "Deux copies de vous apparaissent derrière vous, à gauche et à droite, dans un flash de claquement, chacune avec une étiquette : \"Il y a 3 types de personnes\". Avec le détourage différé, chaque copie bouge à son rythme. Mac uniquement (détourage de la personne) ; sinon, 3 cartes vidéo."
+    }
+   }
   },
   {
    "n": 76,
@@ -1741,7 +2641,19 @@
     "punch",
     "editorial"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Nuqta Curtain",
+     "sub": "Diamonds open the scene",
+     "desc": "Slanted diamonds shaped like Arabic pen dots grow from a point and spread until they cover the screen with the new scene, with brand-colored edges."
+    },
+    "fr": {
+     "name": "Rideau de points",
+     "sub": "Des losanges ouvrent la scène",
+     "desc": "Des losanges inclinés en forme de point de calame arabe grandissent depuis un point et s'étendent jusqu'à couvrir l'écran avec la nouvelle scène, bords aux couleurs de la marque."
+    }
+   }
   },
   {
    "n": 77,
@@ -1764,7 +2676,19 @@
    "cues": [
     "number",
     "reveal"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Dot Map",
+     "sub": "From Kuwait to the world",
+     "desc": "A dot map appears radially from Kuwait, a pin pulses, arcs fly to cities with a counter on each arrival, and a total number underneath."
+    },
+    "fr": {
+     "name": "Carte à points",
+     "sub": "Du Koweït au monde",
+     "desc": "Une carte à points apparaît en cercle depuis le Koweït, une épingle pulse, des arcs volent vers les villes avec un compteur à chaque arrivée, et le total en dessous."
+    }
+   }
   },
   {
    "n": 78,
@@ -1790,7 +2714,19 @@
    ],
    "mask": "required",
    "fallback": "الفيديو كرت بزوايا دائرية والشعاع يلف على إطاره",
-   "mac": true
+   "mac": true,
+   "i18n": {
+    "en": {
+     "name": "Rim Outline",
+     "sub": "Glowing edge on your body",
+     "desc": "A brand-colored line draws along your outline from the top of your head down both sides, then a glowing dot travels around it. Mac only (person cutout); without it, the beam runs around the video card."
+    },
+    "fr": {
+     "name": "Contour lumineux",
+     "sub": "Bord lumineux sur votre corps",
+     "desc": "Une ligne aux couleurs de la marque se dessine sur votre silhouette depuis le haut de la tête vers les deux côtés, puis un point lumineux en fait le tour. Mac uniquement (détourage de la personne) ; sinon, le faisceau fait le tour de la carte vidéo."
+    }
+   }
   },
   {
    "n": 79,
@@ -1814,7 +2750,19 @@
    "cues": [
     "reveal",
     "list"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Crane Up",
+     "sub": "The bigger picture",
+     "desc": "The camera starts tight on the video, rises and tilts over a table of cards around it, and finally descends onto the next card until it fills the screen."
+    },
+    "fr": {
+     "name": "Grue",
+     "sub": "La vue d'ensemble",
+     "desc": "La caméra part collée à la vidéo, monte et s'incline au-dessus d'une table de cartes autour, puis descend sur la carte suivante jusqu'à ce qu'elle remplisse l'écran."
+    }
+   }
   },
   {
    "n": 80,
@@ -1837,7 +2785,19 @@
    ],
    "cues": [
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Word Morph",
+     "sub": "From fear to confidence",
+     "desc": "The first word blurs and melts, the second forms from the same liquid, and the color shifts from ink to brand."
+    },
+    "fr": {
+     "name": "Morphing de mot",
+     "sub": "De la peur à la confiance",
+     "desc": "Le premier mot se floute et fond, le second se forme du même liquide, et la couleur passe de l'encre à la marque."
+    }
+   }
   },
   {
    "n": 81,
@@ -1860,7 +2820,19 @@
    ],
    "cues": [
     "tech"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Terminal",
+     "sub": "One command, done",
+     "desc": "A terminal window: the command types out letter by letter with a cursor, output streams, a loading spinner, then a checkmark and an Arabic comment."
+    },
+    "fr": {
+     "name": "Terminal",
+     "sub": "Une commande et c'est fait",
+     "desc": "Une fenêtre de terminal : la commande s'écrit lettre par lettre avec un curseur, la sortie défile, un indicateur de chargement, puis une coche et un commentaire en arabe."
+    }
+   }
   },
   {
    "n": 82,
@@ -1881,7 +2853,19 @@
     "calm",
     "onetake"
    ],
-   "cues": []
+   "cues": [],
+   "i18n": {
+    "en": {
+     "name": "Glass Lens",
+     "sub": "iOS 26 transition",
+     "desc": "A glass lens enters from the right and settles, showing the new scene magnified inside with a glint and chromatic fringe, then grows until it covers the screen."
+    },
+    "fr": {
+     "name": "Lentille de verre",
+     "sub": "Transition iOS 26",
+     "desc": "Une lentille de verre entre par la droite et se pose, avec à l'intérieur la nouvelle scène agrandie, un reflet et une frange colorée, puis grandit jusqu'à couvrir l'écran."
+    }
+   }
   },
   {
    "n": 83,
@@ -1905,7 +2889,19 @@
    "cues": [
     "number",
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Line Chart Draw",
+     "sub": "Growth in numbers",
+     "desc": "Axes appear, the line draws with a glowing pen and the area below fills, numbers count up, and a pin at the peak shows the figure."
+    },
+    "fr": {
+     "name": "Courbe qui se trace",
+     "sub": "La croissance en chiffres",
+     "desc": "Les axes apparaissent, la courbe se trace au stylo lumineux et la zone dessous se remplit, les chiffres défilent, et une épingle au sommet affiche le chiffre."
+    }
+   }
   },
   {
    "n": 84,
@@ -1931,7 +2927,19 @@
     "reveal"
    ],
    "mask": "optional",
-   "fallback": "الزخرفة فوق الفيديو كله"
+   "fallback": "الزخرفة فوق الفيديو كله",
+   "i18n": {
+    "en": {
+     "name": "Girih Bloom",
+     "sub": "Eight-point stars draw on",
+     "desc": "A pattern of octagons and eight-point stars draws from the center outward, rotates slowly and settles into a subtle texture. Safe behind a verse. With cutout (Mac) behind the person; without it, over the video."
+    },
+    "fr": {
+     "name": "Floraison girih",
+     "sub": "Étoiles à huit branches",
+     "desc": "Un motif d'octogones et d'étoiles à huit branches se dessine du centre vers l'extérieur, tourne lentement puis s'apaise en texture légère. Sans risque derrière un verset. Avec détourage (Mac), derrière la personne ; sinon, par-dessus la vidéo."
+    }
+   }
   },
   {
    "n": 85,
@@ -1956,7 +2964,19 @@
     "emphasis",
     "hit"
    ],
-   "face": "optional"
+   "face": "optional",
+   "i18n": {
+    "en": {
+     "name": "Speech Bubble",
+     "sub": "Comic next to your face",
+     "desc": "A comic bubble pops up top-left of your face with its tail pointing at your mouth, the words type inside, and it exits with a pop. Face from tracking (Mac); without it, a fixed position."
+    },
+    "fr": {
+     "name": "Bulle de BD",
+     "sub": "BD à côté du visage",
+     "desc": "Une bulle de BD apparaît en haut à gauche de votre visage, sa pointe vers votre bouche, le texte s'écrit dedans, et elle sort avec un pop. Visage par tracking (Mac) ; sinon, position fixe."
+    }
+   }
   },
   {
    "n": 86,
@@ -1981,7 +3001,19 @@
     "emphasis",
     "hit"
    ],
-   "face": "optional"
+   "face": "optional",
+   "i18n": {
+    "en": {
+     "name": "Second Camera",
+     "sub": "Cut to a closer angle",
+     "desc": "A straight cut to a tighter crop with the face on the rule-of-thirds line, held until the end of the line then back, like a second (and third) camera. Face from tracking (Mac); without it, a fixed point."
+    },
+    "fr": {
+     "name": "Deuxième caméra",
+     "sub": "Coupe vers un plan plus serré",
+     "desc": "Coupe franche vers un cadrage plus serré avec le visage sur la ligne des tiers, tenu jusqu'à la fin de la phrase puis retour, comme une deuxième (et troisième) caméra. Visage par tracking (Mac) ; sinon, point fixe."
+    }
+   }
   },
   {
    "n": 87,
@@ -2005,7 +3037,19 @@
    "cues": [
     "tech",
     "contrast"
-   ]
+   ],
+   "i18n": {
+    "en": {
+     "name": "Scan Line",
+     "sub": "Before and after",
+     "desc": "A glowing line moves down: above it the new scene, below it the old one frozen, with a stretched slit-scan under the line. For before/after and inspections."
+    },
+    "fr": {
+     "name": "Ligne de scan",
+     "sub": "Avant et après",
+     "desc": "Une ligne lumineuse descend : au-dessus la nouvelle scène, en dessous l'ancienne figée, avec un slit-scan étiré sous la ligne. Pour l'avant/après et les vérifications."
+    }
+   }
   },
   {
    "n": 88,
@@ -2028,7 +3072,19 @@
     "label": "Magic UI — Tweet Card",
     "url": "https://magicui.design/docs/components"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Post Pop-Up",
+     "sub": "\"Someone wrote to me...\"",
+     "desc": "A generic post card with no platform logo emerges from a blur, the text types along with the voice, numbers count up and the heart pulses. Only a real screenshot or your own words."
+    },
+    "fr": {
+     "name": "Post qui apparaît",
+     "sub": "\"Quelqu'un m'a écrit...\"",
+     "desc": "Une carte de post générique sans logo de plateforme sort du flou, le texte s'écrit avec la voix, les chiffres défilent et le cœur bat. Uniquement une vraie capture ou vos propres mots."
+    }
+   }
   },
   {
    "n": 89,
@@ -2051,7 +3107,19 @@
    },
    "bonus": false,
    "face": "optional",
-   "fallback": "كاميرا باليد (31) بدال اللحاق"
+   "fallback": "كاميرا باليد (31) بدال اللحاق",
+   "i18n": {
+    "en": {
+     "name": "Camera Follows You",
+     "sub": "Real camera operator",
+     "desc": "A light crop follows your face with a slight delay, face on the thirds, tilting with your movement. Face from tracking (Mac); without it, handheld camera."
+    },
+    "fr": {
+     "name": "La caméra vous suit",
+     "sub": "Un vrai cadreur",
+     "desc": "Un léger recadrage suit votre visage avec un petit retard, visage sur les tiers, en s'inclinant avec vos mouvements. Visage par tracking (Mac) ; sinon, caméra à l'épaule."
+    }
+   }
   },
   {
    "n": 90,
@@ -2074,7 +3142,19 @@
     "label": "GitLab Pajamas — Motion",
     "url": "https://design.gitlab.com/brand-design/motion"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Word Echo",
+     "sub": "A word that sticks",
+     "desc": "The hook word repeated in 7 rows: the middle one filled in brand color, the rest fading outlines, expanding from the center outward and folding away at the end."
+    },
+    "fr": {
+     "name": "Écho de mot",
+     "sub": "Un mot qui reste",
+     "desc": "Le mot du hook répété sur 7 lignes : celle du milieu remplie aux couleurs de la marque, les autres en contours qui s'estompent, du centre vers l'extérieur, puis tout se replie à la fin."
+    }
+   }
   },
   {
    "n": 91,
@@ -2101,7 +3181,19 @@
    },
    "bonus": false,
    "hand": "optional",
-   "fallback": "العنصر ثابت تحت يسار طول مدته"
+   "fallback": "العنصر ثابت تحت يسار طول مدته",
+   "i18n": {
+    "en": {
+     "name": "In Your Palm",
+     "sub": "Something small in your hand",
+     "desc": "An element (number, price, product) floats above your palm and sways when you raise your hand, and disappears when you lower it. Palm from tracking (Mac); without it, fixed bottom-left."
+    },
+    "fr": {
+     "name": "Dans votre paume",
+     "sub": "Un petit objet dans la main",
+     "desc": "Un élément (chiffre, prix, produit) flotte au-dessus de votre paume et oscille quand vous levez la main, puis disparaît quand vous la baissez. Paume par tracking (Mac) ; sinon, fixe en bas à gauche."
+    }
+   }
   },
   {
    "n": 92,
@@ -2124,7 +3216,19 @@
     "label": "Magic UI — Bento Grid",
     "url": "https://magicui.design/docs/components"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Bento Cut",
+     "sub": "Grid of tiles",
+     "desc": "The scene shrinks into a tile in a bento grid, the other tiles appear around it, and the camera glides to the next tile and grows until it fills the screen."
+    },
+    "fr": {
+     "name": "Coupe bento",
+     "sub": "Grille de cases",
+     "desc": "La scène rétrécit dans une case d'une grille bento, les autres cases apparaissent autour, et la caméra glisse vers la case suivante qui grandit jusqu'à remplir l'écran."
+    }
+   }
   },
   {
    "n": 93,
@@ -2149,7 +3253,19 @@
     "label": "SozAI — Iman Gadzhi",
     "url": "https://sozai.app/transcript/ai-edit-iman-gadzhi-videos/index.md"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Receipt Print",
+     "sub": "What it cost me",
+     "desc": "A receipt feeds out of a printer in jumps: items and prices, the total counts up and gets highlighted, then it tears off and tilts."
+    },
+    "fr": {
+     "name": "Ticket imprimé",
+     "sub": "Combien ça m'a coûté",
+     "desc": "Un ticket sort d'une imprimante par à-coups : les articles et les prix, le total défile et se surligne, puis il se déchire et s'incline."
+    }
+   }
   },
   {
    "n": 94,
@@ -2172,7 +3288,19 @@
     "label": "Magic UI — Typing Animation, Ripple",
     "url": "https://magicui.design/docs/components"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Search & Answer",
+     "sub": "\"I asked it...\"",
+     "desc": "A glass search bar: the question types out, suggestions drop down, the cursor clicks one, and the bar turns into the answer card."
+    },
+    "fr": {
+     "name": "Recherche et réponse",
+     "sub": "\"Je lui ai demandé...\"",
+     "desc": "Une barre de recherche en verre : la question s'écrit, des suggestions apparaissent, le curseur en clique une, et la barre devient la carte de réponse."
+    }
+   }
   },
   {
    "n": 95,
@@ -2195,7 +3323,19 @@
     "label": "SozAI — Iman Gadzhi",
     "url": "https://sozai.app/transcript/ai-edit-iman-gadzhi-videos/index.md"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Swish Settle",
+     "sub": "Card-style opening",
+     "desc": "The scene starts with the camera offset and tilted with motion blur, then settles quickly and calms. A scene opening without a transition."
+    },
+    "fr": {
+     "name": "Swish et stabilisation",
+     "sub": "Ouverture façon carte",
+     "desc": "La scène démarre avec la caméra décalée et inclinée avec flou de mouvement, puis se stabilise vite et se calme. Un début de scène sans transition."
+    }
+   }
   },
   {
    "n": 96,
@@ -2215,7 +3355,19 @@
     "label": "Remotion — warpPath()",
     "url": "https://www.remotion.dev/docs/paths/warp-path"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Wave",
+     "sub": "Line ripples then settles",
+     "desc": "The line enters with a wave crossing from right to left that calms until it settles sharp. For lines about the sea, calm and flow."
+    },
+    "fr": {
+     "name": "Vague",
+     "sub": "La ligne ondule puis se pose",
+     "desc": "La ligne entre avec une vague qui traverse de droite à gauche puis se calme jusqu'à ce qu'elle soit nette. Pour les phrases sur la mer, le calme et le flux."
+    }
+   }
   },
   {
    "n": 97,
@@ -2238,7 +3390,19 @@
     "label": "gl-transitions — doorway",
     "url": "https://github.com/gl-transitions/gl-transitions/tree/master/transitions"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Doorway",
+     "sub": "Big reveal",
+     "desc": "The scene splits into two doors opening in 3D perspective, light pours from the gap, and the new scene emerges."
+    },
+    "fr": {
+     "name": "Porte qui s'ouvre",
+     "sub": "Grande révélation",
+     "desc": "La scène se divise en deux portes qui s'ouvrent en perspective 3D, de la lumière passe par l'ouverture, et la nouvelle scène apparaît."
+    }
+   }
   },
   {
    "n": 98,
@@ -2261,7 +3425,19 @@
     "label": "Magic UI — Smooth Cursor, Pointer, Ripple",
     "url": "https://magicui.design/docs/components"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Clicking Cursor",
+     "sub": "\"Click here\"",
+     "desc": "A mouse arrow moves along a smooth path, the button grows on hover, and the click sends out a ripple. For app walkthroughs."
+    },
+    "fr": {
+     "name": "Curseur qui clique",
+     "sub": "\"Clique ici\"",
+     "desc": "Une flèche de souris suit un trajet fluide, le bouton grossit au survol, et le clic produit une onde. Pour expliquer les applis."
+    }
+   }
   },
   {
    "n": 99,
@@ -2282,7 +3458,19 @@
     "label": "gl-transitions — luma / luminance_melt",
     "url": "https://github.com/gl-transitions/gl-transitions/tree/master/transitions"
    },
-   "bonus": false
+   "bonus": false,
+   "i18n": {
+    "en": {
+     "name": "Luma Melt",
+     "sub": "Dreamy transition",
+     "desc": "The new scene appears first in the bright areas of the old one, so the light melts into the next shot."
+    },
+    "fr": {
+     "name": "Fondu lumineux",
+     "sub": "Transition onirique",
+     "desc": "La nouvelle scène apparaît d'abord dans les zones claires de l'ancienne, la lumière fond dans le plan suivant."
+    }
+   }
   },
   {
    "n": 100,
@@ -2307,7 +3495,19 @@
    },
    "bonus": false,
    "mask": "optional",
-   "fallback": "الصدى على الفيديو كامل (بلا قصّ)"
+   "fallback": "الصدى على الفيديو كامل (بلا قصّ)",
+   "i18n": {
+    "en": {
+     "name": "Motion Echo",
+     "sub": "Motion ghosts",
+     "desc": "Delayed ghost copies trail your movement at the moment of impact, tinted in brand color. Needs a frame from another time; better with person cutout (Mac)."
+    },
+    "fr": {
+     "name": "Écho de mouvement",
+     "sub": "Fantômes de mouvement",
+     "desc": "Des copies fantômes décalées suivent votre mouvement au moment de l'impact, teintées aux couleurs de la marque. Nécessite une image d'un autre instant ; mieux avec détourage de la personne (Mac)."
+    }
+   }
   }
  ],
  "families": {
@@ -2315,5 +3515,19 @@
   "punch": "طاقة — هوك قوي، أرقام، مقارنات",
   "onetake": "ونشوت — كاميرا مستمرة بلا قص",
   "editorial": "تحريري — شرح وقوائم ومعلومة"
+ },
+ "families_i18n": {
+  "en": {
+   "calm": "Calm: reflective lines and advice",
+   "punch": "Energy: strong hook, numbers, comparisons",
+   "onetake": "One-take: continuous camera, no cuts",
+   "editorial": "Editorial: explainers, lists and info"
+  },
+  "fr": {
+   "calm": "Calme : phrases de réflexion et conseils",
+   "punch": "Énergie : hook fort, chiffres, comparaisons",
+   "onetake": "Plan-séquence : caméra continue, sans coupe",
+   "editorial": "Éditorial : explications, listes et infos"
+  }
  }
 }

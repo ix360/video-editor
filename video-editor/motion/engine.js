@@ -726,6 +726,8 @@ function makeCtx(sc) {
     particles3D, particles2D, drawPath, pathInfo,
     // images
     images: S.images, img: name => S.images[name],
+    // video clips (frame sequences): project.clips {name:{dir,n,fps}} → ctx.drawClip(X, name, secondsIntoClip, {x,y,w,h,zoom,ox,oy,alpha,loop,pingpong}) · ctx.clip(name) = {n,fps,dur,frames}
+    clip: name => S.clips[name], drawClip,
     // motion-kit (2D) — globals X/BG/INK/ACC/FONT are set before every draw
     get MK() { return G.MK; },
     // moves.js — مكتبة حركات المعرض المرقّم: ctx.FX.<اسم>(ctx, t, o) (references/moves.md)
@@ -739,6 +741,22 @@ function makeCtx(sc) {
 /* ─────────────────────────── boot ─────────────────────────── */
 async function j(url) { const r = await fetch(url, { cache: 'no-store' }); if (!r.ok) throw new Error(url + ' → ' + r.status); return r.json(); }
 async function jOpt(url) { try { return await j(url); } catch (e) { return null; } }
+// ── video clips: a clip is a folder of numbered JPEG frames (assets/clips/<name>/0001.jpg …), made by `17_gen_scenes.py import <k> <file> --project <proj>` ──
+function drawClip(X, name, k, o) {
+  const c = S.clips && S.clips[name]; if (!c || !c.frames.length) return false; o = o || {};
+  const dur = c.n / c.fps; let t = Math.max(0, k * (o.speed || 1));
+  if (o.pingpong) { const m = t % (2 * dur); t = m > dur ? 2 * dur - m : m; } else if (o.loop === false) t = Math.min(t, dur - 1 / c.fps); else t = t % dur;
+  const im = c.frames[Math.max(0, Math.min(c.n - 1, Math.floor(t * c.fps)))]; if (!im || !im.width) return false;
+  const bx = o.x == null ? 0 : o.x, by = o.y == null ? 0 : o.y, bw = o.w == null ? S.W : o.w, bh = o.h == null ? S.H : o.h, z = o.zoom || 1;
+  const sc = Math.max(bw / im.width, bh / im.height) * z, w = im.width * sc, h = im.height * sc;
+  X.save(); if (o.alpha != null) X.globalAlpha *= o.alpha; X.beginPath(); X.rect(bx, by, bw, bh); X.clip();
+  X.drawImage(im, bx + (bw - w) / 2 + (o.ox || 0), by + (bh - h) / 2 + (o.oy || 0), w, h); X.restore(); return true;
+}
+async function loadClip(dir, n) {
+  const frames = new Array(n); let next = 0;
+  const worker = async () => { for (;;) { const i = next++; if (i >= n) return; frames[i] = await loadImage(PROJ + dir + '/' + String(i + 1).padStart(4, '0') + '.jpg'); } };
+  await Promise.all(Array.from({ length: 16 }, worker)); return frames;
+}
 function loadImage(url) { return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('image ' + url)); im.src = url; }); }
 
 async function boot() {
@@ -760,6 +778,8 @@ async function boot() {
     // images: project.images {name: 'assets/x.png'}; '@logo/claude_mark' → hook-assets logos
     S.images = {};
     await Promise.all(Object.entries(proj.images || {}).map(async ([k, v]) => { S.images[k] = await loadImage(v.startsWith('@logos/') ? '/@logos/' + v.slice(7) : PROJ + v); }));
+    S.clips = {};
+    for (const [k, v] of Object.entries(proj.clips || {})) S.clips[k] = { n: v.n, fps: v.fps || 30, dur: v.n / (v.fps || 30), frames: await loadClip(v.dir || ('assets/clips/' + k), v.n) };
     // scenes: import each file (scene files call MOTION.scene)
     const list = (tl.scenes && tl.scenes.length ? tl.scenes : proj.scenes) || [];
     if (proj.stage) await import(PROJ + proj.stage);   // MOTION.stage(...) — قبل المشاهد عشان ctx.win يشتغل بـsetup

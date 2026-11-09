@@ -38,13 +38,17 @@ A film made only of graphics reads as a slideshow. Before writing any scene, giv
 | Type | Use it for | Source |
 |---|---|---|
 | `graphic` | numbers, comparisons, steps, diagrams, the key word | the engine |
-| `image` | a concrete object, place or mood the code can't draw well | stock → Gemini → Flow (`references/stock.md`, `references/gen-scenes.md`, `references/google-flow.md`) |
+| `clip` | **Flow video** — a real moving shot (a place, an action, a mood). **The default for anything that is not a diagram.** | Google Flow in Chrome (`references/google-flow.md`) |
+| `image` | a still the code can't draw well — the fallback when a clip isn't worth the credits | stock → Gemini → Flow (`references/stock.md`, `references/gen-scenes.md`) |
+| `3d` | a `stage3D` scene (objects, devices, text planes with bloom) | the engine |
 | `screen` | a website or app | `references/web-app-explainer.md` |
 
-- Default mix: roughly half graphics, half photos — but **technical or medical comparisons stay graphics** (an AI photo of an implant or an eye diagram can be wrong); use photos for mood, place and people.
-- An image scene = the photo as a full-bleed background with a slow push (`ctx.img(name)`, declared in `project.json → images`, files in `<project>/assets/`), a dark gradient for legibility, and the engine drawing the words on top.
-- **Video clips cannot be placed inside a motion film yet** — use a still frame from the clip, or build that film as a montage/reel.
-- Generated images from Flow's free download are 768×1376 (the 2K upscale may cost credits). Keep photos behind overlays and motion; never show them tiny or pixel-peeped.
+- **The recipe for every motion film: motion graphics + at least one 3D scene + Flow video clips.** Default mix: about a third each. Flow clips are better than photos, always; 3D and kinetic graphics carry the facts.
+- **Exception: technical or medical comparisons stay graphics/3D** (an AI video of an implant or an eye diagram can be wrong). Use clips for mood, place, action and people, never as evidence.
+- **How many clips:** at least 2 per film, 3–6 s each, 9:16, muted. Reuse a clip across two scenes (different crop/zoom/speed) rather than ordering more. Tell the user once: "I'll generate N clips in your Flow — it uses your daily credits and takes a few minutes each."
+- **Putting a clip in the film:** `python3 scripts/17_gen_scenes.py <work> import <k> <downloaded.mp4> --project <project>` turns it into frames inside the project and registers `project.json → clips`. In a scene: `ctx.drawClip(X, "<k>", lt, { zoom, ox, oy, speed, loop, pingpong, x, y, w, h, alpha })` (`lt` = seconds into the clip; it loops by default). Put the move-bank camera move around it (`FX.pushIn`, `snapZoom`…) and a dark gradient under any text.
+- A photo scene = the image as a full-bleed background with a slow push (`ctx.img(name)`, `project.json → images`), used when a clip isn't worth the credits. Flow's free image download is 768×1376 (the 2K upscale may cost credits): keep photos behind overlays and motion.
+- Clips are frame sequences at 720 px wide, 30 fps: fine as backgrounds and full-bleed shots under overlays.
 - The owner's content rules (people, symbols, anything to avoid) live in `theme.json → "avoid"` — nothing is forbidden by default.
 
 ## One-takes and examples

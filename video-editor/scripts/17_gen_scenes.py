@@ -93,6 +93,29 @@ def import_asset(work, k, src):
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-q:v", "2", os.path.join(g, k + ".jpg")], check=True)
         print("✅ %s <- image" % k)
 
+def import_to_project(proj, k, src):
+    """Motion film: a Flow clip -> <proj>/assets/clips/<k>/0001.jpg… (720 px wide, 30 fps, no audio) + project.json "clips"; a photo -> <proj>/assets/<k>.jpg + "images".
+    The scenes then call ctx.drawClip(X, "<k>", secondsIntoClip, {...}) or ctx.img("<k>")."""
+    import glob, shutil
+    if not os.path.exists(src): sys.exit("❌ File not found: " + src)
+    pj_path = os.path.join(proj, "project.json")
+    if not os.path.exists(pj_path): sys.exit("❌ No project.json in " + proj)
+    pj = json.load(open(pj_path, encoding="utf-8"))
+    if src.lower().endswith((".mp4", ".mov", ".webm", ".mkv")):
+        d = os.path.join(proj, "assets", "clips", k); shutil.rmtree(d, ignore_errors=True); os.makedirs(d)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-an", "-vf", "fps=30,scale=720:-2", "-q:v", "3", os.path.join(d, "%04d.jpg")], check=True)
+        n = len(glob.glob(os.path.join(d, "*.jpg")))
+        if n < 2: sys.exit("❌ Could not read frames from " + src)
+        pj.setdefault("clips", {})[k] = {"dir": "assets/clips/" + k, "n": n, "fps": 30}
+        print("✅ clip %s -> %d frames (%.1f s) in %s" % (k, n, n / 30, d))
+    else:
+        os.makedirs(os.path.join(proj, "assets"), exist_ok=True)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-q:v", "2", os.path.join(proj, "assets", k + ".jpg")], check=True)
+        pj.setdefault("images", {})[k] = "assets/" + k + ".jpg"
+        print("✅ image %s -> assets/%s.jpg" % (k, k))
+    json.dump(pj, open(pj_path, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+
+
 def _post(url, key, body, timeout=120):
     r = urllib.request.Request(url, data=json.dumps(body).encode(), headers={"Authorization": "Key " + key, "Content-Type": "application/json"})
     return json.load(urllib.request.urlopen(r, timeout=timeout))
@@ -137,7 +160,9 @@ def main():
     if len(sys.argv) < 3: sys.exit(__doc__)
     work, cmd = sys.argv[1], sys.argv[2]
     if cmd == "import":
-        if len(sys.argv) < 5: sys.exit("usage: 17_gen_scenes.py <work> import <k> <file>")
+        if len(sys.argv) < 5: sys.exit("usage: 17_gen_scenes.py <work> import <k> <file> [--project <motion-project>]")
+        if "--project" in sys.argv:   # motion film: straight into the project (frames + project.json)
+            import_to_project(sys.argv[sys.argv.index("--project") + 1], sys.argv[3], sys.argv[4]); return
         import_asset(work, sys.argv[3], sys.argv[4])
         if os.path.exists(os.path.join(work, "gen.json")):   # reel/podcast flow: wire the asset into studio.json
             write_studio(work, load(work))
