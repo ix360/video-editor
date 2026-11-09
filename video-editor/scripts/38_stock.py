@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""بحث وتنزيل ستوك مجاني (فيديو وصور) — Pexels · Pixabay · Unsplash (صور).
+"""Free stock video and photos — Pexels · Pixabay · Unsplash (photos).
 
-  python3 38_stock.py keys                                    أي مفاتيح موجودة (بلا طباعتها)
+  python3 38_stock.py keys                                    which keys exist (never printed)
   python3 38_stock.py search <work> "coffee pouring" [--kind video|image] [--n 8] [--provider pexels|pixabay|unsplash]
                                                                [--orient portrait|landscape|square] [--minsec 3]
-        ← يطبع قائمة مرقّمة ويحفظ <work>/stock/results.json
-  python3 38_stock.py get <work> <رقم_من_القائمة> --k <اسم_الأصل>
-        ← ينزّل النسخة المناسبة لـ<work>/stock/ ويسجّل المصدر بـstock/credits.json
-        ← ويطبع سطر الاستيراد: 17_gen_scenes.py <work> import <k> <الملف> (يدخل الأصل بنفس نظام المشاهد المولّدة)
-  python3 38_stock.py credits <work>                           سطور الإسناد (اسم المصور + الرابط) للوصف/الكابشن
+        -> prints a numbered list and saves <work>/stock/results.json
+  python3 38_stock.py get <work> <number_from_list> --k <asset_name>
+        -> downloads the best-fit file to <work>/stock/ and records the source in stock/credits.json
+        -> prints the import line: 17_gen_scenes.py <work> import <k> <file> (it enters like any generated asset)
+  python3 38_stock.py credits <work>                           attribution lines (photographer + link) for the caption
 
-المفاتيح (مجانية، من موقع كل مزوّد) من البيئة أو ملف .env:
+Keys (free, from each provider's site) from the environment or a .env file:
   PEXELS_API_KEY · PIXABAY_API_KEY · UNSPLASH_ACCESS_KEY
-⛔ الرخص: Pexels وPixabay وUnsplash تسمح بالاستخدام التجاري بلا إسناد إلزامي، بس لا تعيد بيعها كما هي ولا تظهر ناس بسياق مسيء.
-   سجّل المصدر دايماً (credits.json). Unsplash تطلب إشعار «تنزيل» وهذا السكربت يرسله."""
+⛔ Licences: Pexels, Pixabay and Unsplash allow commercial use without mandatory credit, but don't resell the files as-is and
+   don't show people in a misleading or offensive context. Always record the source (credits.json).
+   Unsplash requires a "download" ping, which this script sends."""
 import sys, os, json, urllib.request, urllib.parse, urllib.error, subprocess
 
 UA = {"User-Agent": "video-editor-plugin/1.0"}
@@ -43,7 +44,7 @@ def item(provider, kind, id_, page, user, user_url, dur, w, h, url, thumb):
 
 
 def pick_video(files, want_portrait):
-    """أنسب ملف: عرض ≤ 1080 (أو الأقرب)، ويفضّل نفس الاتجاه"""
+    """Best file: width <= 1080 (or closest), preferring the same orientation"""
     files = [f for f in files if f.get("link") or f.get("url")]
     def score(f):
         w, h = f.get("width") or 0, f.get("height") or 0
@@ -123,30 +124,30 @@ def cmd_search(a):
         key = env(work, KEYS[p])
         if not key: skipped.append(p); continue
         try: res += SEARCH[p](key, q, kind, n, orient)
-        except urllib.error.HTTPError as e: print("⚠️ %s رفض الطلب (%s) — المفتاح؟ الحد؟" % (p, e.code), file=sys.stderr)
+        except urllib.error.HTTPError as e: print("⚠️ %s rejected the request (%s) — the key? the rate limit?" % (p, e.code), file=sys.stderr)
         except Exception as e: print("⚠️ %s: %s" % (p, str(e)[:120]), file=sys.stderr)
     if minsec: res = [r for r in res if not r.get("duration") or r["duration"] >= minsec]
     if not res:
-        miss = ("ما فيه مفاتيح لـ: " + ", ".join(KEYS[p] for p in skipped) + " — كلها مجانية (سجّل بموقع المزوّد وانسخ المفتاح).") if len(skipped) == len(provs) else "ما لقيت نتائج — جرّب وصف إنقليزي أبسط."
+        miss = ("No keys for: " + ", ".join(KEYS[p] for p in skipped) + " — all free (sign up on the provider's site and copy the key).") if len(skipped) == len(provs) else "No results — try a simpler English description."
         sys.exit("❌ " + miss)
     os.makedirs(os.path.join(work, "stock"), exist_ok=True)
     json.dump(res, open(os.path.join(work, "stock", "results.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     for i, r in enumerate(res, 1):
         print("%2d. [%s %s] %sx%s %s — %s · %s" % (i, r["provider"], r["kind"], r["w"], r["h"], ("%ss" % r["duration"]) if r["duration"] else "", r["user"], r["page"]))
-    if skipped: print("(ما دوّرت بـ: %s — ما فيه مفتاح)" % ", ".join(skipped))
+    if skipped: print("(skipped: %s — no key)" % ", ".join(skipped))
 
 
 def cmd_get(a):
     work, idx = a[0], int(a[1]); k = arg(a, "--k")
-    if not k: sys.exit("❌ --k <اسم_الأصل> مطلوب")
+    if not k: sys.exit("❌ --k <asset_name> is required")
     res = json.load(open(os.path.join(work, "stock", "results.json"), encoding="utf-8"))
-    if not 1 <= idx <= len(res): sys.exit("❌ الرقم خارج القائمة (1..%d)" % len(res))
+    if not 1 <= idx <= len(res): sys.exit("❌ Number outside the list (1..%d)" % len(res))
     r = res[idx - 1]
     ext = ".mp4" if r["kind"] == "video" else ".jpg"
     path = os.path.join(work, "stock", "%s_%s%s" % (r["provider"], r["id"], ext))
     if r["provider"] == "unsplash" and r.get("download_location"):
         key = env(work, KEYS["unsplash"])
-        try: getj(r["download_location"], {"Authorization": "Client-ID " + key})   # إشعار تنزيل مطلوب من شروط Unsplash
+        try: getj(r["download_location"], {"Authorization": "Client-ID " + key})   # download ping required by the Unsplash terms
         except Exception: pass
     req = urllib.request.Request(r["url"], headers=UA)
     with urllib.request.urlopen(req, timeout=120) as f, open(path, "wb") as o:
@@ -159,12 +160,12 @@ def cmd_get(a):
     cr = [c for c in cr if c["k"] != k] + [dict(k=k, file=path, provider=r["provider"], id=r["id"], user=r["user"], user_url=r["user_url"], page=r["page"])]
     json.dump(cr, open(cp, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("✅ %s (%.1f MB) ← %s" % (path, os.path.getsize(path) / 1e6, r["page"]))
-    print("استورده كأصل:  python3 scripts/17_gen_scenes.py %s import %s %s" % (work, k, path))
+    print("Import it as an asset:  python3 scripts/17_gen_scenes.py %s import %s %s" % (work, k, path))
 
 
 def cmd_credits(a):
     cp = os.path.join(a[0], "stock", "credits.json")
-    if not os.path.exists(cp): sys.exit("ما فيه ستوك منزّل")
+    if not os.path.exists(cp): sys.exit("No stock downloaded yet")
     for c in json.load(open(cp, encoding="utf-8")):
         print("%s — %s (%s) %s" % (c["k"], c["user"], c["provider"], c["page"]))
 

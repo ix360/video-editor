@@ -16,12 +16,12 @@
   ],
   "scenes": [ {"s":"w:منو","e":"w:الجواب+","k":"paper","mode":"card","draw":[{"op":"vs","at":"w:ولا","l":"ورقة","r":"الجوال"}]} ]
 }
-المزوّدين (الأرخص أول):
-  • صور: Google AI Studio (Gemini) لو فيه GEMINI_API_KEY ← يستخدم الحصة المجانية لو متوفرة، وإلا fal.ai (FAL_KEY).
-  • مقاطع: fal.ai (FAL_KEY) — أو جوجل فلو من المتصفح (references/google-flow.md) ثم `import` تحت.
-  • GEN_BACKEND=auto|gemini|fal يجبر الاختيار (الافتراضي auto).
-المفاتيح من البيئة أو ملف .env (بمجلد الشغل أو المشروع أو البيت).
-  python3 17_gen_scenes.py <work> import <k> <ملف.mp4|jpg|png>   يسجّل ملف جاهز (مثلاً من فلو) كأصل <k> ← يحوّله فريمات/صورة بمجلد gen/
+Providers (cheapest first):
+  • images: Google AI Studio (Gemini) if GEMINI_API_KEY exists (uses the free allowance if available), otherwise fal.ai (FAL_KEY).
+  • clips: fal.ai (FAL_KEY) — or Google Flow in the browser (references/google-flow.md) then `import` below.
+  • GEN_BACKEND=auto|gemini|fal|flow forces the choice (default auto). The saved assets mode (00_check.py set-assets) decides otherwise.
+Keys come from the environment or a .env file (work folder, project or home).
+  python3 17_gen_scenes.py <work> import <k> <file.mp4|jpg|png>   registers a ready file (e.g. from Flow or stock) as asset <k> -> frames/image in gen/
 الموديلات: صورة = fal-ai/nano-banana (≈0.04$) · مقطع = fal-ai/wan-25-preview/text-to-video 720p (≈0.05$/ث).
 ⛔ يولّد فقط اللي ما هو موجود بمجلد gen/ (ما يعيد ولا يدفع مرتين). لو فشل طلب مرة، يوقف ويقول السبب — ما يكرّر.
 """
@@ -55,15 +55,15 @@ GEMINI_AR = {"1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "2
 
 def _backend(work):
     b = (os.environ.get("GEN_BACKEND") or "").lower()
-    if not b and _setup.assets_mode() == "subscription": return "flow"     # اختار اشتراكه: جوجل فلو بالمتصفح، بلا API
+    if not b and _setup.assets_mode() == "subscription": return "flow"     # they chose their subscription: Google Flow in the browser, no API
     b = b or "auto"
     if b == "flow": return "flow"
     if b == "fal": return "fal"
     if b == "gemini": return "gemini" if _gkey(work) else None
-    return "gemini" if _gkey(work) else "fal"      # auto: جوجل أول (مجاني/أرخص)، وإلا fal
+    return "gemini" if _gkey(work) else "fal"      # auto: Google first (free/cheaper), otherwise fal
 
 def _gemini_image(key, prompt, ar, out_jpg):
-    """AI Studio: gemini-2.5-flash-image ← صورة بـ out_jpg (ffmpeg يحوّل PNG لـJPEG)"""
+    """AI Studio: gemini-2.5-flash-image -> an image at out_jpg (ffmpeg converts PNG to JPEG)"""
     import base64, tempfile
     body = {"contents": [{"parts": [{"text": prompt}]}],
             "generationConfig": {"responseModalities": ["IMAGE"], **({"imageConfig": {"aspectRatio": ar}} if ar in GEMINI_AR else {})}}
@@ -72,21 +72,21 @@ def _gemini_image(key, prompt, ar, out_jpg):
     res = json.load(urllib.request.urlopen(r, timeout=180))
     parts = ((res.get("candidates") or [{}])[0].get("content") or {}).get("parts") or []
     data = next((p.get("inlineData") or p.get("inline_data") for p in parts if p.get("inlineData") or p.get("inline_data")), None)
-    if not data: raise RuntimeError("جوجل ما رجّع صورة (الوصف انرفض؟): " + json.dumps(res)[:200])
+    if not data: raise RuntimeError("Google returned no image (was the prompt refused?): " + json.dumps(res)[:200])
     tmp = tempfile.mktemp(suffix=".img")
     open(tmp, "wb").write(base64.b64decode(data["data"]))
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", tmp, "-q:v", "2", out_jpg], check=True); os.remove(tmp)
 
 def import_asset(work, k, src):
-    """ملف جاهز (مقطع/صورة من فلو أو غيره) ← أصل <k> بمجلد gen/"""
-    if not os.path.exists(src): sys.exit("❌ ما لقيت الملف: " + src)
+    """A ready file (clip/image from Flow or elsewhere) -> asset <k> in gen/"""
+    if not os.path.exists(src): sys.exit("❌ File not found: " + src)
     g = os.path.join(work, "gen"); os.makedirs(g, exist_ok=True)
     if src.lower().endswith((".mp4", ".mov", ".webm", ".mkv")):
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-vf", "fps=30", "-q:v", "3", os.path.join(g, k + "_%04d.jpg")], check=True)
-        print("✅ %s ← مقطع → %d فريم" % (k, frames_of(work, k)))
+        print("✅ %s <- clip -> %d frames" % (k, frames_of(work, k)))
     else:
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", src, "-q:v", "2", os.path.join(g, k + ".jpg")], check=True)
-        print("✅ %s ← صورة" % k)
+        print("✅ %s <- image" % k)
 
 def _post(url, key, body, timeout=120):
     r = urllib.request.Request(url, data=json.dumps(body).encode(), headers={"Authorization": "Key " + key, "Content-Type": "application/json"})
@@ -139,11 +139,11 @@ def main():
     missing = [a for a in assets if not have(work, a)]
     be = _backend(work); gimg = 0.0 if be in ("gemini", "flow") else IMG_COST     # جوجل: حصة مجانية (تحقق من حدّك) — نحسبها صفر
     if cmd == "cost" and be == "flow":
-        print("الأصول: %d (ناقص %d) — وضع الاشتراك: جوجل فلو بالمتصفح، بلا تكلفة API (يصرف من رصيدك اليومي بفلو)" % (len(assets), len(missing)))
+        print("Assets: %d (missing %d) — subscription mode: Google Flow in the browser, no API cost (uses your daily Flow credits)" % (len(assets), len(missing)))
         for a in missing: print("  •", a["k"], a.get("kind", "image"))
         return
     if cmd == "cost":
-        print("الأصول: %d (ناقص %d) — التكلفة التقديرية للناقص ≈ %.2f دولار (صور عبر: %s)" % (len(assets), len(missing), cost(missing, gimg), be or "—"))
+        print("Assets: %d (missing %d) — estimated cost of the missing ones ≈ $%.2f (images via: %s)" % (len(assets), len(missing), cost(missing, gimg), be or "—"))
         for a in missing: print("  •", a["k"], a.get("kind", "image"), ("%ss" % a.get("dur", 5)) if a.get("kind") == "video" else "", "≈ %.2f$" % (VID_COST_PER_S * float(a.get("dur", 5)) if a.get("kind") == "video" else gimg))
         return
     if cmd == "status":
@@ -151,16 +151,16 @@ def main():
         write_studio(work, cfg); print("studio.json ← gen:", len(cfg.get("scenes", [])), "مشهد"); return
     if cmd != "fetch": sys.exit(__doc__)
     if be == "flow":
-        print("ℹ️ مصدر الأصول عندك = الاشتراك (جوجل فلو). ما أولّد بالـAPI — ولّد الناقص من المتصفح حسب references/google-flow.md، ثم لكل أصل:")
-        for a in missing: print("   python3 scripts/17_gen_scenes.py %s import %s <الملف المنزّل>   # %s" % (work, a["k"], a.get("kind", "image")))
-        print("   (تبي API بدله؟ python3 scripts/00_check.py set-assets api)")
+        print("ℹ️ Your assets source = subscription (Google Flow). Not generating by API — generate the missing ones in the browser per references/google-flow.md, then for each asset:")
+        for a in missing: print("   python3 scripts/17_gen_scenes.py %s import %s <downloaded file>   # %s" % (work, a["k"], a.get("kind", "image")))
+        print("   (Want the API instead? python3 scripts/00_check.py set-assets api)")
         sys.exit(0)
     key, gkey = _key(work), _gkey(work)
     need_fal = any(a.get("kind") == "video" or be != "gemini" for a in missing)
     if need_fal and not key:
-        sys.exit("❌ ما فيه FAL_KEY — للمقاطع (وللصور لو ما فيه GEMINI_API_KEY). بدائل مجانية: صور ← مفتاح AI Studio (GEMINI_API_KEY)، ومقاطع ← فلو من المتصفح (references/google-flow.md) ثم `import`.")
+        sys.exit("❌ No FAL_KEY — needed for clips (and images if there is no GEMINI_API_KEY). Free alternatives: images -> an AI Studio key (GEMINI_API_KEY), clips -> Flow in the browser (references/google-flow.md) then `import`.")
     g = os.path.join(work, "gen"); os.makedirs(g, exist_ok=True)
-    print("🎨 أولّد %d أصل (≈ %.2f دولار) — صور عبر %s" % (len(missing), cost(missing, gimg), be))
+    print("🎨 Generating %d assets (≈ $%.2f) — images via %s" % (len(missing), cost(missing, gimg), be))
     for a in missing:
         k, kind, prompt = a["k"], a.get("kind", "image"), a["prompt"].strip() + ", " + NEG
         t0 = time.time()
@@ -180,7 +180,7 @@ def main():
                 print("  ✅ %s مقطع %s ث → %d فريم (%.0f ث)" % (k, dur, frames_of(work, k), time.time() - t0))
             elif be == "gemini":
                 _gemini_image(gkey, prompt, a.get("ar", "3:4"), os.path.join(g, k + ".jpg"))
-                print("  ✅ %s صورة (جوجل، %.0f ث)" % (k, time.time() - t0))
+                print("  ✅ %s image (Google, %.0f s)" % (k, time.time() - t0))
             else:
                 res = _post("https://fal.run/" + IMG_MODEL, key, {"prompt": prompt, "num_images": 1, "aspect_ratio": a.get("ar", "3:4"), "output_format": "jpeg"}, 120)
                 _dl(res["images"][0]["url"], os.path.join(g, k + ".jpg"))

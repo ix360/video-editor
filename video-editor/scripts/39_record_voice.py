@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""تسجيل صوتك من المتصفح (عينة استنساخ) — صفحة محلية، والصوت ما يطلع من جهازك إلا لو طلبت --upload.
+"""Record your voice in the browser (a clone sample) — a local page; audio leaves your machine only if you run --upload.
 
   python3 39_record_voice.py record [--name my-voice] [--out DIR] [--no-open] [--timeout 600]
-        يفتح صفحة فيها «سجّل / وقّف»، ويحفظ <DIR>/<name>.wav (44.1k أحادي).  الافتراضي DIR=~/.video-ad-editor/voice
-        سطر «URL: …» ينطبع أول شي — لو المتصفح ما انفتح عطه للمستخدم.   الرمز: 0 انحفظ · 2 خلص الوقت · 1 خطأ
-  python3 39_record_voice.py upload <ملف.wav|mp3> [--name my-voice]
-        يرفع العينة لـElevenLabs (استنساخ فوري) ويطبع voice_id.  يحتاج ELEVENLABS_API_KEY (بيئة أو .env) وخطة تدعم الاستنساخ.
-  python3 39_record_voice.py script            يطبع نص قراءة مقترح (يغطي أصوات ونبرات مختلفة)
+        opens a page with "Record / Stop" and saves <DIR>/<name>.wav (44.1k mono).  Default DIR=~/.video-ad-editor/voice
+        The line "URL: …" is printed first — give it to the user if the browser didn't open.   Exit: 0 saved · 2 timed out · 1 error
+  python3 39_record_voice.py upload <file.wav|mp3> [--name my-voice]
+        uploads the sample to ElevenLabs (instant clone) and prints the voice_id.  Needs ELEVENLABS_API_KEY (env or .env) and a plan with cloning.
+  python3 39_record_voice.py script            prints a suggested reading text (covers varied sounds and tones)
 
-نصيحة العينة: دقيقة إلى 3 دقايق، غرفة هادية، مايك قريب، نبرة طبيعية بلا موسيقى. أطول وأنظف = أقرب للأصل.
-بلا مكتبات خارجية — بايثون القياسية + ffmpeg."""
+Sample tip: one to three minutes, a quiet room, the mic close, a natural tone, no music. Longer and cleaner = closer to the original.
+No external libraries — Python standard library + ffmpeg."""
 import sys, os, json, time, threading, subprocess, urllib.request, urllib.error, uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -89,16 +89,16 @@ def record(a):
         try:
             import webbrowser; webbrowser.open(url)
         except Exception: pass
-    if not done.wait(timeout): print("⏱️ خلص الوقت بلا تسجيل", file=sys.stderr); return 2
+    if not done.wait(timeout): print("⏱️ Timed out with no recording", file=sys.stderr); return 2
     dur = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", result["path"]], capture_output=True, text=True).stdout.strip()
-    print("✅ %s (%.0f ث)" % (result["path"], float(dur or 0)))
+    print("✅ %s (%.0f s)" % (result["path"], float(dur or 0)))
     return 0
 
 
 def upload(a):
     if not a: sys.exit("usage: 39_record_voice.py upload <file> [--name N]")
     f = a[0]; name = arg(a, "--name", "My voice"); key = env("ELEVENLABS_API_KEY")
-    if not key: sys.exit("❌ ما فيه ELEVENLABS_API_KEY (بيئة أو .env). بديل: ارفع الملف بنفسك من elevenlabs.io ← Voices ← Add voice ← Instant voice clone.")
+    if not key: sys.exit("❌ No ELEVENLABS_API_KEY (env or .env). Alternative: upload the file yourself at elevenlabs.io → Voices → Add voice → Instant voice clone.")
     b = uuid.uuid4().hex; data = open(f, "rb").read(); parts = []
     for k, v in (("name", name), ("remove_background_noise", "true")):
         parts.append(('--%s\r\nContent-Disposition: form-data; name="%s"\r\n\r\n%s\r\n' % (b, k, v)).encode())
@@ -106,7 +106,7 @@ def upload(a):
     parts.append(("--%s--\r\n" % b).encode())
     r = urllib.request.Request("https://api.elevenlabs.io/v1/voices/add", data=b"".join(parts), headers={"xi-api-key": key, "Content-Type": "multipart/form-data; boundary=" + b})
     try: res = json.load(urllib.request.urlopen(r, timeout=180))
-    except urllib.error.HTTPError as e: sys.exit("❌ %s %s\n   (غالباً: الخطة ما تدعم الاستنساخ الفوري، أو العينة قصيرة/مو نظيفة)" % (e.code, e.read()[:300].decode("utf-8", "ignore")))
+    except urllib.error.HTTPError as e: sys.exit("❌ %s %s\n   (usually: the plan has no instant cloning, or the sample is too short / not clean)" % (e.code, e.read()[:300].decode("utf-8", "ignore")))
     print("✅ voice_id:", res.get("voice_id"))
 
 

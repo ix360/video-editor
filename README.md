@@ -1,227 +1,208 @@
-<div dir="rtl">
+# 🎬 Video Editor — a video-editing plugin for Claude Code
 
-# 🎬 Video Editor — بلقن تحرير الفيديو لـ Claude Code
+**Talk to the camera… and get a vertical reel ready to post.**
+It removes the silences, writes captions that follow your mouth, and draws motion graphics in your own colors — no editing software — from your phone or your computer.
 
-<p align="center"><b>تتكلم للكاميرا… وتستلم ريل عمودي جاهز للنشر.</b><br>
-يشيل السكتات، يكتب كابشن عربي يمشي مع فمك، ويرسم موشن قرافيكس بألوانك — بلا برنامج مونتاج — من الجوال أو الكمبيوتر.</p>
+Free · works from the **phone** and the computer · captions and transcription in **10 languages** (English, العربية, Français, Español, Português, Deutsch, Türkçe, اردو, فارسی, Bahasa Indonesia)
 
-<p align="center"><a href="#start"><img src="_pkg/btn-start.png" alt="ابدأ هنا — ثبّته بدقيقة" width="420"></a><br>
-<sub>مجاني · يشتغل من <b>الجوال</b> والكمبيوتر · ما تحتاج تيرمنال ولا تحمّل ملفات</sub></p>
-
-<br>
-
-## 🌐 تختار لغتك — Choose your language
-
-أول مرة يسألك كلود **أي لغة تبي** ويحفظها: العربية · English · Français · Español · Português · Deutsch · Türkçe · اردو · فارسی · Bahasa Indonesia.
-كلامه معك، **تفريغ الصوت، والكابشن** كلها بلغتك. تبي تغيّرها؟ اكتب «غيّر اللغة» / "change language".
-التفاصيل: [`language.md`](video-editor/references/language.md).
+[**Start here — install in a minute ↓**](#start)
 
 ---
 
-## 🆕 الجديد — 6.3
+## 🌐 Pick your language
 
-<table width="100%"><tr>
-<td width="42%" align="center" valign="top"><img src="_pkg/machine.gif" width="100%" alt="الاستشوار والمايكرويف يرتسمون بالحبر ثم يشتغلون، وتحتهم خطوات مرقّمة"></td>
-<td width="58%" valign="top">
+The first time, Claude asks which language you want and remembers it. Its replies, the voice **transcription** and the **captions** all follow your choice. To change it, say "change language". English is the default.
+Details: [`language.md`](video-editor/references/language.md).
 
-### ⚙️ «اشرح لي شلون يشتغل …» — أي جهاز يصير آلة ترتسم وتشتغل
+---
 
-اكتب لكلود جملة وحدة:
+## 🆕 What's new
 
-**«اشرح لي شلون يشتغل المكيف»**
+### Free stock · voiceover · images and video from Google
+- **Free stock** (`38_stock.py`): search and download from Pexels, Pixabay and Unsplash, with the credit saved → [`stock.md`](video-editor/references/stock.md).
+- **The `voiceover-video` skill:** checks that ElevenLabs is connected (and shows you the Connect button if not), lists your voices, and generates the voiceover — in your cloned voice, or from a sample you record in the browser → [`voiceover.md`](video-editor/references/voiceover.md).
+- **Images from AI Studio** with a `GEMINI_API_KEY` (cheaper than fal) + **Google Flow in the browser** for video clips with no API cost (experimental) → [`google-flow.md`](video-editor/references/google-flow.md).
+- **You choose once:** (A) the Google API (an AI Studio key) or (B) your own Google Flow subscription through Chrome. A **simple check** then verifies ElevenLabs, the Chrome extension and Flow access, and if Flow won't open it brings Chrome forward so you can sign in → [`setup-check.md`](video-editor/references/setup-check.md).
+- Always cheapest first: stock → Gemini → Flow → fal.
 
-- يدوّر المعلومة من **مصدر موثوق** أول، وكل جملة على الشاشة لها مصدر
-- يرسم الجهاز **مقصوص** على لوح، خط خط بالحبر
-- بعدها **يشغّله** قدامك: المروحة تدور، السلك يحمر، الموجات ترتد…
-- وتحته **2–3 خطوات** بالعامية
+### 6.3 — "Explain how X works": any device becomes a machine that draws itself and runs
+<p align="center"><img src="_pkg/machine.gif" width="70%" alt="A hair dryer and a microwave drawn in ink, then running, with numbered steps underneath"></p>
 
-تنفع للمعلمين وشرح الدروس وأي «شلون يصير …؟» — المكيف، الثلاجة، السيارة، القلب…
+Tell Claude one sentence: **"Explain how an air conditioner works."**
+- It finds the facts from a **reliable source** first; every sentence on screen has a source.
+- It draws the device **cut away** on a board, line by line in ink.
+- Then it **runs it** in front of you: the fan spins, the wire glows red, the waves bounce…
+- With **2–3 steps** underneath.
 
-</td></tr></table>
+Great for teachers and any "how does … work?" — an AC, a fridge, a car, a heart…
 
-<details><summary><b>وقبلها بـ6.2</b> — إطار ثابت · جدار شرائح 3D · شعار 3D بريل الكلام · كابشن «قطع»</summary>
+<details><summary><b>Earlier in 6.2</b> — fixed frame · 3D slide wall · 3D logo on a talking reel · "chunk" captions</summary>
 
-<p align="center"><img src="_pkg/stage-wall.jpg" width="100%" alt="فيلم موشن بإطار ثابت: جدار شرائح 3D"></p>
+<p align="center"><img src="_pkg/stage-wall.jpg" width="100%" alt="A motion film with a fixed frame: a 3D slide wall"></p>
 
-| الجديد | اكتب |
+| New | Say |
 |---|---|
-| فيلم موشن بعنوان ثابت فوق والمحتوى يتبدل تحته (يبين لقطة وحدة) | «سوّه بإطار ثابت» |
-| الكاميرا تطير فوق كروت 3D وكرت ينزل يصير أول مشهد | «أبي جدار شرائح» |
-| شعار بسماكة ولمعة وظل بريل الكلام | «حط الشعار ثري دي» |
-| كابشن قطع لين 4 كلمات والكلمة المنطوقة ملوّنة | «الكابشن قطع» |
+| A motion film with a fixed title on top while the content changes below (it looks like one shot) | "make it with a fixed frame" |
+| The camera flies over 3D cards and one card drops to become the first scene | "I want a slide wall" |
+| A logo with thickness, shine and shadow on a talking reel | "make the logo 3D" |
+| Captions in short chunks up to 4 words, with the spoken word colored | "chunk captions" |
 
-هذي **بطلبك بس** — مو بكل فيديو.
+These happen **only when you ask** — not in every video.
 </details>
-
-<br>
 
 ---
 
 <a id="start"></a>
 
-## 🚀 ابدأ هنا — 3 خطوات
+## 🚀 Start here — 3 steps
 
-**3 خطوات:** ① ثبّت البلقن مرة وحدة من claude.ai ② افتح محادثة جديدة (Opus 5.5 · Max) ③ أرفق الفيديو واكتب «منتج هذا المقطع».
+**① Install the plugin once from claude.ai · ② open a new chat (Opus 5.5 · Max) · ③ attach a video and write one sentence, e.g. "edit this clip".**
 
-<p align="center"><b>انسخ اسم المتجر من هني</b> (زر النسخ على يمين المربع) والصقه بـ<b>Add marketplace</b>:</p>
-
-<div dir="ltr">
+Copy the marketplace name (the copy button on the right of the box) and paste it into **Add marketplace**:
 
 ```
 ix360/video-editor
 ```
 
-</div>
+### 1️⃣ Install the plugin — once only (a minute)
 
-### 1️⃣ ثبّت البلقن — مرة وحدة بس (دقيقة)
+**The same for everyone** — phone, computer, the desktop app. No terminal and no file download. You install it once from **claude.ai** and it shows up on the web, desktop and phone, and updates itself.
 
-**نفس الطريقة للكل** — جوال، كمبيوتر، تطبيق الديسكتوب. ما تحتاج تيرمنال ولا تحمّل ملف. تثبّته مرة من **claude.ai** ويطلع لك بالويب والديسكتوب والجوال، ويتحدّث بروحه.
+**1.** Open **claude.ai** → click your name at the bottom → **Settings**
 
-**1.** افتح **claude.ai** ← اضغط اسمك تحت ← **Settings**
+<p align="center"><img src="_pkg/step-1-settings.jpg" alt="Settings from the menu under your name" width="360"></p>
 
-<p align="center"><img src="_pkg/step-1-settings.jpg" alt="Settings من القائمة تحت اسمك" width="360"></p>
+**2.** Under **Customize** → **Plugins** → **Add** → **Add marketplace**
 
-**2.** تحت **Customize** ← **Plugins** ← **Add** ← **Add marketplace**
+<p align="center"><img src="_pkg/step-2-plugins.jpg" alt="Plugins under Customize" width="360"></p>
 
-<p align="center"><img src="_pkg/step-2-plugins.jpg" alt="Plugins تحت Customize" width="360"></p>
+<p align="center"><img src="_pkg/step-3-add-marketplace.jpg" alt="Add, then Add marketplace" width="360"></p>
 
-<p align="center"><img src="_pkg/step-3-add-marketplace.jpg" alt="Add ثم Add marketplace" width="360"></p>
-
-**3.** الصق هذا وأضفه:
-
-<div dir="ltr">
+**3.** Paste this and add it:
 
 ```
 ix360/video-editor
 ```
 
-</div>
+**4.** **video-editor** appears — add it.
 
-**4.** يطلع لك **video-editor** — أضفه.
+**5.** Then **Add** → **Manage marketplaces** → **⋮** → turn on **Sync automatically** (so every update reaches you by itself).
 
-**5.** بعدين **Add** ← **Manage marketplaces** ← **⋮** ← شغّل **Sync automatically** (حتى كل تحديث يوصلك بروحه).
+<p align="center"><img src="_pkg/step-5-manage.jpg" alt="Add, then Manage marketplaces" width="360"></p>
 
-<p align="center"><img src="_pkg/step-5-manage.jpg" alt="Add ثم Manage marketplaces" width="360"></p>
+<p align="center"><img src="_pkg/step-6-sync.jpg" alt="The three dots, then Sync automatically" width="360"></p>
 
-<p align="center"><img src="_pkg/step-6-sync.jpg" alt="النقاط الثلاث ثم Sync automatically" width="360"></p>
+> ✅ **Check it was added:** under **Plugins** you see **video-editor** in the list. Not there? Repeat step 3.
 
-> ✅ **تأكد إنه انضاف:** بـ**Plugins** تشوف **video-editor** بالقائمة. ما طلع؟ أعد الخطوة 3.
+### 2️⃣ Open a new chat
 
-### 2️⃣ افتح محادثة جديدة
+From the model menu next to the send button → **Opus 5.5** → **Effort** → **Max** (strongest result).
 
-من قائمة الموديل جنب زر الإرسال ← **Opus 5.5** ← **Effort** ← **Max** (أقوى نتيجة).
+### 3️⃣ Attach the video and write a sentence
 
-### 3️⃣ أرفق الفيديو واكتب جملة
+For example: **"Edit this clip"** or **"Turn the video into a reel"**. The first time, Claude asks your language and shows a [taste page](#taste) (your colors, font and moves), then produces the reel. Want a change? Write it in the same chat.
 
-مثلاً: **«منتج هذا المقطع»** أو **«حوّل الفيديو لريل»**. أول مرة تطلع لك [صفحة التعارف](#taste) (ألوانك وخطك وحركاتك)، وبعدها يطلّع لك الريل. تبي تعديل؟ اكتبه بنفس المحادثة.
+### 📱 From the phone — no laptop
 
-<a id="phone"></a>
+<p align="center"><img src="_pkg/mobile-banner.jpg" alt="Editing from the phone with no laptop: attach the video in the Claude app, lock the phone, and the reel waits in the same chat" width="100%"></p>
 
-### 📱 من الجوال — بدون لابتوب
+The same three steps from the **Claude phone app**: attach the video, write your request, and **lock the phone** — the edit runs in Claude's cloud and the reel waits in the same chat.
 
-<p align="center"><img src="_pkg/mobile-banner.jpg" alt="مونتاج من الجوال بدون لابتوب: أرفق الفيديو بتطبيق كلود، اقفل الجوال، والريل ينتظرك بنفس المحادثة" width="100%"></p>
+> ⏱️ The cloud is slower than a computer (cutting a person out of the background ≈ 18 minutes for a 40-second video), so let it run and come back. The attachment size limit depends on the app.
 
-نفس الخطوات الثلاث من **تطبيق كلود بالجوال**: أرفق الفيديو، اكتب طلبك، و**اقفل الجوال** — المونتاج يشتغل بسحابة كلود والريل ينتظرك بنفس المحادثة.
-
-> ⏱️ السحابة أبطأ من الكمبيوتر (قص الشخص عن الخلفية ≈ 18 دقيقة لفيديو 40 ثانية)، فخلّه يشتغل وارجع له. حد حجم الفيديو المرفق حسب التطبيق.
-
-> 🧑‍💻 **تستخدم الطرفية (تيرمنال) أو تبي تحمّل الملف بيدك؟** [طرق التثبيت الثانية تحت](#install).
-
-<br>
+> 🧑‍💻 **Use the terminal, or want to download the file yourself?** [Other install methods below](#install).
 
 ---
 
-## 🗣️ شنو تقدر تسوي — كل شي بجملة
+## 🗣️ What you can do — everything with one sentence
 
-ما تحتاج أوامر ولا إعدادات. اكتب لكلود **الجملة اللي تحت كل وحدة**، وهو يكمّل.
+No commands and no settings. Write Claude **the sentence under each item**, and it does the rest.
 
 <table width="100%"><tr>
-<td width="20%" align="center" valign="top"><img src="_pkg/talk.gif" width="100%"><br><b>🎙️ ريل من فيديو تتكلم فيه</b><br><sub>يشيل السكتات · كابشن يمشي مع فمك · موشن من معنى كلامك</sub><br><b>«منتج هذا المقطع»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/machine.gif" width="100%"><br><b>⚙️ شرح أي جهاز كآلة</b> 🆕<br><sub>يرتسم بالحبر ويشتغل · الحقائق من مصدر</sub><br><b>«اشرح لي شلون يشتغل المكيف»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/motion.gif" width="100%"><br><b>✨ فيلم موشن من نص</b><br><sub>3D بـ60 فريم · بلا تصوير ولا شخص</sub><br><b>«سو فيديو موشن من هالنص»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/add-marketplace.gif" width="100%"><br><b>🎥 ونشوت — لقطة وحدة بلا قص</b><br><sub>زوم إن لين الزر يبلع الشاشة… وزوم آوت يكشف</sub><br><b>«سو فيديو ونشوت عن …»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/montage.gif" width="100%"><br><b>🎞️ مونتاج مقاطع بلا كلام</b><br><sub>مجلد مقاطع ← ريل على الإيقاع</sub><br><b>«مونتاج من هالمقاطع»</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/talk.gif" width="100%"><br><b>🎙️ A reel from a talking video</b><br><sub>removes silences · captions follow your mouth · motion from the meaning of your speech</sub><br><b>"Edit this clip"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/machine.gif" width="100%"><br><b>⚙️ Explain any device as a machine</b> 🆕<br><sub>drawn in ink, then running · facts from a source</sub><br><b>"Explain how an AC works"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/motion.gif" width="100%"><br><b>✨ A motion film from text</b><br><sub>3D at 60 fps · no filming, no person</sub><br><b>"Make a motion video from this text"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/add-marketplace.gif" width="100%"><br><b>🎥 One-take — a single shot, no cuts</b><br><sub>zoom in until the button swallows the screen… then zoom out to reveal</sub><br><b>"Make a one-take video about …"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/montage.gif" width="100%"><br><b>🎞️ Montage of clips with no speech</b><br><sub>a folder of clips → a reel on the beat</sub><br><b>"Make a montage from these clips"</b></td>
 </tr></table>
 
 <table width="100%"><tr>
-<td width="20%" align="center" valign="top"><img src="_pkg/f_web.png" width="100%"><br><b>📱 شرح موقع أو تطبيق</b><br><sub>لقطات حقيقية داخل آيفون أو ماك بوك 3D</sub><br><b>«اشرح هالموقع بفيديو: الرابط»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/f_wide.png" width="100%"><br><b>🎧 بودكاست ومقابلات</b><br><sub>كاميرتين ← ريلات بهوك مكتوب · الحلقة كاملة 16:9</sub><br><b>«سو ريلات من الحلقة»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/cover_reel.jpg" width="100%"><br><b>🖼️ كفر وثمبنيل ينقرون بالجوال</b><br><sub>كفر الريل أول فريم · ثمبنيل يوتيوب بثلاث أفكار</sub><br><b>«سو كفر» · «ثمبنيل يوتيوب»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/timeline.jpg" width="100%"><br><b>🎚️ تعدّل بإيدك</b><br><sub>تايملاين من الكمبيوتر أو الجوال · وكل تعديل ما يصرف توكنز</sub><br><b>«افتح الاستوديو»</b></td>
-<td width="20%" align="center" valign="top"><img src="_pkg/capcut-timeline.jpg" width="100%"><br><b>✂️ مشروع كاب كت</b><br><sub>كل شي قطعة تعدّلها: كابشن، فويس، مؤثرات، موشن</sub><br><b>«سوّه بكاب كت»</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/f_web.png" width="100%"><br><b>📱 Explain a website or app</b><br><sub>real screenshots inside a 3D iPhone or MacBook</sub><br><b>"Explain this website in a video: link"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/f_wide.png" width="100%"><br><b>🎧 Podcasts and interviews</b><br><sub>two cameras → reels with a written hook · the full 16:9 episode</sub><br><b>"Make reels from the episode"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/cover_reel.jpg" width="100%"><br><b>🖼️ Covers and thumbnails that read on a phone</b><br><sub>the reel cover is the first frame · a YouTube thumbnail with three ideas</sub><br><b>"Make a cover" · "YouTube thumbnail"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/timeline.jpg" width="100%"><br><b>🎚️ Edit by hand</b><br><sub>a timeline from the computer or phone · edits cost no tokens</sub><br><b>"Open the studio"</b></td>
+<td width="20%" align="center" valign="top"><img src="_pkg/capcut-timeline.jpg" width="100%"><br><b>✂️ A CapCut project</b><br><sub>everything is a piece you can edit: captions, voice, effects, motion</sub><br><b>"Make it in CapCut"</b></td>
 </tr></table>
 
-<details><summary><b>كاب كت — شلون يمشي</b></summary>
+<details><summary><b>CapCut — how it works</b></summary>
 
-**شلون يمشي (3 خطوات):**
-1. افتح كاب كت، سوّ **مشروع جديد فاضي** وسمّه، وبعدين **سكّر كاب كت كامل** (Cmd+Q) — لو مفتوح يكتب فوق الشغل.
-2. قل لكلود **«سوّه بكاب كت»** وعطه الفيديو. يعرض عليك لقطات الموشن قبل ما يكمّل.
-3. يقول لك «خلصت» ← افتح كاب كت وادخل المشروع، كل شي فيه تقدر تعدّله.
+**How it works (3 steps):**
+1. Open CapCut, create an **empty new project** and name it, then **quit CapCut completely** (Cmd+Q) — if it's open it overwrites the work.
+2. Tell Claude **"make it in CapCut"** and give it the video. It shows you the motion shots before it continues.
+3. It says "done" → open CapCut and enter the project; everything in it is editable.
 
-> يشتغل من **كلود على الكمبيوتر** (تطبيق الديسكتوب أو Claude Code) لأنه يكتب ملفات المشروع بجهازك — مو من الجوال. وتحتاج **كاب كت ديسكتوب** (ماك أو ويندوز)، مو تطبيق الجوال.
+> It works from **Claude on the computer** (the desktop app or Claude Code) because it writes the project files on your machine — not from the phone. And you need **CapCut Desktop** (Mac or Windows), not the phone app.
 
-<sub>كاب كت علامة تجارية لشركة بايت دانس — البلقن ما له علاقة رسمية فيها.</sub>
+<sub>CapCut is a trademark of ByteDance — this plugin has no official relationship with it.</sub>
 </details>
 
-### وجمل ثانية تنفعك
+### More sentences that help
 
-| تبي | اكتب |
+| You want | Say |
 |---|---|
-| تشيل جمل من الفيديو | «شيل 5 و8» (بعد ما يطبع لك كلامك مرقّم) · «رجّعها» |
-| ثيم من صور تعجبك | أرسل الصور + «أبي ستايل جذي» |
-| تشوف الحركات وتختار | «ورني بنك الحركات» |
-| تغيّر ألوانك وخطك | «غيّر إعداداتي» |
-| تستخدم منصة توليد عندك (fal · Higgsfield · ElevenLabs) | «استخدم fal للبي-رول» |
+| Remove sentences from the video | "Remove 5 and 8" (after it prints your speech numbered) · "Bring them back" |
+| A theme from images you like | Send the images + "I want a style like this" |
+| See the moves and choose | "Show me the move bank" |
+| Change your colors and font | "Change my settings" |
+| Use a generation platform you have (fal · Higgsfield · ElevenLabs) | "Use fal for the b-roll" |
+| A voiceover in your own voice | "Make a voiceover with my voice" |
+| Free stock footage | "Find stock footage of coffee being poured" |
 
 <a id="taste"></a>
 
-## 🧭 يتعرّف على ذوقك — أول مرة بس
+## 🧭 It learns your taste — first time only
 <p align="center"><img src="_pkg/onboarding.jpg" width="80%"></p>
 
-صفحة صغيرة تختار فيها ألوانك، الخط، ستايل الكابشن، الإيقاع، والصوت — أو تكتب اللي تبيه وتخطّاها. كل فيديو بعدها يمشي على ذوقك.
+A small page where you pick your colors, font, caption style, pace and voice — or write what you want and skip it. Every video after that follows your taste.
 
-## 🎨 ما يكرر نفسه — 100 حركة و17 ستايل
+## 🎨 It doesn't repeat itself — 100 moves and 17 styles
 
-<p align="center"><img src="_pkg/moves.gif" width="49%" alt="حركات من البنك"> <img src="_pkg/styles-17.gif" width="49%" alt="17 ستايل"></p>
+<p align="center"><img src="_pkg/moves.gif" width="49%" alt="Moves from the bank"> <img src="_pkg/styles-17.gif" width="49%" alt="17 styles"></p>
 
-قبل كل فيديو يختار له **لوحة**: 3 حركات أساسية يدور حولها الفيديو، وستايل للفيديو كله (ورق مقصوص، وثائقي، كينوت، شرح صحفي…). ويحفظ سجل، فالفيديو الجاي يطلع غير. البنك أساس مو حد — أقوى اللحظات يخترعها من جملتك.
+Before each video it picks a **palette**: 3 core moves the video revolves around, and one style for the whole video (paper cutout, documentary, knockout, news explainer…). It keeps a log, so the next video comes out different. The bank is a base, not a limit — the strongest moments are invented from your sentence.
 
-<details><summary><b>الـ100 كلها</b> — كل مربع رقم الحركة بالبنك، والجديدة (62–100) بإطار ورقمها أسود</summary>
-<p align="center"><img src="_pkg/moves-all-100.gif" width="100%" alt="بنك الحركات: 100 حركة مرقّمة من 1 لين 100"></p>
+<details><summary><b>All 100</b> — each tile is the move's number in the bank; the new ones (62–100) have a frame and a black number</summary>
+<p align="center"><img src="_pkg/moves-all-100.gif" width="100%" alt="The move bank: 100 numbered moves from 1 to 100"></p>
 </details>
-
-<br>
 
 ---
 
-## 📚 تفاصيل (اضغط تفتح)
+## 📚 Details (click to open)
 
-<details><summary><b>🧰 طرق تثبيت ثانية — للمتقدمين</b> (الطرفية · ملف البلقن)</summary>
+<details><summary><b>🧰 Other install methods — for advanced users</b> (terminal · plugin file)</summary>
 
 <a id="install"></a>
 
-> معظم الناس يكفيهم [ابدأ هنا](#start). هذي لو تستخدم الطرفية أو تبي ملف البلقن بيدك.
+> Most people are fine with [Start here](#start). These are for the terminal, or if you want the plugin file by hand.
 
-**البلقن = 6 سكلات (آخرها التعليق الصوتي) بحزمة وحدة** (ريل · موشن · بودكاست · مونتاج · كفر وثمبنيل).
+**The plugin = 6 skills in one package** (reel · motion · podcast · montage · cover and thumbnail · voiceover).
 
-> ☝️ **اختر طريقة وحدة بس** — لو ثبّتّه بأكثر من طريقة يصير عندك نسخ مكررة من نفس السكلات. عندك أكثر من وحدة؟ شيل النسخ الزايدة من **Customize ← Plugins**.
+> ☝️ **Pick one method only** — installing it more than one way gives you duplicate copies of the same skills. Have more than one? Remove the extra copies from **Customize → Plugins**.
 
-> 🏷️ **اسمين لا تتلخبط فيهم:** المتجر `ix360/video-editor` (اسمه `ix360-plugins`) · اسم البلقن `video-editor`. أمر الإضافة ياخذ اسم **المستودع** (`ix360/video-editor`)، وأمر التنصيب ياخذ **البلقن@المتجر** (`video-editor@ix360-plugins`).
+> 🏷️ **Two names not to mix up:** the marketplace `ix360/video-editor` (named `ix360-plugins`) · the plugin `video-editor`. The add command takes the **repository** name (`ix360/video-editor`), and the install command takes **plugin@marketplace** (`video-editor@ix360-plugins`).
 
-### حمّل الملف وارفعه
+### Download the file and upload it
 
-1. [**حمّل البلقن**](https://github.com/ix360/video-editor/releases/latest/download/video-editor.plugin) (ملف `video-editor.plugin`)
-2. افتح تطبيق **كلود** ← **Customize** ← **Plugins** ← **Upload plugin** ← اختر الملف
+1. [**Download the plugin**](https://github.com/ix360/video-editor/releases/latest/download/video-editor.plugin) (the file `video-editor.plugin`)
+2. Open the **Claude** app → **Customize** → **Plugins** → **Upload plugin** → choose the file
 
-> ⚠️ هالطريقة **ما تتحدّث بروحها** — كل نسخة جديدة حمّلها وارفعها من جديد.
+> ⚠️ This method **doesn't update itself** — download and upload each new version again.
 
-### من الطرفية (تيرمنال)
+### From the terminal
 
-**تحتاج Claude Code منصّب.** افتح الطرفية (تيرمنال) — **Terminal** بالماك أو **PowerShell** بالويندوز (مو تبويب Code بتطبيق الديسكتوب) — واكتب `claude --version`. طلع لك رقم نسخة؟ كمّل. طلع `command not found: claude`؟ Claude Code مو عندك — **استخدم [ابدأ هنا](#start)**، ما تحتاج شي ثاني.
+**You need Claude Code installed.** Open the terminal — **Terminal** on Mac or **PowerShell** on Windows (not the Code tab in the desktop app) — and type `claude --version`. A version number? Continue. `command not found: claude`? You don't have Claude Code — **use [Start here](#start)**, you need nothing else.
 
-الصق الأوامر **واحد واحد** (الأمر ← Enter ← انتظر):
-
-<div dir="ltr">
+Paste the commands **one at a time** (the command → Enter → wait):
 
 ```
 claude plugin marketplace add ix360/video-editor
@@ -235,183 +216,95 @@ claude plugin marketplace list
 claude plugin install video-editor@ix360-plugins
 ```
 
-</div>
+- **Check after the first command:** the second (`marketplace list`) **must show `ix360-plugins`**. It didn't? Run the first again (the connection may have dropped), then come back to the list.
+- **Got `Failed to add marketplace … extraKnownMarketplaces`?** Don't assume "it was already added". Run `claude plugin marketplace list` — if `ix360-plugins` isn't there, the marketplace really is missing: run the first command again.
+- **Restart `claude`** after installing, otherwise the skills don't appear in the session.
 
-- **تحقق بعد الأمر الأول:** الأمر الثاني (`marketplace list`) **لازم يظهر فيه `ix360-plugins`**. ما ظهر؟ شغّل الأمر الأول مرة ثانية (لو الاتصال تقطّع)، وبعدها ارجع للقائمة.
-- **طلع لك `Failed to add marketplace … extraKnownMarketplaces`؟** لا تكمّل على أساس إنه «مضاف من قبل». شغّل `claude plugin marketplace list` — لو `ix360-plugins` ما يظهر، المتجر ناقص فعلاً: أعد الأمر الأول.
-- **أعد تشغيل `claude`** بعد التثبيت، وإلا ما تظهر السكلات بالجلسة.
-
-بعدها **شغّل التحديث التلقائي**: بالطرفية (تيرمنال) العادية اكتب `claude` ← Enter، وبعدين:
-
-<div dir="ltr">
+Then **turn on auto-update**: in a normal terminal type `claude` → Enter, then:
 
 ```
 /plugin  →  Marketplaces  →  ix360-plugins  →  Enable auto-update
 ```
 
-</div>
+> ℹ️ The `/plugin` command is interactive and works **in a regular terminal only** — not inside the desktop app (the Code tab). And "Enable auto-update" only appears if `marketplace list` shows `ix360-plugins`.
 
-> ℹ️ أمر `/plugin` تفاعلي ويشتغل **بالطرفية (تيرمنال) العادية بس** — ما يشتغل داخل تطبيق الديسكتوب (تبويب Code). وخطوة «Enable auto-update» تظهر فقط لو `marketplace list` فيه `ix360-plugins`.
+<p align="center"><img src="_pkg/install.gif" alt="The steps inside Claude Code in the terminal" width="100%"></p>
 
-<p align="center"><img src="_pkg/install.gif" alt="الخطوات داخل Claude Code بالطرفية (تيرمنال)" width="100%"></p>
-
-> 🔁 **تبي آخر نسخة الحين؟** بالطرفية (تيرمنال): `claude plugin update video-editor@ix360-plugins`
+> 🔁 **Want the latest version now?** In the terminal: `claude plugin update video-editor@ix360-plugins`
 >
-> 🧹 **منصّب النسخة القديمة كسكل (ملف `.skill`)؟** شيلها حتى ما تتكرر — البلقن فيه كل شي.
+> 🧹 **Installed an older version as a skill (a `.skill` file)?** Remove it so it doesn't duplicate — the plugin has everything.
 >
-> 📦 **تبي سكل الريل بروحه؟** [نزّل `video-editor.skill`](https://github.com/ix360/video-editor/releases/latest/download/video-editor.skill) ← دبل كليك ← وافق. (سكل وحدة بكل الأوضاع، بس ما فيها باقي سكلات البلقن)
+> 📦 **Want the reel skill alone?** [Download `video-editor.skill`](https://github.com/ix360/video-editor/releases/latest/download/video-editor.skill) → double-click → approve. (One skill with all the modes, but without the plugin's other skills.)
 >
->
-> 🤖 **كودكس وأي وكيل يشغّل أوامر:** يقرأ `SKILL.md` ومجلد `references/` كتعليمات ويشغّل نفس السكربتات ([`any-environment.md`](video-editor/references/any-environment.md)) — *غير مجرَّب بعد على كودكس نفسه.*
+> 🤖 **Codex and any agent that runs commands:** it reads `SKILL.md` and the `references/` folder as instructions and runs the same scripts ([`any-environment.md`](video-editor/references/any-environment.md)) — *not yet tested on Codex itself.*
 
 </details>
 
-<details><summary><b>🔧 المتطلبات والخصوصية</b></summary>
+<details><summary><b>🔧 Requirements and privacy</b></summary>
 
-**المتطلبات:** البلقن ينزّلها بنفسه بعد إذنك: **ffmpeg** (القص والصوت) · **Whisper** (التفريغ بتوقيت الكلمة) · **Chrome** (الرسم). ماك وويندوز. 
+**Requirements:** the plugin downloads these itself after your permission: **ffmpeg** (cutting and audio) · **Whisper** (word-timed transcription) · **Chrome** (drawing). Mac and Windows.
 
-**الخصوصية:** على الكمبيوتر كل شي على جهازك — **فيديوك ما يرتفع لأي سيرفر.** من الجوال، الفيديو يروح لسحابة كلود بحسابك (هي اللي تمنتجه). الاستثناءات اختيارية وتشغّلها أنت (المشاهد المولّدة بالذكاء الاصطناعي).
-
-
-</details>
-
-<details><summary><b>💬 كلمة بآخر الريل ← رابط بالخاص</b> (اختياري)</summary>
-
-ريلات الحلقة تنتهي بـ«اكتب [كلمة] توصلك الحلقة كاملة». عشان الرد يصير تلقائي: [زورجا](https://zorcha.com) — الأوتوميشن مجاني، والتحكم فيه من كلود (MCP) باشتراك. التفاصيل: [`keyword-automation.md`](video-editor/references/keyword-automation.md).
+**Privacy:** on a computer everything stays on your machine — **your video isn't uploaded to any server.** From the phone, the video goes to Claude's cloud under your account (that's what edits it). The exceptions are optional and you switch them on (AI-generated scenes, ElevenLabs voiceover, Google Flow).
 
 </details>
 
-<details><summary><b>📜 سجل الإصدارات</b></summary>
+<details><summary><b>💬 A keyword at the end of the reel → a link by DM</b> (optional)</summary>
 
-### جديد — ستوك مجاني · تعليق صوتي · صور وفيديو من جوجل
-- **ستوك مجاني** (`38_stock.py`): بحث وتنزيل من Pexels وPixabay وUnsplash مع حفظ الإسناد ← [`stock.md`](video-editor/references/stock.md).
-- **سكل التعليق الصوتي `voiceover-video`:** يتأكد إن ElevenLabs موصول (وإلا يعرض لك زر الربط)، يعرض أصواتك، ويولّد التعليق — بصوتك المستنسخ أو بتسجيل عينة جديدة بالمتصفح ← [`voiceover.md`](video-editor/references/voiceover.md).
-- **صور من AI Studio** بمفتاح `GEMINI_API_KEY` (أرخص من fal) + **جوجل فلو من المتصفح** للمقاطع بلا تكلفة API (تجريبي) ← [`google-flow.md`](video-editor/references/google-flow.md).
-- **تختار مرة وحدة:** (أ) API جوجل (مفتاح AI Studio) أو (ب) اشتراكك بجوجل فلو عبر كروم — وبعدها **فحص بسيط** يتأكد من ElevenLabs وإضافة كروم ودخول فلو، ولو فلو ما فتح يفتح لك كروم تدخل حسابك ← [`setup-check.md`](video-editor/references/setup-check.md).
-- الترتيب دايماً الأرخص أول: ستوك ← Gemini ← فلو ← fal.
-
-### جديد — اختيار اللغة
-- **10 لغات:** يسألك كلود أول مرة ويحفظ اختيارك (`00_onboard.py lang set <رمز>`)، والتفريغ والكابشن وكلامه معك بلغتك (`scripts/_lang.py`).
-- المتجر صار متجرك: `ix360/video-editor` · البلقن `video-editor`.
-
-### جديد في 6.3 — «اشرح لي شلون يشتغل …»
-- **وضع جديد بسكل الموشن:** أي جهاز يصير آلة مقصوصة ترتسم بالحبر خط خط، ثم تشتغل (دوران، توهّج، موجات، بخار) وتحتها 2–3 خطوات.
-- **الحقائق قبل الرسم:** كل جملة على الشاشة لها مصدر واقتباس بـ`facts.md` — اللي ما له مصدر يطلع بالرسمة بلا كابشن.
-- **جملة المستخدم تنكتب بفقاعة** فوق الآلة (`ask`) — المشاهد يشوف شنو انطلب بالضبط.
-- مثال شغّال: `motion/examples/machine/` (استشوار + مايكرويف) · الدليل: [`machine-explainer.md`](video-editor/references/machine-explainer.md).
-- أدوات الرسم الإيزومتري من مشروع [Anatomy](https://github.com/wheresryan22/anatomy) (رخصة MIT).
-
-### 🆕 جديد في 6.2.1 — دروس ريل «1000$ بيوم»
-- **ستايل كابشن `chunk`:** قطع لين 4 كلمات بكبسولة، والكلمة المنطوقة بلون التمييز بلا قفز (وفواصل يدوية بـ`CHUNK_BREAK`).
-- **الأرقام ما تنقلب بالعربي:** «25–30» كانت تطلع «30–25» — المحرّك يعزلها لحالها بالكابشن والمشاهد.
-- **رجوع نظيف** من «راسك برّا المستطيل» (`tr` لكل مشهد) تحت تكبير يغطي الشاشة، و`headbox` ينكتب دايماً (كان يفشل بصمت).
-- **فحص هلوسة وِسبر** وإصلاحها بقطع بلا سياق (`02a_whisper_check.py`).
-- **الريل الطويل تحت 30 ميقا:** ترميز بمرحلتين بمعدل محسوب.
-- **العنصر ما يختفي مع آخر كلمة:** يقعد شوي ويطلع بهدوء، والكابشن يقعد بعده.
-- وصفتين جديدة بالبنك: إضاءة بلون العميل ورا الشخص + انتقال سبارك. و`MK.*` يشتغل بلا سطر ترقيع.
-
-### جديد في 6.2 — موشن «لقطة وحدة» و3D حقيقي
-<p align="center"><img src="_pkg/stage-wall.jpg" width="100%" alt="فيلم موشن بإطار ثابت: جدار شرائح 3D ← العنوان ثابت فوق والمحتوى يتبدل داخل النافذة"></p>
-
-- **إطار ثابت** (`MOTION.stage`): العنوان فوق ما يتحرك، وتحته سطر يتبدل كلمة كلمة ويكمّل الشرح (`ctx.text.slot`)، والمشاهد تتبدل داخل نافذة — الفيلم يبين لقطة وحدة.
-- **جدار شرائح 3D** (`ctx.slideWall`): الكاميرا تطير فوق كروت بسماكة، وكرت ينزل ويصير أول مشهد بلا قص.
-- **موشن بلير حقيقي** (`motionBlur`) على الحركات السريعة والانتقالات.
-- **شعار 3D حقيقي بريل الكلام** (`41_logo3d.js` + `MV.overlay`): بسماكة ولمعة وظل.
-- الإطار والجدار والشعار 3D **بطلبك بس** — مو بكل فيديو. والألوان من ثيمك (فاتح أو غامق).
-- مثال شغّال: `motion/examples/stage-wall/`.
-
-### جديد في 6.1 — بنك الستايلات
-- **17 ستايل** للفيديو كله (`references/styles.md`): كينوت · زجاج الواجهة · شرح صحفي · ورق مقصوص · وثائقي · مجلة · سويسري · رسم يد · تيرمنال · ريزو · جريدة · بلوبرنت · VHS · بروتالي · ستوديو منتج · ستيكر كرتوني · كرت أداة.
-- **لوحة الفيديو تختار الستايل** مع الحركات (`35_moves.py plan` ← `style`)، وثلث الفيديوهات تطلع **دمج** ستايلين. `--style paperCut` أو `--style none` لو تبي.
-- **بالماك الستايل يبدّل الخلفية** وانت مقصوص فوقها (ستيكر بحد أبيض، هافتون، سيبيا على الخلفية بس). برّا الماك يلبس ألوانه وخطوطه وكروته فوق الفيديو العادي.
-- يمشي بفيلم الموشن (`"style"` بـ`project.json` ← `ctx.S`) وبريل الكلام (`MV.useStyle`).
-- لون هويتك يبقى، إلا الستايلات اللي لونها جزء منها (مثل أصفر قلم التحديد وأحمر الختم).
-
-### جديد في 6.0 — دروس ريل بوبيان
-ريل اعتمده البنك وانتشر — كل اللي تعلّمناه منه صار بالبلقن:
-- **موشن عميق من أول مسودة:** قبل الرسم يخطّط 2–3 «لحظات عمق» — عنصر يمر ورا راسك، موجة تتحرك مع صوتك الحقيقي، خريطة نقاط وراك، مدار ثلاثي الأبعاد يلف حولك، شكل من هوية العميل يصير حركة، ودخلة ون تيك بالشعار. البطاقات والأختام مو ممنوعة — بس مو هي الأصل.
-- **موجة صوتك:** `37_env.py` يطلّع علو صوتك لكل فريم، والرسم يتحرك معه (`MV.env`).
-- **«طبقات» أذكى:** تختار كم كلمة فوق الراس وكم وراه (`"stack":{"above":2,"behind":1}`)، وبعد «طبقات» لجزء من الجملة الكابشن يكمّل الباقي بس — ما تنقرا الجملة مرتين.
-- **الكفر يختار وجهك:** مو لقطة بي-رول فيها شخص ثاني، والكلام ما يغطي وجهك باللقطة القريبة.
-- **طبقة فوق الشخص** (`window.AFTER_PERSON`) للنص اللي لازم يبين قدّامك بوضع القصّ.
-- **الزوم مقفول لكل مقطع** — تشيل أو تضيف مقطع وإحداثيات رسمك تبقى صح.
-- إصلاحات: الرسم يوقف بخطأ واضح بدل «0 فريم» لو `sfx.json` بلا `outro` · فحص المنطقة الآمنة ما يعطي إنذار كاذب على الانتقالات · تنصيب الإضافات يشتغل مع pip القديم.
-
-### جديد في 5.0
-- **بنك الحركات صار 100:** 39 حركة جديدة من بحث بترندات 2025–2026 — منها حركات عربية ما أحد يسويها: **نقاط تنزل** (الكلمة بلا نقاط ثم تنزل النقاط)، **حروف تتلاصق**، **القلم يكتب**، **كوفي مربع**، **كلمة تذوب بكلمة**، **زخرفة تتفتح**، و**آية بسكينة** بخط أميري قرآن (النص من مصدر موثوق بس، والرقم داخل ۝ مثل المصحف).
-- وحركات للكلام: ستيكر، أشعة من وراك، نسخ مني، خط حولك، الكاميرا تلحقك، بكفّك، فقاعة كلام، كاميرا ثانية، وغيرها.
-- **إصلاح الخط:** التاء المربوطة بخط الرقعة كانت تطلع بلا نقطتين («الخطوه»)، والكلمات اللي تطلع من تحت كانت تنقص ذيولها («تمنتج»). انصلحوا بالمحرّك نفسه.
-
-### جديد في 4.7
-- **بنك الحركات صار 61:** 11 حركة جديدة — مدار، جدار الكنبة، عالم الواجهات، كسر الإطار، جدار العناوين، رسومات ترجف، غلاف مجلة، كلام زجاجي، الفيديو داخل الجوال، قرين سكرين بالنص، قصاصة ورق.
-- 7 منها تقصّك من الخلفية (ماك)؛ على غيره تطلع بشكل بديل (كرت أو فقاعة) بدون ما تنكسر.
-
-### جديد في 4.6
-- **دافنشي صار إضافة لحالها** — البلقن الأساسي أخف.
-- **ملف البلقن أخف:** مكتبة الثري دي صارت ملف واحد ينفك أول مرة — مكان لإضافات جاية.
-
-### جديد في 4.5
-- **بنك الحركات:** 50 حركة مرقّمة بمصادرها، وكل فيديو يطلع بلوحة حركات خاصة فيه وما تتكرر ورا بعض.
-- الحركات تشتغل بالريل من فيديو كلام وبفيلم الموشن والونشوت.
-- **صفحة التعارف:** قسم جديد «الحركات». تخليها عليه، أو تفتح البنك وتختار اللي تحبه واللي ما تبيه.
-
-### جديد في 4.3
-- **صار بلقن واضح:** 6 سكلات بحزمة وحدة — والسادسة **دافنشي** بروحها («سوّه بدافنشي»).
-- **فيديو تعليمي للتثبيت** فوق الصفحة + التحديث التلقائي.
-
-### جديد في 4.2
-- **الكفر والثمبنيل:** صورتك من الفيديو نفسه (قصّ آلي) أو من صورك · خلفية كريمية · الوجه أكبر بفكرة «قبل/بعد».
-- **دافنشي:** شنو النسخة اللي تشتغل (ستوديو من موقع بلاك ماجك — مو آب ستور).
-
-### جديد في 4.1
-- **سكل الكفر والثمبنيل** (`thumbnail-video`) — أحجام تنقرا بالجوال (مقاسة + بحث)، كفر أول فريم، وثمبنيل يوتيوب بثلاث أفكار.
-
-### جديد في 4.0
-- **أربع سكلات بمحرّك واحد** بدل سكل واحد ثقيل — كل وضع يقرا تعليماته بس.
-- **صفحة التعارف** صارت للكل.
-- **وضع دافنشي** صار للكل — وقابل للتعديل: كل شي قطعة على مساره.
-- **تعليمات مرتبة** — الملف الرئيسي أخف بـ38٪.
-- **اختبار آلي** يمر على كل الخطوات قبل أي إصدار.
-
+Episode reels end with "write [keyword] and the full episode reaches you". To make the reply automatic: [Zorcha](https://zorcha.com) — the automation is free, and controlling it from Claude (MCP) needs a subscription. Details: [`keyword-automation.md`](video-editor/references/keyword-automation.md).
 
 </details>
 
-<details><summary><b>🛠️ للمطوّرين</b></summary>
+<details><summary><b>📜 Release notes</b></summary>
 
-خريطة كل السكربتات والملفات: [`references/script-map.md`](video-editor/references/script-map.md) · التعليمات: [`SKILL.md`](video-editor/SKILL.md) · السكلات الثانية: [`motion-video`](motion-video/SKILL.md) · [`podcast-video`](podcast-video/SKILL.md) · [`montage-video`](montage-video/SKILL.md) · [`thumbnail-video`](thumbnail-video/SKILL.md)
+### Newest — language, stock, voiceover, Google assets
+- 10 languages, chosen once and saved (`00_onboard.py lang set <code>`); transcription, captions and Claude's replies follow it (`scripts/_lang.py`).
+- Free stock search, a Gemini image backend, Google Flow in the browser, and the ElevenLabs `voiceover-video` skill.
+- A one-time setup check (`00_check.py` + `setup-check.md`).
+- The marketplace is now `ix360/video-editor`, and the plugin is named `video-editor`.
 
-<b>الإصدارات السابقة</b>
+### 6.3 — "Explain how X works"
+- **A new motion mode:** any device becomes a cut-away machine drawn in ink line by line, then it runs (rotation, glow, waves, steam) with 2–3 steps underneath.
+- **Facts before drawing:** every sentence on screen has a source and a quote in `facts.md` — anything without a source appears in the drawing with no caption.
+- **The user's sentence is typed in a bubble** above the machine (`ask`).
+- A working example: `motion/examples/machine/` (hair dryer + microwave) · the guide: [`machine-explainer.md`](video-editor/references/machine-explainer.md).
+- The isometric drawing tools come from the [Anatomy](https://github.com/wheresryan22/anatomy) project (MIT licence).
 
-- **6.3.0** وضع «اشرح لي شلون يشتغل …»: الجهاز آلة ترتسم وتشتغل (`references/machine-explainer.md` + `motion/examples/machine/`)
-- **6.2.1** دروس ريل «1000$ بيوم» (كابشن chunk · الأرقام ما تنقلب · رجوع نظيف · فحص وِسبر · حجم الريل)
-- **6.2.0** إطار ثابت + جدار شرائح 3D + موشن بلير + شعار 3D بريل الكلام
+### 6.2.1 — lessons from a "$1000 a day" reel
+- **`chunk` caption style:** pieces up to 4 words in a pill, the spoken word in the accent color with no jumping (and manual breaks with `CHUNK_BREAK`).
+- **Numbers don't flip in Arabic:** "25–30" used to come out "30–25" — the engine now isolates them in captions and scenes.
+- **A clean return** from "head outside the rectangle" (`tr` per scene) under a zoom that covers the screen, and `headbox` is always written (it used to fail silently).
+- **Whisper hallucination check** and repair by cutting with no context (`02a_whisper_check.py`).
+- **A long reel under 30 MB:** two-pass encoding at a computed bitrate.
+- **An element doesn't vanish with the last word:** it stays a moment and leaves gently, and the caption stays after it.
 
-- **6.1.0** بنك الستايلات: 17 ستايل للفيديو كله، ولوحة الفيديو تختار أو تدمج ستايلين
-- **6.0.1** أول الجلسة ينصحك بالموديل والجهد للنتيجة الأقوى (Opus 5.5 + max) وشلون تختاره بالشات أو Claude Code
-- **6.0.0** دروس ريل بوبيان: لحظات العمق أصل من أول مسودة (ورا الشخص · موجة الصوت `37_env.py`/`MV.env` · خريطة · مدار · هوية العميل · ون تيك) · «طبقات» `above/behind` + الكابشن يكمّل بعد الطبقات الجزئية · الكفر يختار وجه المتكلم وما يغطيه · `AFTER_PERSON` · زوم مقفول لكل مقطع · `outro` الافتراضي 0 + خطأ واضح بالمدة · فحص الأمان يتجاهل `MV.frameAt` · pip القديم بـ`--extras`
-- **5.1.0** إعلان هادي بمفاتيح بالثيم: `capStill` (كابشن بلا حركة — التلوين يبقى) · `bar: false` (بلا شريط تقدّم) · `zoomB: false` لحركة الباب (بلا زوم على الوجه) + انتقال الفيديو بين الشاشة الكاملة والكرت صار ناعم (الوجه ما يطلع وينزل)
-- **5.0.1** الطلعة المتتابعة: الكلمة تطلع نظيفة من السطر بلا حد قناع ينشاف، وتكمل ذيولها بعد ما توصل
-- **5.0.0** بنك الحركات 100 (39 جديدة، منها حركات عربية وآية بسكينة بخط أميري قرآن) + إصلاح التاء المربوطة بخط الرقعة وذيول الحروف بالطلعة المتتابعة
-- **4.7.0** بنك الحركات 61: 11 حركة جديدة (مدار، جدار الكنبة، عالم الواجهات، كسر الإطار، جدار العناوين، رسومات ترجف، غلاف مجلة، كلام زجاجي، الفيديو داخل الجوال، قرين سكرين بالنص، قصاصة ورق) — 7 منها بقصّ الشخص (ماك) ولها شكل بديل
-- **4.5.0** بنك الحركات: 50 حركة مرقّمة بمصادرها + لوحة حركات لكل فيديو (عائلة + 3 أساسيات + لهجات) ما تتكرر + قسم «الحركات» بصفحة التعارف (يختار بنفسه أو يخليها على كلود)
-- **4.4.4** صوتك الحقيقي ما ينقص أبداً (القطع تغطي التسجيل كامل والحدود بأهدأ نقطة، ‎-20 LUFS تلقائياً) + سكتة نهاية 0.7 ث بالريل + طريقة التيرمنال صارت على المتجر الموحد `ix360-plugins`
-- **4.4.3** مثال الونشوت الجديد: زوم إن للأسود ← زوم آوت لجوال ولابتوب، بموشن بلير حقيقي
-- **4.4.2** وضع «مونتاج داخل كاب كت»: بدل MP4 يكتب مشروع كاب كت تعدّله بيدك (لقطات بزوم، كابشن ونصوص كاب كت، فويس، مؤثرات، خلفية صوتية، موشن شفاف بألوانك) ← `references/capcut.md`
-- **4.4.1** كلمة الختام ← رابط الحلقة بالخاص (أوتوميشن) + كرت الختام من الثيم + طريقة العمل مع كل حلقة بودكاست
-- **4.4.0** وضع «الونشوت» (فيديو كله لقطة وحدة بلا قص) + مثال شغّال `motion/examples/one-take/` + مكتبة أمثلة من الناس (`references/examples.md`) + التثبيت من claude.ai بإضافة الماركت بليس
-- **4.3.5** إصلاح «Zip cannot contain nested zip files» (كان بـ4.3.3 و4.3.4) · **4.3.4** يشتغل بالجوال والسحابة · **4.3.3** أقل من 200 ملف
+### 6.2 — one-take motion and real 3D
+- **A fixed frame** (`MOTION.stage`), a **3D slide wall** (`ctx.slideWall`), real **motion blur**, and a real **3D logo** on a talking reel (`41_logo3d.js` + `MV.overlay`) — only when you ask for them. Working example: `motion/examples/stage-wall/`.
 
-- **3.9** الثيم من صور مرجعية · البودكاست كامل 16:9 · شرح موقع/تطبيق + آيفون وماك بوك 3D · كفر الريل · تنظيف صوت ذكي
-- **3.8** شرح بالموشن 3D · هوك البودكاست · «طبقات» · مؤثرات الإيقاع
-- **3.6-3.7** حزمة الموشن · الموشن من معنى الجملة
-- **3.5** حلقة كاملة ← ريلات
-- **3.4** الاستوديو (تايملاين باليد)
-- **3.3** أخف وأنظف · **3.2** مشاهد مولّدة · **3.1** حركات الكلمة العربية
-- **3.0** يحدّث نفسه · **2.9** تسجيل الشاشة بإطار جوال · **2.8** ويندوز (بمساهمة [@thefhiter](https://github.com/thefhiter)) · **2.7** البودكاست
+### 6.1 — the style bank
+- **17 styles** for the whole video (`references/styles.md`): knockout · UI glass · news explainer · paper cutout · documentary · magazine · Swiss · hand-drawn · terminal · risograph · newspaper · blueprint · VHS · brutalist · product studio · cartoon sticker · tool card.
+- **The video's palette chooses the style** along with the moves (`35_moves.py plan` → `style`), and a third of videos come out as a **blend** of two styles. `--style paperCut` or `--style none` if you want.
+
+### 6.0 — lessons from the Bobian reel
+- **Deep motion from the first draft:** it plans 2–3 "depth moments" before drawing — an element passing behind your head, a wave moving with your real voice (`37_env.py`, `MV.env`), a dot map behind you, a 3D orbit, a shape from the client's identity, and a one-take entrance with the logo.
+- **Smarter "layers":** choose how many words above the head and how many behind (`"stack":{"above":2,"behind":1}`).
+- **The cover picks your face**, and the text never covers it. Zoom is locked per clip.
+
+### Earlier
+- **5.0** a 100-move bank (including Arabic-specific moves and a verse with calm reading in the Amiri Quran font) · **4.7** 61 moves · **4.5** the move bank + the "Moves" section of the intro page · **4.4** CapCut mode, one-take mode, and a library of examples from people · **4.2–4.1** cover and thumbnail skill · **4.0** four skills on one engine, with an automated test before every release.
+- **3.9** theme from reference images, a full 16:9 podcast, website/app explainers, smart audio cleanup · **3.8** 3D motion explainers, the podcast hook, "layers", beat effects · **3.5** a full episode → reels · **3.4** the studio (a timeline by hand) · **3.2** generated scenes · **3.0** it updates itself · **2.9** screen recording in a phone frame · **2.8** Windows (thanks to [@thefhiter](https://github.com/thefhiter)) · **2.7** the podcast.
+
+</details>
+
+<details><summary><b>🛠️ For developers</b></summary>
+
+A map of all the scripts and files: [`references/script-map.md`](video-editor/references/script-map.md) · instructions: [`SKILL.md`](video-editor/SKILL.md) · the other skills: [`motion-video`](motion-video/SKILL.md) · [`podcast-video`](podcast-video/SKILL.md) · [`montage-video`](montage-video/SKILL.md) · [`thumbnail-video`](thumbnail-video/SKILL.md) · [`voiceover-video`](voiceover-video/SKILL.md)
+
+Build the release files: `bash tools/build-release.sh` (after committing) → `dist/video-editor.plugin` + `dist/video-editor.skill`.
+
+**Note:** the skill entry files and the start/setup guides are in English; the deeper reference docs in `video-editor/references/` are still largely in Arabic (Gulf dialect), and the engine's example scenes show Arabic text. Claude reads them fine and answers the user in the language they chose.
+
 </details>
 
 
-## الرخصة
-MIT — استخدمه وعدّله ووزّعه بحرية.
-
-</div>
+## Licence
+MIT — use it, change it and share it freely.

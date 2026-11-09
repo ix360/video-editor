@@ -1,34 +1,35 @@
 ---
 name: montage-video
-description: مونتاج مقاطع بلا كلام على الإيقاع — مجلد مقاطع (مقهى، سفرة، منتج، مكان، فعالية) يتحوّل لفيديو واحد 9:16 يختار أحلى لحظة من كل مقطع ويقطع على نبضات الصوت. Use when user says "مونتاج من هالمقاطع"، "سو فيديو من هالكلبات"، "ركّب المقاطع على الأغنية"، "مونتاج على الإيقاع"، or sends a folder of clips without speech. Not for a talking video (use video-editor).
+description: Beat-synced montage of clips with no speech — a folder of clips (café, table, product, place, event) becomes one 9:16 video that picks the best moment of each clip and cuts on the audio beats. Use when the user says "make a montage from these clips", "cut these clips to the music", "edit on the beat", or "مونتاج من هالمقاطع"، "ركّب المقاطع على الأغنية"، "مونتاج على الإيقاع", or sends a folder of clips without speech. Not for a talking video (use video-editor).
 ---
 
-# مونتاج مقاطع بلا كلام
+# Montage of clips with no speech
 
-**المحرّك مشترك** مع سكل الريل. كل `scripts/` و`references/` من هني:
+**The engine is shared** with the reel skill. All `scripts/` and `references/` are here:
 `${CLAUDE_SKILL_DIR}/../video-editor`
 
-## الخطوات
+## Steps
 
-1. **الأدوات:** الخطوة 0 بس من `references/start.md`.
-   ⛔ بلا أسئلة ألوان ولا شعار — المونتاج ما فيه نص أصلاً.
-2. **الوضع:** اقرأ `references/montage.md` ونفّذه.
-3. **مؤثرات على النبضة** (زوم، رجّة، فلاش، مسح) ← `references/beat-fx.md`
-4. **دوّر لقطة بالمعنى** («قهوة تنصب»، «لقطة قريبة للمنتج») ← `references/find-shots.md`
+1. **Tools:** only step 0 of `references/start.md`.
+   ⛔ No color or logo questions — a montage has no text at all.
+2. **The mode:** read `references/montage.md` and do it.
+3. **Effects on the beat** (zoom, shake, flash, wipe) → `references/beat-fx.md`
+4. **Find a shot by meaning** ("coffee being poured", "a close-up of the product") → `references/find-shots.md`
+   Free stock to fill gaps → `references/stock.md`
 
-## 🌐 اللغة
+## 🌐 Language
 
-المستخدم يختار لغته (مرة وحدة) — `references/language.md` من سكل الريل، والرمز من `python3 scripts/_lang.py`. كل كلامك معه بلغته.
+The user picks their language once — `references/language.md` in the reel skill; the code comes from `python3 scripts/_lang.py`. Speak to them in it.
 
-## ⛔ أسلوبك مع المستخدم
+## ⛔ How you treat the user
 
-- تحتاج منه شي واحد: **مجلد المقاطع.**
-- **أنت اللي تجهّز، مو هو.** بلا مصطلحات، وقل له وين احنا وكم ياخذ.
-- وريه ورقة لقطات مرقّمة قبل التجميع.
+- You need one thing from them: **the folder of clips.**
+- **You prepare things, not them.** No jargon, and say where you are and how long it takes.
+- Show a numbered shot sheet before assembling.
 
-## قواعد ثابتة
+## Fixed rules
 
-- ⛔ بلا تفريغ ولا كابشن ولا مشاهد مرسومة.
-- سمّها «ملف صوتي بالخلفية» لا «موسيقى» — المحتوى يحدّده هو.
-- صفر تعديل لوني إلا بطلب صريح.
-- لا نشر ولا جدولة — التسليم ملف بس.
+- ⛔ No transcript, no captions, no drawn scenes.
+- Call it "background audio", not "music" — the content is their decision.
+- Zero color grading unless explicitly asked.
+- No posting or scheduling — delivery is a file only.

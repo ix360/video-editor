@@ -2,14 +2,14 @@
 
 # Language — the user picks it once
 
-The skill's instruction files are written in Arabic (Gulf dialect), but **the user can work in any supported language**. The instructions are for you; what the user sees is in *their* language.
+The skill's entry files are in English (some deep reference docs are still Arabic, Gulf dialect), and **the user can work in any supported language**. The instructions are for you; what the user sees is in *their* language. English is the default until they choose.
 
 ## Supported languages
 
 | code | language | code | language |
 |---|---|---|---|
-| `ar` | العربية (default) | `pt` | Português |
-| `en` | English | `de` | Deutsch |
+| `ar` | العربية | `pt` | Português |
+| `en` | English (default) | `de` | Deutsch |
 | `fr` | Français | `tr` | Türkçe |
 | `es` | Español | `ur` | اردو |
 | `id` | Bahasa Indonesia | `fa` | فارسی |
@@ -19,7 +19,7 @@ The skill's instruction files are written in Arabic (Gulf dialect), but **the us
 ## Step 0.2 — pick the language (first run only)
 
 ```bash
-python3 scripts/_lang.py          # prints the saved code (ar if nothing is saved)
+python3 scripts/_lang.py          # prints the saved code (en if nothing is saved)
 ls ~/.video-ad-editor/lang.json   # exists = the user already chose
 ```
 
@@ -43,7 +43,7 @@ ls ~/.video-ad-editor/lang.json   # exists = the user already chose
 
 | Part | Behaviour |
 |---|---|
-| **Everything you say to the user** (status lines, questions, summaries, errors) | Their language. Write natural, plain wording — no jargon. The Arabic example sentences in the instruction files are *meaning*, not text to copy. |
+| **Everything you say to the user** (status lines, questions, summaries, errors) | Their language. Write natural, plain wording — no jargon. Example sentences in the instruction files are *meaning*, not text to copy. |
 | **Transcription (Whisper)** | `--language <code>` — every script already reads it through `scripts/_lang.py`; in the manual commands use `$(python3 scripts/_lang.py)`. |
 | **Captions on the video** | Written in the spoken language of the video. The renderer already switches direction per line (Arabic/Persian/Urdu → right-to-left, others → left-to-right, numbers isolated). |
 | **Fonts** | Latin languages → `Inter` (in `motion/fonts/`). Arabic script → `Tajawal` / `Cairo` / `IBM Plex Sans Arabic` / `Noto Kufi`. Set `"font"` in `theme.json` accordingly. |

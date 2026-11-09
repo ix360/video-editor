@@ -1,49 +1,53 @@
 ---
 name: thumbnail-video
-description: يصمم كفر الريل (أول فريم بالفيديو، كل المهم بمربع 1:1 فينقرا بشبكة البروفايل) وثمبنيل يوتيوب 16:9 بثلاث أفكار — بأحجام تنقرا بشاشة الجوال. Use when user says "سو كفر"، "كفر الريل"، "غلاف الريل"، "ثمبنيل"، "ثمب يوتيوب"، "صورة مصغرة"، "thumbnail"، "الكفر ما يبين"، or after any finished video. Not for carousel covers.
+description: Designs the reel cover (the first frame of the video, everything important inside a 1:1 square so it reads in the profile grid) and a 16:9 YouTube thumbnail with three ideas — at sizes that are readable on a phone screen. Use when the user says "make a cover", "reel cover", "thumbnail", "YouTube thumbnail", "the cover doesn't read", or "سو كفر"، "كفر الريل"، "ثمبنيل"، or after any finished video. Not for carousel covers.
 ---
 
-# الكفر والثمبنيل — اللي ينقرا بالجوال
+# Cover and thumbnail — what reads on a phone
 
-**المحرّك مشترك** مع سكل الريل. كل `scripts/` و`references/` من هني:
+**The engine is shared** with the reel skill. All `scripts/` and `references/` are here:
 `${CLAUDE_SKILL_DIR}/../video-editor`
 
-**اقرأ أول شي:** `references/thumbnails.md` — الأحجام الدنيا ومصادرها. الشبكة تصغّر الكفر لـ12٪، فاللي تحت الحد ما ينقرا.
+**Read first:** `references/thumbnails.md` — the minimum sizes and their sources. The grid shrinks a cover to 12%, so anything under the limit doesn't read.
 
-## قبل ما تبدأ — سؤال واحد
-**«آخذ صورتك من الفيديو، ولا عندك صور تعطيني؟»**
-- **من الفيديو:** السكربت يختار أوضح فريم ووجهك كبير فيه، ويقصّك على خلفية كريمية (`--cut` للكفر · `--video` للثمبنيل — يحتاج ماك).
-- **صورك:** صورة مقصوصة بخلفية شفافة (`--photo`) — الأحسن للثمبنيل: انفعال واضح (ابتسامة كبيرة، دهشة).
-- لو ما رد: من الفيديو.
+## Before you start — one question
+**"Should I take your photo from the video, or do you have photos to give me?"**
+- **From the video:** the script picks the clearest frame with their face large, and cuts them out onto a cream background (`--cut` for the cover · `--video` for the thumbnail — needs a Mac).
+- **Their photos:** a cut-out photo with a transparent background (`--photo`) — best for a thumbnail: a clear expression (a big smile, surprise).
+- No answer: from the video.
 
-**التصميم من موضوع الفيديو كل مرة — مو قالب:** العنوان من كلامه، والشعارات/العناصر من اللي يتكلم عنه (أداة، شركة، رقم). الهيكل ثابت والمحتوى يتغيّر.
-**الخلفية كريمية مثل كلود** (`#F0EEE6`، أو `bg` الثيم لو فاتح) — `--bg` يغيّرها، و`--bg video` ياخذ لون خلفية الفيديو.
+**Design from the video's topic every time — not a template:** the title comes from what they say, and logos/elements from what they talk about (a tool, a company, a number). The structure is fixed and the content changes.
+**The background is cream like Claude** (`#F0EEE6`, or the theme's `bg` if it is light) — `--bg` changes it, and `--bg video` takes the video's background color.
 
-## كفر الريل (9:16) — ويصير أول فريم بالفيديو
+## Reel cover (9:16) — also becomes the first frame
 
 ```bash
-python3 scripts/28_cover.py <work> "سطر|*كلمة مميزة*" [--photo me.png | --cut] [--x قديم.png --ok جديد.png] [--first ad-master.mp4]
+python3 scripts/28_cover.py <work> "line|*accent word*" [--photo me.png | --cut] [--x old.png --ok new.png] [--first ad-master.mp4]
 python3 scripts/34_phone_preview.py <work>/cover.jpg
 ```
 
-- كل المهم داخل مربع 1:1 بالنص — وهمي، بلا إطار.
-- العنوان 5 كلمات بالكثير، سطرين، ≈9 أحرف بالسطر (السكربت ينبّهك).
-- ✕ و✓ **مو قاعدة** — بس لو الفيديو «من كذا لكذا». الشعارات صف فوق الراس داخل المربع، والكلام تحت على الصدر.
-- `--first` يركّب الكفر أول فريم ← `<الاسم>-cover.mp4`.
-- اعرض `cover_phone.jpg` (بحجمه الحقيقي بالجوال) — لو ما قريته فيها، ما ينقرا.
+- Everything important sits inside the 1:1 square in the middle — imaginary, no frame.
+- The title is 5 words at most, two lines, about 9 characters per line (the script warns you).
+- ✕ and ✓ are **not a rule** — only if the video is "from X to Y". Logos go in a row above the head inside the square, and the text below on the chest.
+- `--first` puts the cover on the first frame → `<name>-cover.mp4`.
+- Show `cover_phone.jpg` (at its real phone size) — if you can't read it there, it won't read.
 
-## ثمبنيل يوتيوب (16:9) — ثلاث أفكار
+## YouTube thumbnail (16:9) — three ideas
 
 ```bash
-python3 scripts/33_thumb.py <work> "سطر|*كلمة مميزة*" [--photo me.png | --video src.mov] [--logo شي.png] [--x قديم.png --ok جديد.png]
+python3 scripts/33_thumb.py <work> "line|*accent word*" [--photo me.png | --video src.mov] [--logo thing.png] [--x old.png --ok new.png]
 python3 scripts/34_phone_preview.py <work>/thumb_A_1280.jpg --youtube
 ```
 
-- يطلّع 3840×2160 (الموصى) + 1280×720 (للجوال، أقل من 2 ميقا) لكل فكرة، وورقة `thumbs_sheet.jpg` — اعرضها وخلّه يختار.
-- الوجه كبير بانفعال واضح · تحت يمين فاضي (مدة الفيديو) · 3-5 كلمات.
+- Produces 3840×2160 (recommended) + 1280×720 (for phones, under 2 MB) for each idea, and a `thumbs_sheet.jpg` sheet — show it and let them choose.
+- A large face with a clear expression · the bottom right empty (the video's duration badge) · 3–5 words.
 
-## ⛔ أسلوبك
+## 🌐 Language
 
-- العنوان من محتوى الفيديو نفسه — هوك مختصر، لا تخترع كلام ما قاله.
-- ولا كلمة على الوجه. الخطوط Cairo (أو خط ثيمه).
-- اعرض الصورة قبل أي رفع أو نشر — لا نشر ولا جدولة.
+The user picks their language once — `references/language.md` in the reel skill; the code comes from `python3 scripts/_lang.py`. Speak to them in it. Cover text is in the video's spoken language.
+
+## ⛔ Your style
+
+- The title comes from the video's own content — a short hook; never invent words they didn't say.
+- No text over the face. Fonts: Cairo (or their theme font) for Arabic script, Inter for Latin.
+- Show the image before any upload or posting — no posting or scheduling.

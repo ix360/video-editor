@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-"""لغة المستخدم — مصدر واحد لكل السكربتات.
-الترتيب: متغير البيئة VAE_LANG ← ~/.video-ad-editor/lang.json ← "ar".
-  python3 _lang.py            يطبع الرمز الحالي (مثل: en)
-  python3 _lang.py list       يطبع اللغات المدعومة
-Language of the user — single source of truth for every script (Whisper language, captions)."""
+"""The user's language — one source of truth for every script.
+Order: env var VAE_LANG -> ~/.video-ad-editor/lang.json -> "en" (default).
+  python3 _lang.py            prints the current code (e.g. en)
+  python3 _lang.py list       prints the supported languages
+Used for the Whisper language, captions and Claude's replies."""
 import json, os, sys
 from pathlib import Path
 
@@ -20,7 +20,7 @@ LANGS = {
     "fa": ("فارسی", "fa", True),
     "id": ("Bahasa Indonesia", "id", False),
 }
-DEFAULT = "ar"
+DEFAULT = "en"
 
 
 def _profile():
@@ -32,7 +32,7 @@ def _profile():
 
 
 def get():
-    """رمز اللغة المختارة (افتراضي ar)."""
+    """The chosen language code (default en)."""
     c = (os.environ.get("VAE_LANG") or _profile().get("lang") or DEFAULT).strip().lower()
     return c if c in LANGS else DEFAULT
 

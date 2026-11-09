@@ -1,51 +1,51 @@
 ---
 name: podcast-video
-description: يمنتج البودكاست والمقابلات — كاميرتين أو أكثر لنفس الجلسة إلى ريلات 9:16 بكابشن عربي وهوك مكتوب، أو الحلقة كاملة 16:9 لليوتيوب، أو حلقة ساعة إلى عدة ريلات. Use when user says "بودكاست"، "كاميرتين"، "الحلقة كاملة بالعرض"، "حلقة يوتيوب"، "ريلات من الحلقة"، "طلّع ريلات من المقابلة"، or sends multi-camera files or a long episode. Not for a single talking video (use video-editor).
+description: Edits podcasts and interviews — two or more cameras of the same session into 9:16 reels with captions and a written hook, or the full 16:9 episode for YouTube, or a one-hour episode into several reels. Use when the user says "podcast", "interview", "two cameras", "full episode widescreen", "YouTube episode", "reels from the episode", or "بودكاست"، "كاميرتين"، "الحلقة كاملة بالعرض"، "ريلات من الحلقة"، or sends multi-camera files or a long episode. Not for a single talking video (use video-editor).
 ---
 
-# البودكاست والمقابلات
+# Podcasts and interviews
 
-**المحرّك مشترك** مع سكل الريل. كل `scripts/` و`references/` من هني:
+**The engine is shared** with the reel skill. All `scripts/` and `references/` are here:
 `${CLAUDE_SKILL_DIR}/../video-editor`
 
-## الخطوات
+## Steps
 
-1. **البداية:** اقرأ `references/start.md` ونفّذه (الأدوات، الذوق، الهوية).
-2. **اختر المسار من المدخل** — بلا ما تسأله:
+1. **Start:** read `references/start.md` and do it (tools, taste, identity).
+2. **Pick the path from the input** — without asking:
 
-| المدخل | المسار | اقرأ |
+| Input | Path | Read |
 |---|---|---|
-| كاميرتان أو أكثر لنفس الجلسة | ريلات عمودية (الافتراضي) | `references/podcast.md` |
-| قال «الحلقة كاملة» أو «يوتيوب» أو «بالعرض» | حلقة 16:9 كاملة | `references/podcast.md` (قسم «الحلقة كاملة بالعرض») |
-| حلقة طويلة (ساعة) ← عدة ريلات | تفريغ سريع ← مقترحات ← قص | `references/landscape.md` (قسم «حلقة كاملة») |
+| Two or more cameras of the same session | Vertical reels (default) | `references/podcast.md` |
+| They said "full episode", "YouTube" or "widescreen" | Full 16:9 episode | `references/podcast.md` (section "Full episode, widescreen") |
+| A long episode (an hour) → several reels | Quick transcript → proposals → cut | `references/landscape.md` (section "Full episode") |
 
-3. **🪝 كل ريل من حلقة أو مقابلة يبدأ بهوك مكتوب — إلزامي** ← `references/podcast-hook.md`
-   - وضع الكاميرات: طبّقه **قبل** `15_podcast.py plan`.
-4. **ريل من قطعة وحدة:** كمّل الخطوات 5-11 من سكل الريل:
+3. **🪝 Every reel from an episode or interview starts with a written hook — mandatory** → `references/podcast-hook.md`
+   - In multi-camera mode, apply it **before** `15_podcast.py plan`.
+4. **A reel from a single piece:** continue with steps 5–11 of the reel skill:
    `${CLAUDE_SKILL_DIR}/../video-editor/SKILL.md`
-5. **كل لحمة بين قطعتين تنفحص** (`19_seam_check.py`) — إلزامي.
-6. إضافات البودكاست ← `references/podcast-upgrades.md`
-7. **كلمة الختام + رابط الحلقة بالخاص (أوتوميشن):** غيّر `theme.json ← outro` لكرت بكلمة الحلقة ← `references/keyword-automation.md`
-8. **طريقة العمل مع كل حلقة جديدة:**
-   - **المحادثة للقرارات:** فرّغ الحلقة، وعطه **ورقة مقترحات مرقّمة** (هوك + بداية/نهاية + ليش تنفع)، وهو يختار بالأرقام. لا تقص قبل ما يختار.
-   - **بعد المونتاج — صفحة المراجعة (إلزامي لـ2+ عناصر):** كل الريلات والكاروسيل بصفحة وحدة فيها ملاحظة واعتماد وتحميل ← `references/review-page.md`. التعديلات بعدها من ملاحظاته بالصفحة («شوف الملاحظات»).
-   - **«إعداد» واحد لكل حلقة:** كلمة + رابط الحلقة + كرت ختام + أوتوميشن واحد على «أي بوست» — نفسه لكل ريلات الحلقة.
-   - **الكاروسيل من الحلقة:** صورة الضيف أو المتحدث بالغلاف بس، وباقي الشرائح من صور مفرّغة أو عناصر — وريه شبكة معاينة قبل التصدير.
+5. **Every seam between two pieces is checked** (`19_seam_check.py`) — mandatory.
+6. Podcast extras → `references/podcast-upgrades.md`
+7. **Closing keyword + the episode link by DM (automation):** change `theme.json → outro` to a card with the episode's keyword → `references/keyword-automation.md`
+8. **How to work on each new episode:**
+   - **The chat is for decisions:** transcribe the episode and give them a **numbered proposal sheet** (hook + start/end + why it works); they choose by number. Don't cut before they choose.
+   - **After the edit — the review page (mandatory for 2+ items):** all reels and the carousel on one page with notes, approval and download → `references/review-page.md`. Later changes come from their notes on the page ("see the notes").
+   - **One "setup" per episode:** a keyword + the episode link + an end card + one automation on "any post" — the same for all the episode's reels.
+   - **The carousel from the episode:** the guest's or speaker's photo on the cover only, the rest of the slides from cut-out photos or elements — and show a preview grid before export.
 
-## 🌐 اللغة
+## 🌐 Language
 
-المستخدم يختار لغته (مرة وحدة) — `references/language.md` من سكل الريل، والرمز من `python3 scripts/_lang.py`. كل كلامك معه بلغته.
+The user picks their language once — `references/language.md` in the reel skill; the code comes from `python3 scripts/_lang.py`. Speak to them in it.
 
-## ⛔ أسلوبك مع المستخدم
+## ⛔ How you treat the user
 
-- **أنت اللي تجهّز، مو هو.** لا تعطيه أوامر ينفّذها.
-- **بلا مصطلحات،** وقل له وين احنا كل خطوة وكم ياخذ.
-- **شي واحد بكل مرة،** ووريه ورقة لقطات بعد كل مرحلة مهمة.
+- **You prepare things, not them.** Never hand them commands to run.
+- **No jargon,** and say where you are at each step and how long it takes.
+- **One thing at a time,** and show a frame sheet after each important stage.
 
-## قواعد ثابتة
+## Fixed rules
 
-- الكابشن ما ينكتب على وجه المتحدث.
-- أرقام غربية، والألوان من `theme.json` لا غير.
-- صفر تعديل لوني على الصورة إلا بطلب صريح.
-- لا تخترع كلام ما قاله، ولا نشر ولا جدولة — التسليم ملف بس.
-- ماك بس للوجوه وقصّ الشخص (مكتبة Vision).
+- A caption is never written over the speaker's face.
+- Western digits, and colors from `theme.json` only.
+- Zero color grading on the picture unless explicitly asked.
+- Never invent words they didn't say, and no posting or scheduling — delivery is a file only.
+- Mac only for faces and person cut-out (the Vision library).

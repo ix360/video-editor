@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""إعدادات الإعداد المحفوظة (~/.video-ad-editor/setup.json) — مصدر واحد للسكربتات.
-  assets: "api"          ← صور بمفتاح AI Studio (GEMINI_API_KEY) والمقاطع/الاحتياط عبر fal (FAL_KEY)
-          "subscription" ← جوجل فلو من متصفح كروم باشتراك المستخدم (references/google-flow.md) — بلا مفاتيح
-          None           ← ما اختار بعد (يسأله كلود مرة وحدة)"""
+"""Saved setup choices (~/.video-ad-editor/setup.json) — one source for the scripts.
+  assets: "api"          -> images by AI Studio key (GEMINI_API_KEY); videos/fallback via fal (FAL_KEY)
+          "subscription" -> Google Flow in the user's Chrome with their own Google plan (references/google-flow.md) — no keys
+          None           -> not chosen yet (Claude asks once)"""
 import json, os
 from pathlib import Path
 
