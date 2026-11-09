@@ -19,9 +19,14 @@ Details: [`language.md`](video-editor/references/language.md).
 
 ## 🆕 What's new
 
+### One command for the whole workflow · a script writer
+- **`/video-editor:start`** runs everything in order — setup check → a one-message brief → script → voice → look and assets → build → delivery — and picks the right skill for you (reel, podcast, montage, motion film, cover). It remembers where you are, so you can stop and come back (`42_start.py status`).
+- **The `script-writer` skill:** three hooks to choose from (the first word already carries the point — no greetings), a story skeleton that fits your goal, **one** direct call to action, and a shot list saying what the viewer sees on every line → [`script-writing.md`](video-editor/references/script-writing.md).
+- **Your own voice = attach an mp3.** No recorder page: record on your phone, attach the file, and it becomes the narration (free) or a clone sample.
+
 ### Free stock · voiceover · images and video from Google
 - **Free stock** (`38_stock.py`): search and download from Pexels, Pixabay and Unsplash, with the credit saved → [`stock.md`](video-editor/references/stock.md).
-- **The `voiceover-video` skill:** checks that ElevenLabs is connected (and shows you the Connect button if not), lists your voices, and generates the voiceover — in your cloned voice, or from a sample you record in the browser → [`voiceover.md`](video-editor/references/voiceover.md).
+- **The `voiceover-video` skill:** checks that ElevenLabs is connected (and shows you the Connect button if not), lists your voices, and generates the voiceover — in your cloned voice, from an **mp3 of yourself that you attach** (as the narration or as a clone sample), or a ready-made voice → [`voiceover.md`](video-editor/references/voiceover.md).
 - **Images from AI Studio** with a `GEMINI_API_KEY` (cheaper than fal) + **Google Flow in the browser** for video clips with no API cost (experimental) → [`google-flow.md`](video-editor/references/google-flow.md).
 - **You choose once:** (A) the Google API (an AI Studio key) or (B) your own Google Flow subscription through Chrome. A **simple check** then verifies ElevenLabs, the Chrome extension and Flow access, and if Flow won't open it brings Chrome forward so you can sign in → [`setup-check.md`](video-editor/references/setup-check.md).
 - Always cheapest first: stock → Gemini → Flow → fal.

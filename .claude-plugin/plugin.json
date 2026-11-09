@@ -1,7 +1,7 @@
 {
   "name": "video-editor",
-  "version": "7.0.1",
-  "description": "Video editing for Claude Code in your own language (10 languages, English by default) — 6 skills: talking-head reels, 3D motion explainers, podcasts, beat-synced montage, covers & thumbnails, ElevenLabs voiceover — plus free stock, Gemini and Google Flow assets.",
+  "version": "7.1.0",
+  "description": "Video editing for Claude Code in your own language (10 languages, English by default) — 8 skills: a one-command /start workflow, a script writer, talking-head reels, 3D motion explainers, podcasts, beat-synced montage, covers & thumbnails, ElevenLabs voiceover — plus free stock, Gemini and Google Flow assets.",
   "author": {
     "name": "ix360",
     "url": "https://github.com/ix360"

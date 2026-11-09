@@ -30,7 +30,8 @@
 | `15_podcast.py` · `16_render_pod.js` · `compose.PODCAST.html` · `facetrack.swift` | **وضع البودكاست** (`references/podcast.md`) | مستقل (ماك) |
 | `17_gen_scenes.py` | مشاهد مولّدة: صور Gemini أو fal، ومقاطع fal، و`import` لملف جاهز (`references/gen-scenes.md`) | الخفيف |
 | `38_stock.py` | بحث وتنزيل ستوك مجاني Pexels/Pixabay/Unsplash + إسناد (`references/stock.md`) | — |
-| `39_record_voice.py` | تسجيل عينة صوته من المتصفح + رفعها للاستنساخ (`references/voiceover.md`) | ElevenLabs |
+| `39_voice_sample.py` | فحص ملف صوتي يرفقه المستخدم (mp3/m4a/wav) → wav نظيف + رفعه للاستنساخ (`references/voiceover.md`) | ElevenLabs |
+| `42_start.py` | ذاكرة أمر `/start`: يحفظ الـbrief ويطبع المراحل المنجزة والخطوة التالية | — |
 | `00_check.py` | فحص الإعداد واختيار مصدر الأصول (`references/setup-check.md`) | — |
 | `_setup.py` | إعدادات محفوظة (`setup.json`) | — |
 | `_lang.py` | لغة المستخدم (`references/language.md`) | — |

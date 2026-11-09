@@ -4,9 +4,9 @@
 # لا ينشر شي. النشر (push + gh release) خطوة منفصلة بموافقتك.
 set -euo pipefail
 REPO="$(cd "$(dirname "$0")/.." && pwd)"; cd "$REPO"
-[ -z "$(git status --porcelain -- .claude-plugin video-editor motion-video podcast-video montage-video thumbnail-video voiceover-video)" ] || { echo "❌ فيه تعديلات مو مكومتة — كوميت أول"; exit 1; }
+[ -z "$(git status --porcelain -- .claude-plugin video-editor motion-video podcast-video montage-video thumbnail-video voiceover-video start script-writer)" ] || { echo "❌ فيه تعديلات مو مكومتة — كوميت أول"; exit 1; }
 T="$(mktemp -d)"; trap 'rm -rf "$T"' EXIT
-git archive HEAD .claude-plugin video-editor motion-video podcast-video montage-video thumbnail-video voiceover-video | tar -x -C "$T"
+git archive HEAD .claude-plugin video-editor motion-video podcast-video montage-video thumbnail-video voiceover-video start script-writer | tar -x -C "$T"
 P="$T/video-editor"
 # مو للتشغيل: صور الشرح وملفات npm وملفات جيت الداخلية (نفس 4.4.4)
 rm -rf "$P/img" "$P/package.json" "$P/package-lock.json" "$P/motion/.gitignore"
@@ -17,7 +17,7 @@ rm -rf "$P/img" "$P/package.json" "$P/package-lock.json" "$P/motion/.gitignore"
 # marketplace.json يبقى بالمستودع (هو المتجر نفسه) وما له شغل داخل ملف البلقن
 rm -f "$T/.claude-plugin/marketplace.json"
 mkdir -p dist; rm -f dist/video-editor.plugin dist/video-editor.skill
-( cd "$T" && zip -qr "$REPO/dist/video-editor.plugin" .claude-plugin video-editor motion-video podcast-video montage-video thumbnail-video voiceover-video -x '*/.DS_Store' )
+( cd "$T" && zip -qr "$REPO/dist/video-editor.plugin" .claude-plugin video-editor motion-video podcast-video montage-video thumbnail-video voiceover-video start script-writer -x '*/.DS_Store' )
 # ملف .skill القديم: سكل واحد بوصف يغطي كل الأوضاع (دبل كليك + التحديث الذاتي للنسخ القديمة)
 S="$(mktemp -d)"; cp -R "$P" "$S/"
 python3 - "$S/video-editor/SKILL.md" <<'PY'

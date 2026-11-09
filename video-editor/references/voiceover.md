@@ -17,23 +17,21 @@ Look for tools ending in `creative_list_voices` and `creative_generate_speech` (
 
 ## 1. Pick the voice — three paths
 
-Ask one short question: **"Use one of your voices, record a new sample, or pick a ready-made voice?"**
+Ask one short question: **"Use one of your ElevenLabs voices, send me an mp3 of your own voice, or pick a ready-made voice?"**
 
 ### A. One of my voices (default when they ask for "my voice")
 `creative_list_voices` (set `context`). The result includes the workspace voices — a cloned voice the user already made shows there. Show **names only** (max ~8) and let them choose; remember the `voice_id`.
 No voice of theirs in the list? → path B.
 
-### B. Record my voice now (instant clone)
-1. Tell them: *"I'll open a small page. Read the text (1–3 min, quiet room), press Stop."*
-2. ```bash
-   python3 scripts/39_record_voice.py record --name my-voice
-   ```
-   It prints `URL: …` first — give it to the user if the browser doesn't open. It saves `~/.video-ad-editor/voice/my-voice.wav` and exits.
-3. **Cloning needs an upload.** Either:
-   - `ELEVENLABS_API_KEY` is in the user's `.env` → `python3 scripts/39_record_voice.py upload ~/.video-ad-editor/voice/my-voice.wav --name "My voice"` → prints `voice_id` (needs a plan with Instant Voice Cloning).
-   - No key → tell them: *"Upload the file at elevenlabs.io → Voices → Add voice → Instant voice clone, then tell me when it's done."* Then re-run `creative_list_voices` to find it.
-   (The connector tools can search and design voices but I could not confirm they can create a clone from a sample — don't promise it.)
-4. Consent check, once: *"This sample is your own voice, right?"*
+### B. My own voice from an mp3 (no recorder page)
+Ask them to **record themselves on their phone (Voice Memos or any recorder) and attach the file here** — mp3, m4a or wav. Two uses:
+
+- **As the narration itself (free, no credits):** they read the finished script. → `python3 scripts/39_voice_sample.py prepare <file>` checks it (length, loudness) and writes a clean wav; copy/convert it to `<work>/vo.mp3`. Under 5 s or very quiet → ask for another take, closer to the mic.
+- **As a clone sample (a voice they can reuse):** ask for **1–3 minutes** of them talking naturally (they can read `python3 scripts/39_voice_sample.py script`), quiet room, mic close. Then:
+  - `ELEVENLABS_API_KEY` is in their `.env` → `python3 scripts/39_voice_sample.py upload <file> --name "My voice"` → prints `voice_id` (needs a plan with Instant Voice Cloning).
+  - No key → tell them: *"Upload the file at elevenlabs.io → Voices → Add voice → Instant voice clone, then tell me when it's done."* Then re-run `creative_list_voices` to find it.
+  (The connector tools can search and design voices but I could not confirm they can create a clone from a sample — don't promise it.)
+- Consent check, once: *"This is your own voice, right?"*
 
 ### C. Ready-made voice
 `creative_list_voices` filtered by language (`languages`), `gender`, `use_cases` (e.g. `social_media`, `advertisement`) and the language from `scripts/_lang.py`. Play nothing — describe 3 options by name and traits; let them choose. Or `creative_design_voice` to make a new one from a text description (then `creative_save_designed_voice` to keep it).
