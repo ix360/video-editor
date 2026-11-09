@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr" class="i18n-wait">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -39,6 +39,15 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans A
 button,input,textarea{font:inherit;color:inherit}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
+/* ── اللغات ── */
+html.i18n-wait body{visibility:hidden}
+.hdr-actions{display:flex;gap:8px;align-items:center;flex:none}
+.langsel{height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:0 12px;font:inherit;font-weight:600;cursor:pointer}
+.langsel:focus-visible{outline:3px solid var(--acc-soft);outline-offset:2px}
+[dir=ltr] .switch .k::after{right:auto;left:3px;transition:left .15s}
+[dir=ltr] .switch input:checked+.k::after{left:21px}
+[dir=ltr] .phone .cap{direction:ltr}
+[dir=ltr] .qs{margin-right:0}
 /* ── الرأس ── */
 header{padding:28px 0 8px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 h1{font-size:clamp(24px,4.4vw,34px);line-height:1.25;margin:0 0 6px;font-weight:700;letter-spacing:-.01em}
@@ -275,9 +284,12 @@ h2{font-size:18px;margin:0;font-weight:700}
     <h1>قبل ما نبدأ، عرّفني على ذوقك</h1>
     <p class="lead">دقيقتين بالكثير. أي شي ما تختاره أقرره أنا حسب الفيديو، وتقدر تغيّره بعدين بكلمة «غيّر إعداداتي».</p>
   </div>
+  <div class="hdr-actions">
+  <select id="langSel" class="langsel" aria-label="Language"></select>
   <button type="button" class="iconbtn" id="themeBtn" aria-label="الوضع الليلي والنهاري">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
   </button>
+  </div>
 </header>
 
 <div class="quick">
@@ -414,14 +426,14 @@ h2{font-size:18px;margin:0;font-weight:700}
   <div id="movesf" hidden style="margin-top:12px">
     <p class="qs" style="margin:0 0 10px">افتح البنك واضغط «أبي» على اللي تحبها و«لا» على اللي ما تبيها أبد، واحفظ هناك. والباقي أختار منه حسب المونتاج.</p>
     <a class="btn btn-ghost" href="/moves/?from=onboard" target="_blank" rel="noopener" style="display:inline-flex;text-decoration:none">افتح بنك الحركات</a>
-    <span id="movesSaved" style="margin-inline-start:10px;color:var(--ink2);font-size:14px"></span>
+    <span id="movesSaved" data-dyn style="margin-inline-start:10px;color:var(--ink2);font-size:14px"></span>
   </div>
 </section>
 
 </div>
 
 <div class="bar"><div class="wrap">
-  <div class="prog"><div class="meter"><i id="meterI"></i></div><span id="progT">كل شي تلقائي — اختار اللي يهمك بس</span></div>
+  <div class="prog"><div class="meter"><i id="meterI"></i></div><span id="progT" data-dyn>كل شي تلقائي — اختار اللي يهمك بس</span></div>
   <button type="button" class="btn btn-pri" id="saveBtn">احفظ وخلّنا نبدأ
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
 </div></div>
@@ -430,12 +442,12 @@ h2{font-size:18px;margin:0;font-weight:700}
 <div class="done-ov" id="doneOv" role="dialog" aria-live="polite">
   <div>
     <div class="ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7"/></svg></div>
-    <h2 id="doneH">انحفظ</h2>
-    <p id="doneP">ارجع لكلود — بدأ الشغل. تقدر تسكّر هالصفحة.</p>
+    <h2 id="doneH" data-dyn>انحفظ</h2>
+    <p id="doneP" data-dyn>ارجع لكلود — بدأ الشغل. تقدر تسكّر هالصفحة.</p>
     <pre id="doneJ" hidden></pre>
   </div>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" data-dyn></div>
 
 <script>
 /* ═══════════ البيانات ═══════════ */
@@ -515,6 +527,229 @@ const VOICES=[  /* edge-tts — أصوات مايكروسوفت العربية �
 const BGS=[{v:'auto',n:'قرّر وقتها'},{v:'none',n:'بدون'},{v:'own',n:'عندي ملف'}];
 const SFXS=[{v:'auto',n:'تلقائي'},{v:'on',n:'شغّلها'},{v:'off',n:'بدونها'}];
 const SERVER=location.protocol.startsWith('http');
+/* ═══════════ اللغات — المصدر عربي، والباقي ترجمة بنفس الترتيب: [ar, en, fr, es, pt, de, tr] ═══════════ */
+const LANG_ORDER=['ar','en','fr','es','pt','de','tr'];
+const LANG_NAMES={ar:'العربية',en:'English',fr:'Français',es:'Español',pt:'Português',de:'Deutsch',tr:'Türkçe'};
+const RTL_LANGS=['ar'];
+const ROWS=[
+['قبل ما نبدأ، عرّفني على ذوقك','Before we start, tell me your taste','Avant de commencer, dis-moi ce que tu aimes','Antes de empezar, cuéntame tu estilo','Antes de começar, conte-me o seu estilo','Bevor wir starten: Was ist dein Stil?','Başlamadan önce zevkini anlat'],
+['دقيقتين بالكثير. أي شي ما تختاره أقرره أنا حسب الفيديو، وتقدر تغيّره بعدين بكلمة «غيّر إعداداتي».','Two minutes at most. Anything you don’t choose, I decide from the video — and you can change it later by saying “change my settings”.','Deux minutes maximum. Ce que tu ne choisis pas, je le décide selon la vidéo — et tu pourras le changer plus tard en disant « change mes réglages ».','Dos minutos como mucho. Lo que no elijas lo decido yo según el vídeo, y puedes cambiarlo después diciendo «cambia mis ajustes».','No máximo dois minutos. O que você não escolher eu decido pelo vídeo — e dá para mudar depois dizendo “mude minhas configurações”.','Höchstens zwei Minuten. Was du nicht wählst, entscheide ich passend zum Video — und du kannst es später mit „ändere meine Einstellungen“ ändern.','En fazla iki dakika. Seçmediğin her şeyi videoya göre ben belirlerim; sonra “ayarlarımı değiştir” diyerek değiştirebilirsin.'],
+['اكتب اللي تبيه وخلّ الباقي علي','Write what you want and leave the rest to me','Écris ce que tu veux, je m’occupe du reste','Escribe lo que quieras y yo me ocupo del resto','Escreva o que quiser e deixe o resto comigo','Schreib, was du willst, den Rest übernehme ich','İstediğini yaz, gerisini bana bırak'],
+['مثلاً: إعلان لمطعمي، ألوان الشعار أحمر وأبيض، إيقاع سريع، وبالنهاية «احجز الحين»','For example: an ad for my restaurant, logo colors red and white, fast pace, ending with “Book now”','Par exemple : une pub pour mon restaurant, logo rouge et blanc, rythme rapide, et à la fin « Réserve maintenant »','Por ejemplo: un anuncio de mi restaurante, logo rojo y blanco, ritmo rápido y al final «Reserva ya»','Por exemplo: um anúncio do meu restaurante, logo vermelho e branco, ritmo rápido e no final “Reserve agora”','Zum Beispiel: eine Werbung für mein Restaurant, Logo rot und weiß, schnelles Tempo, am Ende „Jetzt reservieren“','Örneğin: restoranım için bir reklam, logo renkleri kırmızı-beyaz, hızlı tempo ve sonunda “Hemen rezervasyon yap”'],
+['تبي تختصر؟ اكتب هني واضغط تخطّ — أو كمّل تحت.','Want it short? Write here and press skip — or continue below.','Tu veux faire court ? Écris ici et passe — ou continue en dessous.','¿Quieres ir rápido? Escribe aquí y pulsa omitir, o sigue más abajo.','Quer ser rápido? Escreva aqui e toque em pular — ou continue abaixo.','Kurz halten? Schreib hier und überspring — oder mach unten weiter.','Kısa mı olsun? Buraya yaz ve atla — ya da aşağıdan devam et.'],
+['تخطّ الأسئلة وابدأ','Skip the questions and start','Passer les questions et commencer','Omitir las preguntas y empezar','Pular as perguntas e começar','Fragen überspringen und starten','Soruları atla ve başla'],
+['ألوانك','Your colors','Tes couleurs','Tus colores','Suas cores','Deine Farben','Renklerin'],
+['كل الكروت والنصوص بالفيديو تاخذ من هالألوان. صورتك نفسها ما تنصبغ.','All cards and text in the video use these colors. Your own footage is never tinted.','Toutes les cartes et textes de la vidéo utilisent ces couleurs. Ton image n’est jamais teintée.','Todas las tarjetas y textos del vídeo usan estos colores. Tu imagen nunca se tiñe.','Todos os cartões e textos do vídeo usam estas cores. A sua imagem nunca é tingida.','Alle Karten und Texte im Video nutzen diese Farben. Dein Bild selbst wird nie eingefärbt.','Videodaki tüm kartlar ve yazılar bu renkleri kullanır. Görüntün asla renklendirilmez.'],
+['ألوان جاهزة','Ready-made colors','Couleurs prêtes','Colores listos','Cores prontas','Fertige Farben','Hazır renkler'],
+['أختارها بنفسي','I’ll pick them myself','Je les choisis moi-même','Las elijo yo','Eu mesmo escolho','Ich wähle selbst','Kendim seçeyim'],
+['من موقعي أو حسابي','From my website or account','Depuis mon site ou mon compte','Desde mi web o cuenta','Do meu site ou conta','Von meiner Website oder meinem Konto','Sitemden veya hesabımdan'],
+['الخلفية','Background','Arrière-plan','Fondo','Fundo','Hintergrund','Arka plan'],
+['النص','Text','Texte','Texto','Texto','Text','Metin'],
+['لون التمييز','Accent color','Couleur d’accent','Color de acento','Cor de destaque','Akzentfarbe','Vurgu rengi'],
+['لون التمييز قريب من الخلفية — الكلمة المميزة ما راح تبان زين. جرّب لون أغمق أو أفتح.','The accent is too close to the background — the highlighted word won’t stand out. Try a darker or lighter color.','L’accent est trop proche du fond — le mot mis en avant ne ressortira pas. Essaie plus foncé ou plus clair.','El acento se parece al fondo: la palabra destacada no se verá bien. Prueba uno más oscuro o más claro.','O destaque está parecido com o fundo — a palavra em destaque não vai aparecer bem. Tente mais escuro ou mais claro.','Der Akzent ist dem Hintergrund zu ähnlich — das hervorgehobene Wort fällt nicht auf. Versuch es dunkler oder heller.','Vurgu rengi arka plana çok yakın — vurgulanan kelime iyi görünmez. Daha koyu veya açık dene.'],
+['أطلّع ألوانك وخطك وشعارك من الرابط أول ما تبدأ، وأوريك قبل ما أستخدمها.','I’ll pull your colors, font and logo from the link at the start, and show you before I use them.','Je récupère tes couleurs, ta police et ton logo depuis le lien dès le début, et je te les montre avant de les utiliser.','Sacaré tus colores, tipografía y logo del enlace al empezar, y te los enseñaré antes de usarlos.','Vou tirar suas cores, fonte e logo do link no início e mostrar antes de usar.','Ich lese Farben, Schrift und Logo beim Start aus dem Link und zeige sie dir, bevor ich sie nutze.','Başlarken renklerini, yazı tipini ve logonu bağlantıdan alırım; kullanmadan önce sana gösteririm.'],
+['شعار','Logo','Logo','Logo','Logo','Logo','Logo'],
+['ارفع شعارك (اختياري)','Upload your logo (optional)','Importe ton logo (facultatif)','Sube tu logo (opcional)','Envie seu logo (opcional)','Logo hochladen (optional)','Logonu yükle (isteğe bağlı)'],
+['الخط','Font','Police','Tipografía','Fonte','Schrift','Yazı tipi'],
+['كلها تدعم العربي كامل. اختار اللي يشبهك.','All support Arabic fully. Pick the one that feels like you.','Toutes gèrent parfaitement l’arabe. Choisis celle qui te ressemble.','Todas admiten árabe por completo. Elige la que te represente.','Todas suportam árabe por completo. Escolha a que combina com você.','Alle unterstützen Arabisch vollständig. Wähl die, die zu dir passt.','Hepsi Arapçayı tam destekler. Sana yakışanı seç.'],
+['شكل الكابشن','Caption style','Style des sous-titres','Estilo de subtítulos','Estilo da legenda','Untertitel-Stil','Altyazı stili'],
+['الكلمة تتلوّن لحظة ما تنطقها. المعاينة بألوانك وخطك اللي فوق.','The word lights up the moment it is spoken. The preview uses your colors and font above.','Le mot s’illumine au moment où il est prononcé. L’aperçu utilise tes couleurs et ta police.','La palabra se ilumina justo al pronunciarse. La vista previa usa tus colores y tipografía.','A palavra acende no momento em que é falada. A prévia usa suas cores e fonte.','Das Wort leuchtet auf, sobald es gesprochen wird. Die Vorschau nutzt deine Farben und Schrift.','Kelime söylendiği anda renklenir. Önizleme yukarıdaki renk ve yazı tipini kullanır.'],
+['الأرقام','Digits','Chiffres','Cifras','Algarismos','Ziffern','Rakamlar'],
+['بالكابشن والرسومات.','In captions and graphics.','Dans les sous-titres et les visuels.','En subtítulos y gráficos.','Nas legendas e nos gráficos.','In Untertiteln und Grafiken.','Altyazılarda ve grafiklerde.'],
+['خصم 25٪ على 3 قطع','25% off 3 items','25 % sur 3 articles','25 % en 3 artículos','25% em 3 itens','25 % auf 3 Artikel','3 üründe %25 indirim'],
+['غربية','Western (0-9)','Occidentaux (0-9)','Occidentales (0-9)','Ocidentais (0-9)','Westlich (0-9)','Batı (0-9)'],
+['خصم ٢٥٪ على ٣ قطع','٢٥٪ off ٣ items','٢٥ ٪ sur ٣ articles','٢٥ % en ٣ artículos','٢٥% em ٣ itens','٢٥ % auf ٣ Artikel','٣ üründe ٪٢٥ indirim'],
+['عربية','Arabic-Indic (٠-٩)','Arabes (٠-٩)','Árabes (٠-٩)','Árabes (٠-٩)','Arabisch (٠-٩)','Arap (٠-٩)'],
+['إيقاع المونتاج','Editing pace','Rythme du montage','Ritmo del montaje','Ritmo da edição','Schnitt-Tempo','Kurgu temposu'],
+['كم مرة الكادر يتحرك ويتغيّر.','How often the frame moves and changes.','À quelle fréquence l’image bouge et change.','Cada cuánto se mueve y cambia el encuadre.','Com que frequência o quadro se move e muda.','Wie oft sich das Bild bewegt und wechselt.','Karenin ne sıklıkla hareket edip değiştiği.'],
+['نوع الفيديو','Video type','Type de vidéo','Tipo de vídeo','Tipo de vídeo','Videotyp','Video türü'],
+['لو ما اخترت، أعرفه من المقطع نفسه.','If you don’t choose, I’ll work it out from the clip itself.','Si tu ne choisis pas, je le déduis du clip.','Si no eliges, lo deduzco del propio clip.','Se você não escolher, eu descubro pelo próprio clipe.','Wenn du nichts wählst, erkenne ich es am Clip selbst.','Seçmezsen klibin kendisinden anlarım.'],
+['فيه أحد يطلع بالفيديو؟','Is anyone on screen?','Quelqu’un apparaît-il à l’écran ?','¿Sale alguien en el vídeo?','Alguém aparece no vídeo?','Ist jemand im Video zu sehen?','Videoda biri var mı?'],
+['المقاس','Format','Format','Formato','Formato','Format','Boyut'],
+['تقدر تختار أكثر من واحد.','You can pick more than one.','Tu peux en choisir plusieurs.','Puedes elegir más de uno.','Você pode escolher mais de um.','Du kannst mehrere wählen.','Birden fazla seçebilirsin.'],
+['وين تنشر؟','Where do you post?','Où publies-tu ?','¿Dónde publicas?','Onde você publica?','Wo veröffentlichst du?','Nerede paylaşıyorsun?'],
+['عشان أبعد النص عن أزرار كل منصة. أكثر من وحدة عادي.','So I keep text away from each platform’s buttons. More than one is fine.','Pour garder le texte loin des boutons de chaque plateforme. Plusieurs choix possibles.','Para alejar el texto de los botones de cada plataforma. Puedes elegir varias.','Para manter o texto longe dos botões de cada plataforma. Pode escolher várias.','Damit der Text von den Buttons jeder Plattform fernbleibt. Mehrere sind okay.','Yazıyı her platformun düğmelerinden uzak tutmak için. Birden fazlası olur.'],
+['طول الفيديو','Video length','Durée de la vidéo','Duración del vídeo','Duração do vídeo','Videolänge','Video uzunluğu'],
+['الصوت','Audio','Audio','Audio','Áudio','Audio','Ses'],
+['التعليق الصوتي يلزم بس للفيديو اللي ما فيه أحد يتكلم.','A voiceover is only needed for videos where nobody speaks.','La voix off n’est nécessaire que pour les vidéos où personne ne parle.','La locución solo hace falta en vídeos donde nadie habla.','A narração só é necessária em vídeos em que ninguém fala.','Ein Voiceover braucht man nur bei Videos, in denen niemand spricht.','Seslendirme yalnızca kimsenin konuşmadığı videolarda gerekir.'],
+['التعليق الصوتي','Voiceover','Voix off','Locución','Narração','Voiceover','Seslendirme'],
+['لغة التعليق','Voiceover language','Langue de la voix off','Idioma de la locución','Idioma da narração','Sprache des Voiceovers','Seslendirme dili'],
+['صوت رجل ولا امرأة؟','A man’s or a woman’s voice?','Voix d’homme ou de femme ?','¿Voz de hombre o de mujer?','Voz de homem ou de mulher?','Männer- oder Frauenstimme?','Erkek mi kadın sesi mi?'],
+['ملف صوتي بالخلفية','Background audio','Audio en arrière-plan','Audio de fondo','Áudio de fundo','Hintergrund-Audio','Arka plan sesi'],
+['مؤثرات صوتية (ووش، ضربة، نقرة)','Sound effects (whoosh, hit, click)','Effets sonores (whoosh, impact, clic)','Efectos de sonido (whoosh, golpe, clic)','Efeitos sonoros (whoosh, batida, clique)','Soundeffekte (Whoosh, Schlag, Klick)','Ses efektleri (vızıltı, vuruş, tık)'],
+['كرت النهاية','End card','Carte de fin','Tarjeta final','Cartão final','Endkarte','Bitiş kartı'],
+['آخر ثواني الفيديو: حسابك وجملة تدعو للتفاعل. اختياري.','The last seconds: your handle and a call to action. Optional.','Les dernières secondes : ton compte et un appel à l’action. Facultatif.','Los últimos segundos: tu usuario y una llamada a la acción. Opcional.','Os últimos segundos: seu perfil e uma chamada para ação. Opcional.','Die letzten Sekunden: dein Account und ein Aufruf zum Handeln. Optional.','Videonun son saniyeleri: hesabın ve etkileşim çağrısı. İsteğe bağlı.'],
+['أبي كرت بالنهاية','I want an end card','Je veux une carte de fin','Quiero una tarjeta final','Quero um cartão final','Ich möchte eine Endkarte','Bitiş kartı istiyorum'],
+['حسابك','Your handle','Ton compte','Tu usuario','Seu perfil','Dein Account','Hesabın'],
+['الجملة الأخيرة — قصيرة تطلع كبيرة','The last line — keep it short, it appears big','La dernière phrase — courte, elle s’affiche en grand','La última frase: corta, sale en grande','A última frase — curta, aparece grande','Der letzte Satz — kurz, er erscheint groß','Son cümle — kısa tut, büyük çıkar'],
+['تابعني للجزء الثاني','Follow me for part two','Suis-moi pour la partie 2','Sígueme para la parte 2','Me siga para a parte 2','Folge mir für Teil 2','İkinci bölüm için beni takip et'],
+['كلمة يعلّقون فيها (اختياري)','A word they comment (optional)','Un mot à commenter (facultatif)','Una palabra para comentar (opcional)','Uma palavra para comentarem (opcional)','Ein Wort zum Kommentieren (optional)','Yorum yazacakları kelime (isteğe bağlı)'],
+['أبي','I want','Je veux','Quiero','Quero','Will ich','İstiyorum'],
+['الحركات','Moves','Mouvements','Movimientos','Movimentos','Bewegungen','Hareketler'],
+['عندي بنك فيه 100 حركة. كل فيديو أختار له لوحة: 3 حركات أساسية يدور حولها، ولهجة للحظات الخاصة، وما تتكرر من فيديو لفيديو.','I have a bank of 100 moves. For each video I pick a palette: 3 core moves it revolves around, accents for special moments, and nothing repeats from one video to the next.','J’ai une banque de 100 mouvements. Pour chaque vidéo je choisis une palette : 3 mouvements de base, des accents pour les moments forts, sans répétition d’une vidéo à l’autre.','Tengo un banco de 100 movimientos. Para cada vídeo elijo una paleta: 3 movimientos base, acentos para momentos especiales y sin repetirse de un vídeo a otro.','Tenho um banco de 100 movimentos. Para cada vídeo escolho uma paleta: 3 movimentos base, acentos para momentos especiais e nada se repete de um vídeo para outro.','Ich habe eine Bank mit 100 Bewegungen. Für jedes Video wähle ich eine Palette: 3 Grundbewegungen, Akzente für besondere Momente, ohne Wiederholung von Video zu Video.','100 hareketlik bir bankam var. Her video için bir palet seçerim: etrafında dönen 3 temel hareket, özel anlar için vurgular ve videodan videoya tekrar yok.'],
+['أبي أختار الحركات بنفسي','I want to choose the moves myself','Je veux choisir les mouvements moi-même','Quiero elegir los movimientos yo','Quero escolher os movimentos eu mesmo','Ich will die Bewegungen selbst wählen','Hareketleri kendim seçmek istiyorum'],
+['افتح البنك واضغط «أبي» على اللي تحبها و«لا» على اللي ما تبيها أبد، واحفظ هناك. والباقي أختار منه حسب المونتاج.','Open the bank and press “Want” on the ones you like and “No” on the ones you never want, then save there. I’ll choose the rest to fit the edit.','Ouvre la banque, appuie sur « Je veux » pour celles que tu aimes et « Non » pour celles que tu ne veux jamais, puis enregistre là-bas. Je choisis le reste selon le montage.','Abre el banco y pulsa «Quiero» en las que te gusten y «No» en las que nunca quieras; guarda allí. El resto lo elijo yo según el montaje.','Abra o banco e toque em “Quero” nas que gosta e “Não” nas que nunca quer, e salve lá. O resto eu escolho conforme a edição.','Öffne die Bank, tippe auf „Will ich“ bei den Favoriten und „Nein“ bei denen, die du nie willst, und speichere dort. Den Rest wähle ich passend zum Schnitt.','Bankayı aç; sevdiklerine “İstiyorum”, hiç istemediklerine “Hayır” de ve orada kaydet. Gerisini kurguya göre ben seçerim.'],
+['افتح بنك الحركات','Open the move bank','Ouvrir la banque de mouvements','Abrir el banco de movimientos','Abrir o banco de movimentos','Bewegungsbank öffnen','Hareket bankasını aç'],
+['كل شي تلقائي — اختار اللي يهمك بس','Everything is automatic — just pick what matters to you','Tout est automatique — choisis seulement ce qui compte','Todo es automático: elige solo lo que te importe','Tudo é automático — escolha só o que importa','Alles läuft automatisch — wähle nur, was dir wichtig ist','Her şey otomatik — sadece önemsediğini seç'],
+['اخترت {n} من {m} — الباقي أقرره أنا','You chose {n} of {m} — I decide the rest','Tu as choisi {n} sur {m} — je décide du reste','Has elegido {n} de {m}; el resto lo decido yo','Você escolheu {n} de {m} — o resto eu decido','Du hast {n} von {m} gewählt — den Rest entscheide ich','{m} sorudan {n} tanesini seçtin — gerisini ben belirlerim'],
+['احفظ وخلّنا نبدأ','Save and let’s start','Enregistrer et commencer','Guardar y empezar','Salvar e começar','Speichern und loslegen','Kaydet ve başlayalım'],
+['انحفظ','Saved','Enregistré','Guardado','Salvo','Gespeichert','Kaydedildi'],
+['ارجع لكلود — بدأ الشغل. تقدر تسكّر هالصفحة.','Go back to Claude — the work has started. You can close this page.','Retourne sur Claude — le travail a commencé. Tu peux fermer cette page.','Vuelve a Claude: el trabajo ha empezado. Puedes cerrar esta página.','Volte ao Claude — o trabalho começou. Pode fechar esta página.','Zurück zu Claude — die Arbeit hat begonnen. Du kannst diese Seite schließen.','Claude’a dön — iş başladı. Bu sayfayı kapatabilirsin.'],
+['تمام، خلّها علي','Okay, leave it to me','D’accord, je m’en occupe','Vale, déjamelo a mí','Certo, deixe comigo','Alles klar, überlass es mir','Tamam, bana bırak'],
+['انسخ هذا وارسله لكلود','Copy this and send it to Claude','Copie ceci et envoie-le à Claude','Copia esto y envíaselo a Claude','Copie isto e envie ao Claude','Kopiere das und schick es an Claude','Bunu kopyala ve Claude’a gönder'],
+['الصفحة مفتوحة بدون كلود، فما قدرت أحفظ بنفسي.','The page is open without Claude, so I couldn’t save by myself.','La page est ouverte sans Claude, je n’ai donc pas pu enregistrer moi-même.','La página está abierta sin Claude, así que no pude guardar por mi cuenta.','A página está aberta sem o Claude, então não consegui salvar sozinho.','Die Seite ist ohne Claude geöffnet, deshalb konnte ich nicht selbst speichern.','Sayfa Claude olmadan açık, bu yüzden kendim kaydedemedim.'],
+['(ارفع الشعار بالشات)','(upload the logo in the chat)','(importe le logo dans le chat)','(sube el logo en el chat)','(envie o logo no chat)','(Logo im Chat hochladen)','(logoyu sohbette yükle)'],
+['أهلاً فيك','Welcome','Bienvenue','Bienvenido','Bem-vindo','Willkommen','Hoş geldin'],
+['جديد','New','Nouveau','Nuevo','Novo','Neu','Yeni'],
+['أختاره أنا حسب الفيديو','I’ll choose by the video','Je choisis selon la vidéo','Lo elijo según el vídeo','Eu escolho pelo vídeo','Ich wähle passend zum Video','Videoya göre ben seçerim'],
+['تلقائي','Automatic','Automatique','Automático','Automático','Automatisch','Otomatik'],
+['أختار حسب الفيديو','I choose by the video','Je choisis selon la vidéo','Elijo según el vídeo','Escolho pelo vídeo','Ich wähle nach dem Video','Videoya göre seçerim'],
+['حسب الكلام','By the speech','Selon la parole','Según el habla','Pela fala','Nach der Sprache','Konuşmaya göre'],
+['أختار حسب نوع الفيديو','I choose by video type','Je choisis selon le type de vidéo','Elijo según el tipo de vídeo','Escolho pelo tipo de vídeo','Ich wähle nach Videotyp','Video türüne göre seçerim'],
+['اختاره أنا','I’ll choose','Je choisis','Lo elijo yo','Eu escolho','Ich wähle','Ben seçerim'],
+['أجرّب الأصوات على نصّك وأختار الأوضح','I try the voices on your text and pick the clearest','J’essaie les voix sur ton texte et je prends la plus claire','Pruebo las voces con tu texto y elijo la más clara','Testo as vozes no seu texto e escolho a mais clara','Ich probiere die Stimmen an deinem Text aus und wähle die klarste','Sesleri metninde denerim, en net olanı seçerim'],
+['لهجات ثانية (الشام، العراق، اليمن، مصر، المغرب العربي)','More dialects (Levant, Iraq, Yemen, Egypt, Maghreb)','Autres dialectes (Levant, Irak, Yémen, Égypte, Maghreb)','Más dialectos (Levante, Irak, Yemen, Egipto, Magreb)','Mais dialetos (Levante, Iraque, Iêmen, Egito, Magrebe)','Weitere Dialekte (Levante, Irak, Jemen, Ägypten, Maghreb)','Diğer lehçeler (Şam, Irak, Yemen, Mısır, Mağrip)'],
+['اضغط زر التشغيل تسمع العيّنة (يحتاج نت، أول مرة ثانيتين).','Press play to hear a sample (needs internet, two seconds the first time).','Appuie sur lecture pour écouter un échantillon (internet requis, deux secondes la première fois).','Pulsa reproducir para oír una muestra (necesita internet, dos segundos la primera vez).','Toque em reproduzir para ouvir uma amostra (precisa de internet, dois segundos na primeira vez).','Drück auf Play, um eine Hörprobe zu hören (Internet nötig, beim ersten Mal zwei Sekunden).','Örneği dinlemek için oynat’a bas (internet gerekir, ilk seferde iki saniye).'],
+['العيّنات تشتغل لما تنفتح الصفحة من كلود.','Samples work when the page is opened from Claude.','Les échantillons fonctionnent quand la page est ouverte depuis Claude.','Las muestras funcionan cuando la página se abre desde Claude.','As amostras funcionam quando a página é aberta pelo Claude.','Hörproben funktionieren, wenn die Seite über Claude geöffnet wird.','Örnekler, sayfa Claude’dan açıldığında çalışır.'],
+['الأصوات مجانية من مايكروسوفت. بالفصحى المشكّلة تطلع مثل مذيع بلا غلط، وباللهجة ممكن تطلع مكسّرة — أجرّبها قبل وأسمعك.','The voices are free from Microsoft. In vocalized standard Arabic they sound like a news anchor with no mistakes; in dialect they can come out rough — I test them first and let you hear.','Les voix sont gratuites (Microsoft). En arabe standard vocalisé, on dirait un présentateur sans faute ; en dialecte, ça peut sonner approximatif — je teste d’abord et je te fais écouter.','Las voces son gratuitas de Microsoft. En árabe estándar vocalizado suenan como un locutor sin errores; en dialecto pueden salir toscas: las pruebo antes y te las pongo.','As vozes são gratuitas da Microsoft. No árabe padrão vocalizado soam como um apresentador sem erros; em dialeto podem sair truncadas — eu testo antes e deixo você ouvir.','Die Stimmen sind kostenlos von Microsoft. Im vokalisierten Hocharabisch klingen sie wie ein fehlerfreier Sprecher, im Dialekt können sie holprig klingen — ich teste sie vorher und lasse dich hören.','Sesler Microsoft’tan ücretsiz. Harekeli standart Arapçada hatasız bir spiker gibi çıkar; lehçede bozuk çıkabilir — önce denerim, sana dinletirim.'],
+['الوضع الليلي والنهاري','Dark / light mode','Mode sombre / clair','Modo oscuro / claro','Modo escuro / claro','Dunkel-/Hellmodus','Koyu / açık mod'],
+['الشعار كبير — أقل من 6 ميقا لو سمحت','The logo is too big — under 6 MB please','Le logo est trop lourd — moins de 6 Mo, s’il te plaît','El logo es demasiado grande: menos de 6 MB, por favor','O logo é muito grande — menos de 6 MB, por favor','Das Logo ist zu groß — bitte unter 6 MB','Logo çok büyük — lütfen 6 MB’ın altında olsun'],
+['ما قدرت أشغّل العيّنة — يمكن النت مفصول. الصوت ينحفظ عادي.','Couldn’t play the sample — maybe the internet is off. The voice is still saved.','Impossible de lire l’échantillon — internet est peut-être coupé. La voix est quand même enregistrée.','No pude reproducir la muestra; quizá no hay internet. La voz se guarda igual.','Não consegui tocar a amostra — talvez sem internet. A voz é salva do mesmo jeito.','Die Hörprobe ließ sich nicht abspielen — vielleicht fehlt das Internet. Die Stimme wird trotzdem gespeichert.','Örnek çalınamadı — internet kapalı olabilir. Ses yine de kaydedilir.'],
+['ما انحفظ — تأكد إن كلود للحين شغّال وجرّب مرة ثانية','Not saved — make sure Claude is still running and try again','Non enregistré — vérifie que Claude tourne encore et réessaie','No se guardó: comprueba que Claude sigue activo e inténtalo de nuevo','Não foi salvo — confirme que o Claude ainda está ativo e tente de novo','Nicht gespeichert — prüfe, ob Claude noch läuft, und versuch es erneut','Kaydedilmedi — Claude’un hâlâ çalıştığından emin ol ve tekrar dene'],
+['فتحت إعداداتك السابقة — غيّر اللي تبيه','I opened your previous settings — change what you like','J’ai rouvert tes réglages précédents — modifie ce que tu veux','He abierto tus ajustes anteriores: cambia lo que quieras','Abri suas configurações anteriores — mude o que quiser','Ich habe deine früheren Einstellungen geöffnet — ändere, was du willst','Önceki ayarlarını açtım — istediğini değiştir'],
+['محفوظ: أبي {a} · لا {b}','Saved: want {a} · no {b}','Enregistré : je veux {a} · non {b}','Guardado: quiero {a} · no {b}','Salvo: quero {a} · não {b}','Gespeichert: will {a} · nein {b}','Kayıtlı: istiyorum {a} · hayır {b}'],
+['اسمع {n}','Play {n}','Écouter {n}','Escuchar {n}','Ouvir {n}','{n} anhören','{n} dinle'],
+['https://instagram.com/yourname  أو  https://yoursite.com','https://instagram.com/yourname  or  https://yoursite.com','https://instagram.com/yourname  ou  https://yoursite.com','https://instagram.com/yourname  o  https://yoursite.com','https://instagram.com/yourname  ou  https://yoursite.com','https://instagram.com/yourname  oder  https://yoursite.com','https://instagram.com/yourname  veya  https://yoursite.com'],
+['ذوقك بالفيديو','Your video taste','Ton style vidéo','Tu estilo de vídeo','Seu estilo de vídeo','Dein Videostil','Video zevkin'],
+['ليل وذهبي','Night & gold','Nuit et or','Noche y oro','Noite e dourado','Nacht & Gold','Gece ve altın'],
+['أبيض ونيلي','White & indigo','Blanc et indigo','Blanco e índigo','Branco e índigo','Weiß & Indigo','Beyaz ve çivit'],
+['فحمي وليموني','Charcoal & lime','Charbon et citron vert','Carbón y lima','Carvão e limão','Kohle & Limette','Kömür ve misket'],
+['أخضر عميق','Deep green','Vert profond','Verde profundo','Verde profundo','Tiefgrün','Koyu yeşil'],
+['بنفسجي ووردي','Purple & pink','Violet et rose','Morado y rosa','Roxo e rosa','Lila & Pink','Mor ve pembe'],
+['أبيض وأحمر','White & red','Blanc et rouge','Blanco y rojo','Branco e vermelho','Weiß & Rot','Beyaz ve kırmızı'],
+['بحري','Ocean','Océan','Océano','Oceano','Ozean','Okyanus'],
+['أبيض وتركوازي','White & teal','Blanc et turquoise','Blanco y turquesa','Branco e turquesa','Weiß & Türkis','Beyaz ve turkuaz'],
+['كايرو','Cairo','Cairo','Cairo','Cairo','Cairo','Cairo'],
+['متوازن وواضح','Balanced and clear','Équilibrée et lisible','Equilibrada y clara','Equilibrada e clara','Ausgewogen und klar','Dengeli ve net'],
+['تجوال','Tajawal','Tajawal','Tajawal','Tajawal','Tajawal','Tajawal'],
+['نظيف وخفيف','Clean and light','Nette et légère','Limpia y ligera','Limpa e leve','Sauber und leicht','Temiz ve hafif'],
+['آي بي إم بلكس','IBM Plex','IBM Plex','IBM Plex','IBM Plex','IBM Plex','IBM Plex'],
+['عصري ورسمي','Modern and formal','Moderne et formelle','Moderna y formal','Moderna e formal','Modern und formell','Modern ve resmi'],
+['نوتو كوفي','Noto Kufi','Noto Kufi','Noto Kufi','Noto Kufi','Noto Kufi','Noto Kufi'],
+['كوفي هندسي','Geometric Kufi','Koufi géométrique','Cúfico geométrico','Cúfico geométrico','Geometrisch (Kufi)','Geometrik Kufi'],
+['ريدكس برو','Readex Pro','Readex Pro','Readex Pro','Readex Pro','Readex Pro','Readex Pro'],
+['حديث وعريض','Modern and wide','Moderne et large','Moderna y ancha','Moderna e larga','Modern und breit','Modern ve geniş'],
+['المراعي','Almarai','Almarai','Almarai','Almarai','Almarai','Almarai'],
+['بسيط ومقروء','Simple and readable','Simple et lisible','Simple y legible','Simples e legível','Schlicht und lesbar','Sade ve okunaklı'],
+['تشانغا','Changa','Changa','Changa','Changa','Changa','Changa'],
+['مضغوط وقوي','Condensed and strong','Condensée et forte','Condensada y fuerte','Condensada e forte','Schmal und kräftig','Sıkı ve güçlü'],
+['لاله‌زار','Lalezar','Lalezar','Lalezar','Lalezar','Lalezar','Lalezar'],
+['عريض للعناوين','Bold for headlines','Épaisse pour les titres','Gruesa para titulares','Larga para títulos','Fett für Überschriften','Başlıklar için kalın'],
+['خلّ الفيديو يحكي عنك — 2026','Let the video speak for you — 2026','Laisse la vidéo parler de toi — 2026','Deja que el vídeo hable por ti — 2026','Deixe o vídeo falar por você — 2026','Lass das Video für dich sprechen — 2026','Bırak video senin yerine konuşsun — 2026'],
+['كرت','Card','Carte','Tarjeta','Cartão','Karte','Kart'],
+['كرت بلونك والكلمة تنصبغ','A card in your color; the word gets tinted','Carte à ta couleur, le mot est coloré','Tarjeta de tu color y la palabra se tiñe','Cartão na sua cor e a palavra é colorida','Karte in deiner Farbe, das Wort wird eingefärbt','Renginde kart, kelime renklenir'],
+['ظل','Shadow','Ombre','Sombra','Sombra','Schatten','Gölge'],
+['أبيض كبير بلا خلفية','Big white, no background','Grand blanc, sans fond','Blanco grande, sin fondo','Branco grande, sem fundo','Großes Weiß, ohne Hintergrund','Büyük beyaz, arka plansız'],
+['كلمة كلمة','Word by word','Mot par mot','Palabra a palabra','Palavra por palavra','Wort für Wort','Kelime kelime'],
+['كلمة وحدة ضخمة','One huge word','Un seul mot géant','Una palabra enorme','Uma palavra enorme','Ein riesiges Wort','Tek dev kelime'],
+['خط تحت','Underline','Soulignement','Subrayado','Sublinhado','Unterstrich','Alt çizgi'],
+['خط بلونك تحت الكلمة','A line in your color under the word','Un trait à ta couleur sous le mot','Una línea de tu color bajo la palabra','Uma linha na sua cor sob a palavra','Eine Linie in deiner Farbe unter dem Wort','Kelimenin altında renginde çizgi'],
+['شريط','Bar','Bandeau','Barra','Barra','Balken','Şerit'],
+['شريط بلونك ورا الكلمة','A bar in your color behind the word','Un bandeau à ta couleur derrière le mot','Una barra de tu color detrás de la palabra','Uma barra na sua cor atrás da palavra','Ein Balken in deiner Farbe hinter dem Wort','Kelimenin arkasında renginde şerit'],
+['كتابة','Typing','Frappe','Escritura','Digitação','Tippen','Yazma'],
+['تنكتب قدامك بمؤشر','Typed in front of you with a cursor','S’écrit devant toi avec un curseur','Se escribe ante ti con un cursor','É digitado na sua frente com um cursor','Wird vor dir mit Cursor getippt','Önünde imleçle yazılır'],
+['قطع','Chunks','Blocs','Bloques','Blocos','Blöcke','Parçalar'],
+['4 كلمات بكبسولة هادية','4 words in a calm pill','4 mots dans une capsule calme','4 palabras en una cápsula tranquila','4 palavras numa cápsula calma','4 Wörter in einer ruhigen Kapsel','Sakin bir kapsülde 4 kelime'],
+['كلامك','Your','Ta','Tu','Sua','Dein','Senin'],
+['يطلع','speech','parole','voz','fala','Rede','konuşman'],
+['كلمة','word','mot','palabra','palavra','Wort','kelime'],
+['هادي','Calm','Calme','Tranquilo','Calmo','Ruhig','Sakin'],
+['زوم ناعم وقطعات قليلة — للشرح والمحتوى الراقي','Soft zoom and few cuts — for explainers and premium content','Zoom doux et peu de coupes — pour l’explicatif et le contenu haut de gamme','Zoom suave y pocos cortes: para explicaciones y contenido elegante','Zoom suave e poucos cortes — para explicações e conteúdo sofisticado','Sanfter Zoom, wenige Schnitte — für Erklärungen und hochwertige Inhalte','Yumuşak zoom, az kesme — anlatım ve zarif içerik için'],
+['سريع','Fast','Rapide','Rápido','Rápido','Schnell','Hızlı'],
+['تغيير كل ثانية ونص تقريباً — ريلز عادي','A change about every second and a half — regular reels','Un changement toutes les 1,5 s environ — reels classiques','Un cambio cada segundo y medio: reels normales','Uma mudança a cada 1,5 s — reels comuns','Etwa alle 1,5 Sekunden ein Wechsel — normale Reels','Yaklaşık her 1,5 saniyede değişim — normal reels'],
+['صاروخ','Rocket','Fusée','Cohete','Foguete','Rakete','Roket'],
+['شي يتحرك كل نص ثانية — هوك وترند','Something moves every half second — hooks and trends','Quelque chose bouge toutes les 0,5 s — accroches et tendances','Algo se mueve cada medio segundo: ganchos y tendencias','Algo se move a cada meio segundo — ganchos e tendências','Alle 0,5 Sekunden bewegt sich etwas — Hooks und Trends','Her yarım saniyede bir şey hareket eder — kanca ve trend'],
+['كلام للكاميرا','Talking to camera','Face caméra','Hablando a cámara','Falando para a câmera','Direkt in die Kamera','Kameraya konuşma'],
+['بودكاست','Podcast','Podcast','Pódcast','Podcast','Podcast','Podcast'],
+['مراجعة منتج','Product review','Test de produit','Reseña de producto','Análise de produto','Produkttest','Ürün incelemesi'],
+['خبر','News','Actualité','Noticia','Notícia','Nachrichten','Haber'],
+['مونتاج مقاطع','Clip montage','Montage de clips','Montaje de clips','Montagem de clipes','Clip-Montage','Klip montajı'],
+['شرح موشن بلا شخص (تجريبي)','Motion explainer, no person (experimental)','Explicatif animé sans personne (expérimental)','Explicación en motion sin persona (experimental)','Explicação em motion sem pessoa (experimental)','Motion-Erklärvideo ohne Person (experimentell)','Kişisiz hareketli anlatım (deneysel)'],
+['إي، فيه أحد','Yes, someone is on screen','Oui, quelqu’un apparaît','Sí, sale alguien','Sim, aparece alguém','Ja, jemand ist zu sehen','Evet, biri var'],
+['لا، بدون شخص','No, nobody','Non, personne','No, nadie','Não, ninguém','Nein, niemand','Hayır, kimse yok'],
+['طولي 9:16','Vertical 9:16','Vertical 9:16','Vertical 9:16','Vertical 9:16','Hochkant 9:16','Dikey 9:16'],
+['ريلز · تيك توك · شورتس','Reels · TikTok · Shorts','Reels · TikTok · Shorts','Reels · TikTok · Shorts','Reels · TikTok · Shorts','Reels · TikTok · Shorts','Reels · TikTok · Shorts'],
+['عرضي 16:9','Horizontal 16:9','Horizontal 16:9','Horizontal 16:9','Horizontal 16:9','Querformat 16:9','Yatay 16:9'],
+['يوتيوب · لينكدإن','YouTube · LinkedIn','YouTube · LinkedIn','YouTube · LinkedIn','YouTube · LinkedIn','YouTube · LinkedIn','YouTube · LinkedIn'],
+['مربع 1:1','Square 1:1','Carré 1:1','Cuadrado 1:1','Quadrado 1:1','Quadrat 1:1','Kare 1:1'],
+['بوست · إعلان','Post · ad','Publication · pub','Publicación · anuncio','Post · anúncio','Beitrag · Anzeige','Gönderi · reklam'],
+['انستقرام','Instagram','Instagram','Instagram','Instagram','Instagram','Instagram'],
+['تيك توك','TikTok','TikTok','TikTok','TikTok','TikTok','TikTok'],
+['يوتيوب شورتس','YouTube Shorts','YouTube Shorts','YouTube Shorts','YouTube Shorts','YouTube Shorts','YouTube Shorts'],
+['سناب','Snapchat','Snapchat','Snapchat','Snapchat','Snapchat','Snapchat'],
+['يوتيوب','YouTube','YouTube','YouTube','YouTube','YouTube','YouTube'],
+['إكس','X','X','X','X','X','X'],
+['لينكدإن','LinkedIn','LinkedIn','LinkedIn','LinkedIn','LinkedIn','LinkedIn'],
+['أقل من 30 ث','Under 30 s','Moins de 30 s','Menos de 30 s','Menos de 30 s','Unter 30 s','30 sn altı'],
+['دقيقة','1 minute','1 minute','1 minuto','1 minuto','1 Minute','1 dakika'],
+['دقيقة ونص','1.5 minutes','1,5 minute','1,5 minutos','1,5 minuto','1,5 Minuten','1,5 dakika'],
+['مثل ما هو','As it is','Tel quel','Tal cual','Como está','Unverändert','Olduğu gibi'],
+['صوتي أنا','My own voice','Ma propre voix','Mi propia voz','Minha própria voz','Meine eigene Stimme','Kendi sesim'],
+['صوت مولّد مجاني','Free generated voice','Voix générée gratuite','Voz generada gratis','Voz gerada grátis','Kostenlose generierte Stimme','Ücretsiz üretilmiş ses'],
+['فصحى (بلا غلط)','Standard Arabic (no mistakes)','Arabe standard (sans faute)','Árabe estándar (sin errores)','Árabe padrão (sem erros)','Hocharabisch (fehlerfrei)','Standart Arapça (hatasız)'],
+['لهجة (تجريبي)','Dialect (experimental)','Dialecte (expérimental)','Dialecto (experimental)','Dialeto (experimental)','Dialekt (experimentell)','Lehçe (deneysel)'],
+['رجل','Man','Homme','Hombre','Homem','Mann','Erkek'],
+['امرأة','Woman','Femme','Mujer','Mulher','Frau','Kadın'],
+['الخليج','The Gulf','Le Golfe','El Golfo','O Golfo','Die Golfregion','Körfez'],
+['الشام والعراق واليمن','Levant, Iraq and Yemen','Levant, Irak et Yémen','Levante, Irak y Yemen','Levante, Iraque e Iêmen','Levante, Irak und Jemen','Şam, Irak ve Yemen'],
+['مصر والمغرب العربي','Egypt and the Maghreb','Égypte et Maghreb','Egipto y el Magreb','Egito e Magrebe','Ägypten und Maghreb','Mısır ve Mağrip'],
+['قرّر وقتها','Decide then','Décider le moment venu','Decidir entonces','Decidir na hora','Dann entscheiden','O an karar ver'],
+['بدون','None','Aucun','Ninguno','Nenhum','Keins','Yok'],
+['عندي ملف','I have a file','J’ai un fichier','Tengo un archivo','Tenho um arquivo','Ich habe eine Datei','Dosyam var'],
+['شغّلها','Turn on','Activer','Activar','Ativar','Einschalten','Aç'],
+['بدونها','Without','Sans','Sin ellos','Sem eles','Ohne','Kapalı'],
+];
+
+const I18N={}; ROWS.forEach(r=>LANG_ORDER.forEach((c,i)=>{ if(c!=='ar'){ (I18N[c]=I18N[c]||{})[r[0]]=r[i]; } }));
+let LANG='ar';
+const tt=(s,v)=>{ let o=(LANG!=='ar'&&I18N[LANG]&&I18N[LANG][s])||s; if(v) o=o.replace(/\{(\w+)\}/g,(m,k)=>k in v?v[k]:m); return o; };
+const AR_RE=/[\u0600-\u06FF]/;
+function trDom(){
+  const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const e=n.parentNode; return (!e||['SCRIPT','STYLE','PRE','TEXTAREA'].includes(e.nodeName)||e.closest('[data-dyn]'))?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT;}});
+  let n; while((n=w.nextNode())){
+    if(n._o===undefined) n._o=AR_RE.test(n.nodeValue)?n.nodeValue:null;
+    if(n._o===null) continue;
+    const m=n._o.match(/^(\s*)([\s\S]*?)(\s*)$/); n.nodeValue=m[1]+tt(m[2])+m[3];
+  }
+  document.querySelectorAll('[placeholder],[aria-label],[title]').forEach(el=>{
+    ['placeholder','aria-label','title'].forEach(a=>{ const k='o_'+a.replace('-','_'); if(!el.hasAttribute(a)) return;
+      if(el.dataset[k]===undefined) el.dataset[k]=AR_RE.test(el.getAttribute(a))?el.getAttribute(a):'';
+      if(el.dataset[k]) el.setAttribute(a,tt(el.dataset[k])); });
+  });
+  document.querySelectorAll('.play').forEach(b=>b.setAttribute('aria-label',tt('اسمع {n}',{n:b.dataset.n})));
+}
+function applyLang(c){
+  LANG=LANG_ORDER.includes(c)?c:'en'; const h=document.documentElement;
+  h.lang=LANG; h.dir=RTL_LANGS.includes(LANG)?'rtl':'ltr';
+  trDom(); document.title=tt('ذوقك بالفيديو');
+  const sel=document.getElementById('langSel'); if(sel) sel.value=LANG;
+  if(typeof progress==='function') progress();
+  window.dispatchEvent(new Event('focus'));      /* يحدّث نص «محفوظ» بقسم الحركات */
+}
+async function initLang(){
+  const sel=document.getElementById('langSel');
+  sel.innerHTML=LANG_ORDER.map(c=>`<option value="${c}">${LANG_NAMES[c]}</option>`).join('');
+  sel.addEventListener('change',()=>{ const c=sel.value; applyLang(c); try{localStorage.setItem('vae-lang',c);}catch(e){}
+    if(SERVER) fetch('/api/lang',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({lang:c})}).catch(()=>{}); });
+  let c=new URLSearchParams(location.search).get('lang');
+  if(!c&&SERVER){ try{ const j=await (await fetch('/api/lang')).json(); if(j.saved) c=j.lang; }catch(e){} }
+  if(!c){ try{c=localStorage.getItem('vae-lang');}catch(e){} }
+  if(!c){ const nav=(navigator.language||'').slice(0,2).toLowerCase(); if(LANG_ORDER.includes(nav)) c=nav; }
+  applyLang(LANG_ORDER.includes(c)?c:'en');
+  document.documentElement.classList.remove('i18n-wait');
+}
+setTimeout(()=>document.documentElement.classList.remove('i18n-wait'),2500);   /* احتياط: لو تعطّل السكربت لا تبقى الصفحة مخفية */
+
 
 /* ═══════════ بناء الخيارات ═══════════ */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
@@ -546,9 +781,9 @@ simple('#vmodes','radio','voiceMode',VMODES);
 simple('#bgs','radio','bgAudio',BGS);
 simple('#sfxs','radio','sfx',SFXS);
 simple('#vlangs','radio','voiceLang',VLANGS); simple('#vsexes','radio','voiceSex',VSEXES);
-$('#vlist').innerHTML=`<label class="opt vopt vauto"><input type="radio" name="voice" value="auto"><span class="t">اختاره أنا</span><span class="d">أجرّب الأصوات على نصّك وأختار الأوضح</span></label>`+VOICES.map(([g,vs],gi)=>`${gi===1?'<details class="more"><summary>لهجات ثانية (الشام، العراق، اليمن، مصر، المغرب العربي)</summary>':''}<div class="vgroup"><h3>${g}</h3><div class="vrow">${vs.map(([id,n,dial,sex])=>
-  `<label class="opt vopt" data-sex="${sex==='رجل'?'m':'f'}"><input type="radio" name="voice" value="${id}"><button type="button" class="play" data-v="${id}" aria-label="اسمع ${n}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><span class="t">${n}</span><span class="d">${dial} · ${sex}</span></label>`).join('')}</div></div>${gi===VOICES.length-1?'</details>':''}`).join('')+
-  `<div class="vnote" id="vnote">${SERVER?'اضغط زر التشغيل تسمع العيّنة (يحتاج نت، أول مرة ثانيتين).':'العيّنات تشتغل لما تنفتح الصفحة من كلود.'} الأصوات مجانية من مايكروسوفت. بالفصحى المشكّلة تطلع مثل مذيع بلا غلط، وباللهجة ممكن تطلع مكسّرة — أجرّبها قبل وأسمعك.</div>`;
+$('#vlist').innerHTML=`<label class="opt vopt vauto"><input type="radio" name="voice" value="auto"><span class="t">اختاره أنا</span><span class="d">أجرّب الأصوات على نصّك وأختار الأوضح</span></label>`+VOICES.map(([g,vs],gi)=>`${gi===1?'<details class="more"><summary>لهجات ثانية (الشام، العراق، اليمن، مصر، المغرب العربي)</summary>':''}<div class="vgroup"><h3>${tt(g)}</h3><div class="vrow">${vs.map(([id,n,dial,sex])=>
+  `<label class="opt vopt" data-sex="${sex==='رجل'?'m':'f'}"><input type="radio" name="voice" value="${id}"><button type="button" class="play" data-v="${id}" aria-label="${tt('اسمع {n}',{n})}" data-n="${n}"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button><span class="t">${n}</span><span class="d">${dial} · ${tt(sex)}</span></label>`).join('')}</div></div>${gi===VOICES.length-1?'</details>':''}`).join('')+
+  `<div class="vnote" id="vnote"><span>${SERVER?'اضغط زر التشغيل تسمع العيّنة (يحتاج نت، أول مرة ثانيتين).':'العيّنات تشتغل لما تنفتح الصفحة من كلود.'}</span> <span>الأصوات مجانية من مايكروسوفت. بالفصحى المشكّلة تطلع مثل مذيع بلا غلط، وباللهجة ممكن تطلع مكسّرة — أجرّبها قبل وأسمعك.</span></div>`;
 
 /* ═══════════ الألوان والمعاينة ═══════════ */
 function hx(h){h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join('');return [0,2,4].map(i=>parseInt(h.slice(i,i+2),16));}
@@ -590,7 +825,7 @@ function syncOn(){ $$('.opt input').forEach(i=>i.closest('.opt').classList.toggl
 function progress(){
   GROUPS.forEach(g=>{const s=$(`section[data-g="${g}"]`); if(s) s.classList.toggle('done',touched.has(g));});
   const n=touched.size; $('#meterI').style.width=(n/GROUPS.length*100)+'%';
-  $('#progT').textContent=n===0?'كل شي تلقائي — اختار اللي يهمك بس':`اخترت ${n} من ${GROUPS.length} — الباقي أقرره أنا`;
+  $('#progT').textContent=n===0?tt('كل شي تلقائي — اختار اللي يهمك بس'):tt('اخترت {n} من {m} — الباقي أقرره أنا',{n,m:GROUPS.length});
 }
 $('#f').addEventListener('change',e=>{
   const n=e.target.name; if(groupOf[n]) touched.add(groupOf[n]);
@@ -641,7 +876,7 @@ $('#themeBtn').addEventListener('click',()=>{ const dark=getComputedStyle(docume
   const t=dark?'light':'dark'; document.documentElement.dataset.theme=t; try{localStorage.setItem('vae-theme',t);}catch(e){} });
 themeInit();
 
-function toast(m){const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2600);}
+function toast(m){const t=$('#toast'); t.textContent=tt(m); t.classList.add('show'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove('show'),2600);}
 
 /* ═══════════ الجمع والإرسال ═══════════ */
 const val=n=>{const i=$(`input[name="${n}"]:checked`); return i?i.value:'auto';};
@@ -677,9 +912,9 @@ async function send(obj){
 }
 function showDone(obj,saved){
   $('#doneOv').classList.add('show');
-  if(obj.skip){ $('#doneH').textContent='تمام، خلّها علي'; }
-  if(!saved){ $('#doneH').textContent='انسخ هذا وارسله لكلود'; $('#doneP').textContent='الصفحة مفتوحة بدون كلود، فما قدرت أحفظ بنفسي.';
-    const o={...obj}; if(o.identity&&o.identity.logo) o.identity={...o.identity,logo:'(ارفع الشعار بالشات)'}; const pre=$('#doneJ'); pre.hidden=false; pre.textContent=JSON.stringify(o,null,2); }
+  if(obj.skip){ $('#doneH').textContent=tt('تمام، خلّها علي'); }
+  if(!saved){ $('#doneH').textContent=tt('انسخ هذا وارسله لكلود'); $('#doneP').textContent=tt('الصفحة مفتوحة بدون كلود، فما قدرت أحفظ بنفسي.');
+    const o={...obj}; if(o.identity&&o.identity.logo) o.identity={...o.identity,logo:tt('(ارفع الشعار بالشات)')}; const pre=$('#doneJ'); pre.hidden=false; pre.textContent=JSON.stringify(o,null,2); }
 }
 $('#saveBtn').addEventListener('click',()=>send(collect()));
 $('#skipBtn').addEventListener('click',()=>send({version:1,skip:true,note:$('#note').value.trim()}));
@@ -713,13 +948,13 @@ async function prefill(){
 setRadio('ctype','auto'); setRadio('person','auto'); setRadio('length','auto'); setRadio('voiceMode','auto'); setRadio('bgAudio','auto'); setRadio('sfx','auto');
 setRadio('font','auto'); setRadio('capStyle','auto'); setRadio('pace','auto');
 $('input[name=orientation][value="9:16"]').checked=true;
-syncOn(); applyPreview(); progress(); prefill();
+syncOn(); applyPreview(); progress(); initLang().then(prefill);
 </script>
 <script>
 (function(){ const on=document.getElementById('movesOn'), f=document.getElementById('movesf'), lab=document.getElementById('movesSaved');
   if(!on) return;
   const show=async()=>{ try{ const st=await (await fetch('/api/state')).json(); const m=st.moves||{}; const a=(m.on||[]).length, b=(m.off||[]).length;
-    lab.textContent = a||b ? `محفوظ: أبي ${a} · لا ${b}` : ''; if((a||b)&&!on.checked){on.checked=true; f.hidden=false;} }catch(e){} };
+    lab.textContent = a||b ? tt('محفوظ: أبي {a} · لا {b}',{a,b}) : ''; if((a||b)&&!on.checked){on.checked=true; f.hidden=false;} }catch(e){} };
   on.addEventListener('change',()=>{ f.hidden=!on.checked; });
   window.addEventListener('focus',show); show();
 })();

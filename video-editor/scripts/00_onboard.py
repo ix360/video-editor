@@ -257,6 +257,9 @@ class Handler(BaseHTTPRequestHandler):
         if u.path == "/api/state":                 # لصفحة بنك الحركات (نفس شكل 35_moves.py)
             p = load_profile() or {}
             return self._send(200, {"moves": p.get("moves") or {"on": [], "off": []}, "colors": ((p.get("identity") or {}).get("colors")) or {}})
+        if u.path == "/api/lang":                  # لغة الصفحة والبلقن (lang.json) — المحفوظة أو الافتراضية
+            import _lang
+            return self._send(200, {"lang": _lang.get(), "saved": (HOME / "lang.json").exists(), "supported": list(_lang.LANGS)})
         if u.path == "/api/ping":
             return self._send(200, {"ok": True})
         if u.path == "/api/profile":
@@ -300,6 +303,19 @@ class Handler(BaseHTTPRequestHandler):
             except Exception as e:
                 return self._send(400, {"ok": False, "error": str(e)})
             return self._send(200, {"ok": True})
+        if urlparse(self.path).path == "/api/lang":           # المبدّل أعلى الصفحة — يحفظ لغة البلقن كلها
+            import _lang
+            ctype = (self.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            origin, host = self.headers.get("Origin"), self.headers.get("Host") or ""
+            if ctype != "application/json" or (origin and origin != "http://" + host):
+                return self._send(403, {"ok": False, "error": "forbidden"})
+            try:
+                c = str(json.loads(self.rfile.read(min(int(self.headers.get("Content-Length") or 0), 1024)).decode("utf-8")).get("lang", "")).lower()
+                if c not in _lang.LANGS: raise ValueError("unsupported")
+                atomic_write(HOME / "lang.json", json.dumps({"lang": c}, ensure_ascii=False))
+            except Exception as e:
+                return self._send(400, {"ok": False, "error": str(e)})
+            return self._send(200, {"ok": True, "lang": c})
         if urlparse(self.path).path != "/api/submit":
             return self._send(404, {"ok": False})
         # صفحة ثانية مفتوحة بالمتصفح ما تقدر ترسل لنا: لازم JSON (يجبر المتصفح على فحص مسبق)

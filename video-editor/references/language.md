@@ -39,6 +39,10 @@ ls ~/.video-ad-editor/lang.json   # exists = the user already chose
 - **"Change language" / «غيّر اللغة» / "cambia el idioma"** at any time → ask again and save.
 - Unsupported language? Pick the closest supported code for transcription and tell the user in one line.
 
+## The taste page has a language switcher
+
+The intro page that opens at `http://127.0.0.1:<port>/` has a language menu at the top. It shows the language saved in `lang.json` and switching it **saves the choice for the whole plugin** (Claude's replies, transcription, captions). Pages currently translated: العربية, English, Français, Español, Português, Deutsch, Türkçe — the other languages fall back to English on that page until their strings are added (`ROWS` in `onboarding/index.html`: `[ar, en, fr, es, pt, de, tr]`).
+
 ## What the language controls
 
 | Part | Behaviour |

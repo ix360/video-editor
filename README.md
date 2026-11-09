@@ -12,6 +12,7 @@ Free · works from the **phone** and the computer · captions and transcription 
 ## 🌐 Pick your language
 
 The first time, Claude asks which language you want and remembers it. Its replies, the voice **transcription** and the **captions** all follow your choice. To change it, say "change language". English is the default.
+The taste page that opens in your browser also has a **language switcher at the top** (7 languages so far).
 Details: [`language.md`](video-editor/references/language.md).
 
 ---
