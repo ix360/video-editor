@@ -96,6 +96,9 @@ def audit(proj):
         if cam: cam_scenes += 1
     if cam_scenes < max(1, int(len(sc) * 0.7 + 0.5)):
         problems.append("only %d of %d scenes have a camera move/zoom (%s) — aim for at least 70%%, with a punch-in on the hook and on key words" % (cam_scenes, len(sc), ", ".join(sorted(CAMERA)[:6]) + "…"))
+    bg = [f for f in sc if re.search(r"\bdrawClip\s*\(|\bctx\.img\s*\(|\.img\s*\(|drawImage\s*\(|\bphoto\s*\(", open(f, encoding="utf-8").read())]
+    if sc and len(bg) < int(len(sc) * 0.8 + 0.5):
+        problems.append("only %d of %d scenes have an AI-generated background (ctx.drawClip / a Flow photo) — the recipe is footage behind EVERY scene (at most 1 in 5 without), graphics and 3D on top" % (len(bg), len(sc)))
     if len(used_all) < 4: problems.append("only %d different moves used (%s) — the plan's 3 core moves + accents should all appear" % (len(used_all), ", ".join(sorted(used_all)) or "none"))
     plan_p = os.path.join(os.path.dirname(os.path.abspath(proj)), "moves_plan.json")
     plan_ids = set()
