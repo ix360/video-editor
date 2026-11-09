@@ -101,6 +101,9 @@ python3 motion/audio.py <project> --no-bed
 
 ## The user's own voice (attached mp3) or an ElevenLabs voice
 
+One-off video language without saving anything: prefix commands with `VAE_VIDEO_LANG=fr` (the saved setting stays untouched).
+
+
 Both enter the same way: `python3 motion/voice.py <project> --own <file>` aligns the real recording to the script lines with Whisper (in the **video language**: `python3 scripts/_lang.py video`), then `timing: {keepOriginal: true, snap: "none"}` in `project.json`. `audio.py` levels an own voice to −20 LUFS.
 
 ## Hand over a rough draft early

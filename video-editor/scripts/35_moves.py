@@ -283,7 +283,7 @@ def nums(s):
 
 
 def main(argv):
-    if any(a in ("-h", "--help", "help") for a in argv[:1]):
+    if any(a in ("-h", "--help", "help") for a in argv):
         print(__doc__); return 0
     cmd = argv[0] if argv and not argv[0].startswith("--") else "serve"
     rest = argv[1:] if argv and not argv[0].startswith("--") else argv

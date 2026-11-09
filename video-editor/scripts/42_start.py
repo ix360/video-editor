@@ -88,8 +88,10 @@ def audit(proj):
     sc = [f for f in sc if os.path.basename(f) != "stage.js"]
     if not sc: sys.exit("❌ no scenes/*.js in %s" % proj)
     problems, used_all, cam_scenes = [], set(), 0
+    libsrc = "".join(open(f, encoding="utf-8").read() for f in glob.glob(os.path.join(proj, "lib", "*.js")) + glob.glob(os.path.join(proj, "scenes", "lib", "*.js")))
     for f in sc:
         src = open(f, encoding="utf-8").read()
+        if libsrc and re.search(r"\bimport\b|require\(|\blib\b|\bMK\b|\bH\.", src): src += "\n" + libsrc   # helpers in lib/ count
         ids = set(re.findall(r"\bFX\.(\w+)\s*\(", src)); used_all |= ids   # real calls only, not a mention in a comment
         cam = ids & _camera_ids()
         if not ids: problems.append("%s uses no FX.* move at all" % os.path.basename(f))

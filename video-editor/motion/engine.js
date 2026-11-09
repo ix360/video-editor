@@ -759,13 +759,19 @@ async function jOpt(url) { try { return await j(url); } catch (e) { return null;
 // ── video clips: a clip is a folder of numbered JPEG frames (assets/clips/<name>/0001.jpg …), made by `17_gen_scenes.py import <k> <file> --project <proj>` ──
 function drawClip(X, name, k, o) {
   const c = S.clips && S.clips[name]; if (!c || !c.frames.length) return false; o = o || {};
-  const dur = c.n / c.fps; let t = Math.max(0, k * (o.speed || 1));
+  const dur = c.n / c.fps; let t = Math.max(0, k * (o.speed || 1)); if (o.reverse) t = dur - 1 / c.fps - (t % dur);
   if (o.pingpong) { const m = t % (2 * dur); t = m > dur ? 2 * dur - m : m; } else if (o.loop === false) t = Math.min(t, dur - 1 / c.fps); else t = t % dur;
   const im = c.frames[Math.max(0, Math.min(c.n - 1, Math.floor(t * c.fps)))]; if (!im || !im.width) return false;
   const bx = o.x == null ? 0 : o.x, by = o.y == null ? 0 : o.y, bw = o.w == null ? S.W : o.w, bh = o.h == null ? S.H : o.h, z = o.zoom || 1;
   const sc = Math.max(bw / im.width, bh / im.height) * z, w = im.width * sc, h = im.height * sc;
   X.save(); if (o.alpha != null) X.globalAlpha *= o.alpha; X.beginPath(); X.rect(bx, by, bw, bh); X.clip();
-  X.drawImage(im, bx + (bw - w) / 2 + (o.ox || 0), by + (bh - h) / 2 + (o.oy || 0), w, h); X.restore(); return true;
+  if (o.flip) { X.translate(bx + bw / 2, 0); X.scale(-1, 1); X.translate(-(bx + bw / 2), 0); }
+  if (o.blur > 0) {   // cheap soft focus: draw tiny, scale back up (no expensive full-frame filter)
+    const d = Math.max(2, o.blur), sw = Math.max(8, Math.round(bw / d)), sh = Math.max(8, Math.round(bh / d)); const cv = (drawClip._tmp = drawClip._tmp || document.createElement('canvas')); cv.width = sw; cv.height = sh;
+    const g = cv.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(im, (sw - w / d) / 2 + (o.ox || 0) / d, (sh - h / d) / 2 + (o.oy || 0) / d, w / d, h / d);
+    X.imageSmoothingQuality = 'high'; X.drawImage(cv, bx, by, bw, bh);
+  } else X.drawImage(im, bx + (bw - w) / 2 + (o.ox || 0), by + (bh - h) / 2 + (o.oy || 0), w, h);
+  X.restore(); return true;
 }
 async function loadClip(dir, n) {
   const frames = new Array(n); let next = 0;

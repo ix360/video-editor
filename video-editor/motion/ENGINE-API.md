@@ -91,7 +91,7 @@ For a custom transition, set `type: (X, A, B, k, opts) => {…}`. A and B are th
 | Group | Members |
 |---|---|
 | canvas | `X` (current 2D context), `OUT` (final composite), `W`, `H`, `fps`, `P`/`palette`, `resetTransform(X?)`, `img(name)`, `images` |
-| video clips | `drawClip(X, name, secondsIntoClip, {x,y,w,h,zoom,ox,oy,alpha,speed,loop,pingpong})` plays a Flow clip registered in `project.json → clips` (frame sequence; loops by default), `clip(name)` = `{n,fps,dur,frames}`. Import with `17_gen_scenes.py <work> import <k> <file.mp4> --project <proj>` |
+| video clips | `drawClip(X, name, secondsIntoClip, {x,y,w,h,zoom,ox,oy,alpha,speed,loop,pingpong,reverse,flip,blur})` (`blur` = soft-focus divisor, e.g. 6; cheap) plays a Flow clip registered in `project.json → clips` (frame sequence; loops by default), `clip(name)` = `{n,fps,dur,frames}`. Import with `17_gen_scenes.py <work> import <k> <file.mp4> --project <proj>` |
 | moves | `FX.<id>(ctx, t, opts)` — the move bank (100 moves, `references/moves.md`); camera moves wrap `draw`. Every film uses it; `scripts/42_start.py audit <proj>` checks |
 | text direction | `text.layout` lays Latin text left-to-right and Arabic right-to-left automatically (`o.dir` forces it). A move's built-in default text is Arabic: pass explicit text/labels in non-Arabic films (the renderer warns when it draws Arabic in a film whose script isn't Arabic) |
 | scene | `scene` (`{id,start,end,dur,lines,transition}`), `project`, `timeline` |

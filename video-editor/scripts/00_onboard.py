@@ -495,7 +495,7 @@ def to_theme(args):
     t.setdefault("badgeUntil", 0)
     t.setdefault("faceAnchor", 0.30)
     atomic_write(tp, json.dumps(t, ensure_ascii=False, indent=2))
-    log("✅ كتبت " + str(tp) + ("" if not missing_colors else "  ⚠️ بلا ألوان — ناقص bg/ink/acc (رابط أو تلقائي): طلّعها قبل الرسم"))
+    log("✅ Wrote " + str(tp) + ("" if not missing_colors else "  ⚠️ no colors — bg/ink/acc missing (a link or automatic): get them before drawing"))
     print(json.dumps(t, ensure_ascii=False, indent=2))
     return 0
 

@@ -26,6 +26,13 @@ Flow opens a project with a **chat agent** on the right ("What do you want to cr
 - Switch between the project's items with the little thumbnails at the top of the editor.
 - Everything was done with the user's PRO account: no watermark was visible on the downloaded images. Check each video the same way.
 
+## Lessons from two Opus runs (9 Nov 2026)
+- **One prompt at a time.** While Flow's agent is working, the send arrow turns into **Stop**, and Enter does not submit: a second click cancels the running request ("Response was cancelled"). Wait until the card says it is scheduled/finished before sending the next prompt.
+- **Confirmation dialog:** Flow shows its own "Approve" with credits and model; approve each once.
+- **⛔ If Flow shows "We noticed some unusual activity … browser extensions": STOP.** Do not retry more than once, never try to get around it. Tell the user in one line ("Google paused Flow because it saw automation — I used what we already have"), use the fallback (existing clips with different crops/speeds/reverse/flip, then photos with a camera move, then Gemini/stock if they agree), and suggest they wait before trying again or generate those clips by hand in Flow and give you the files.
+- Flow videos are 24 fps 720×1280; the import resamples to 30 fps (harmless).
+- Budget thinking: 12 credits per 4 s clip; reuse one clip in several scenes (`zoom`, `ox/oy`, `speed`, `pingpong`, `reverse`, `flip`, `blur`) rather than ordering ten.
+
 ## Procedure
 Use the Chrome tools (`mcp__claude-in-chrome__*`; load them with ToolSearch in ONE call: `tabs_context_mcp, tabs_create_mcp, navigate, read_page, find, computer, javascript_tool`). Don't hard-code selectors — Google changes the UI. Find controls by reading the page (`read_page` / `find`) and verify with a screenshot.
 

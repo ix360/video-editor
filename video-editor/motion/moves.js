@@ -2072,7 +2072,7 @@
      الورقة تنفرد لتحت والعنوان أول، المجموع يعد ويتظلل بلون الهوية، وبالآخر تنقطع (تميل وتنزل). o: {s, out, items:[{name, price}], total (بلاه المجموع), currency='د.ك', title='الفاتورة', totalLabel='المجموع'} */
   FX.receiptPrint = (ctx, t, o) => {
     const { X, P, E } = ctx; if (t < o.s) return; const ko = o.out != null ? E.cubicIn(pr(t, o.out, o.out + 0.4)) : 0; if (ko >= 1) return;
-    const items = o.items || [{ name: 'كاميرا', price: 120 }, { name: 'مايك', price: 35 }, { name: 'إضاءة', price: 28 }], cur = o.currency || 'د.ك';
+    const items = o.items || [{ name: 'كاميرا', price: 120 }, { name: 'مايك', price: 35 }, { name: 'إضاءة', price: 28 }], cur = o.currency ?? 'د.ك';   // pass '' (or your own symbol) for a non-Kuwaiti film
     const total = o.total != null ? o.total : items.reduce((a, b) => a + (+b.price || 0), 0), money = v => ctx.num(v) + ' ' + cur;
     const sy = 300, pw = 680, px = 540 - pw / 2, Ht = 240 + items.length * 76 + 150, paper = mixC(P.bg, '#FFFFFF', 0.6);
     const jumps = Math.floor((t - o.s) / 0.06), Lr = Math.min(Ht, 40 * jumps), tf = o.s + 0.06 * Math.ceil(Ht / 40), shake = Lr < Ht ? (jumps % 2 ? 1 : -1) : 0;
