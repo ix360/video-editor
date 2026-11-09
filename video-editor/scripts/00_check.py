@@ -41,6 +41,7 @@ def show():
     mode = _setup.assets_mode(); lang_saved = os.path.exists(os.path.join(os.path.dirname(str(_setup._path())), "lang.json"))
     miss = 0
     print("Language:      %s %s" % (_lang.get(), "" if lang_saved else "(default — not chosen yet)"))
+    if _lang.video() != _lang.get(): print("Video language: %s (voice, transcription, captions)" % _lang.video())
     print("Assets source: %s" % (mode or "— not chosen yet"))
     if not mode: miss += 1
     print("\nMachine tools:")

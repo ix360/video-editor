@@ -55,12 +55,12 @@ def main():
         return off + math.ceil((t - off) / grid - 1e-6) * grid
 
     scenes_in = proj.get('scenes', [])
-    if not scenes_in: raise SystemExit('❌ project.json بلا scenes')
+    if not scenes_in: raise SystemExit('❌ project.json has no scenes')
     placed = {}; scenes = []; cursor = pad
     for i, sc in enumerate(scenes_in):
         ids = [l for l in sc.get('lines', []) if l in vo]
         missing = [l for l in sc.get('lines', []) if l not in vo]
-        if missing: print(f'  ⚠ {sc["id"]}: أسطر بلا صوت {missing} (شغّل voice.py)')
+        if missing: print(f'  ⚠ {sc["id"]}: lines with no voice {missing} (run voice.py)')
         minDur = float(sc.get('minDur', sc.get('duration', 0)) or 0)
         prev = scenes[-1] if scenes else None
         earliest = cursor
@@ -95,10 +95,10 @@ def main():
     dur = float(proj['duration']) if proj.get('duration') else scenes[-1]['end']
     if proj.get('duration'):
         vo_end = max([p['end'] for p in placed.values()] or [0])
-        if vo_end > dur: print(f'  ⚠ الصوت ينتهي {vo_end:.2f}s بعد الطول المفروض {dur:.2f}s — راح ينقص!')
+        if vo_end > dur: print(f'  ⚠ The voice ends at {vo_end:.2f}s, after the set length {dur:.2f}s — it will be cut off!')
         scenes[-1]['end'] = dur
     for sc in scenes:
-        if sc['end'] - sc['start'] < 0.05: print(f'  ⚠ مشهد {sc["id"]} قصير جداً ({sc["end"]-sc["start"]:.2f}s)')
+        if sc['end'] - sc['start'] < 0.05: print(f'  ⚠ scene {sc["id"]} is very short ({sc["end"]-sc["start"]:.2f}s)')
         del sc['_min'], sc['_lastEnd']
     beats = []; k = 0
     while off + k * spb < dur + 1e-6: beats.append(round(off + k * spb, 5)); k += 1

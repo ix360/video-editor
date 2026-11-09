@@ -152,6 +152,7 @@ python3 scripts/00_onboard.py onacc <work>
 | `bar` | `false` = no progress bar. Default shown. (Not `capStyle: "bar"` — that's a caption style) |
 | `pace` | `"calm"` a calm pace → `references/explainer-and-pace.md` |
 | `hookZoom` | A soft zoom on their face at the start of the hook (seconds = the hook's end). Off by default |
+| `avoid` | The owner's own content rules for generated images/scenes, e.g. `["no people"]`. Empty by default — the engine imposes none; `17_gen_scenes.py` appends the list to every prompt |
 | `outro` | The end card `{l1,l2,chips,cta,word,sub}` |
 | `hook` | A written hook line for podcast reels — written by `22_hook.py apply`, don't write it by hand |
 

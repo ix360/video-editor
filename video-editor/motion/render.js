@@ -22,7 +22,7 @@ const pos = argv.filter((a, i) => !a.startsWith('--') && !(i > 0 && argv[i - 1].
 const [projArg, mode = 'preview', ...rest] = pos;
 if (!projArg) { console.log(fs.readFileSync(__filename, 'utf8').split('\n').slice(1, 9).join('\n')); process.exit(1); }
 const PROJ = path.resolve(projArg);
-if (!fs.existsSync(path.join(PROJ, 'project.json'))) { console.error('❌ ما لقيت project.json في ' + PROJ); process.exit(2); }
+if (!fs.existsSync(path.join(PROJ, 'project.json'))) { console.error('❌ project.json not found in ' + PROJ); process.exit(2); }
 const SCALE = parseFloat(flag('scale', '1')), SAFE = !!flag('safe', false), WORKERS = parseInt(flag('workers', mode === 'all' || mode === 'range' ? '2' : '1'));
 const Q = parseFloat(flag('q', '0.95')), CRF = String(flag('crf', '16')), NOENC = !!flag('no-encode', false), FRESH = !!flag('fresh', false);
 const proj = JSON.parse(fs.readFileSync(path.join(PROJ, 'project.json'), 'utf8'));
@@ -73,7 +73,7 @@ function encode(frameDir, fps, out, startNumber = 0, count = null) {
 
 (async () => {
   const srv = await serve(), port = srv.address().port;
-  if (mode === 'serve') { console.log(`▶ افتح: http://127.0.0.1:${port}/motion/engine.html?proj=/proj/${SAFE ? '&safe=1' : ''}\n  (Ctrl+C للإيقاف)`); return; }
+  if (mode === 'serve') { console.log(`▶ Open: http://127.0.0.1:${port}/motion/engine.html?proj=/proj/${SAFE ? '&safe=1' : ''}\n  (Ctrl+C to stop)`); return; }
   const browser = await puppeteer.launch({
     executablePath: CHROME, headless: true,
     args: [...require('../scripts/_chrome_flags.js')(), '--enable-unsafe-webgpu', '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows', '--force-color-profile=srgb', '--hide-scrollbars', '--mute-audio', '--disable-features=CalculateNativeWinOcclusion'],

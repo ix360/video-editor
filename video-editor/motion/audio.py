@@ -21,7 +21,13 @@ project.json → music: { key:'A', scale:'minor'|'major'|'dorian', progression:[
 """
 import sys, os, json, math, wave, re, argparse, subprocess
 import numpy as np
-from scipy import signal
+try:
+    from scipy import signal
+except ImportError:   # scipy lives in ~/.video-ad-editor/venv on systems that block system-wide pip (00_setup.sh --install makes it)
+    _vp = os.path.join(os.environ.get('VAE_HOME') or os.path.expanduser('~/.video-ad-editor'), 'venv', 'Scripts\\python.exe' if os.name == 'nt' else 'bin/python')
+    if os.path.exists(_vp) and not os.environ.get('VAE_REEXEC'):
+        os.environ['VAE_REEXEC'] = '1'; sys.exit(subprocess.call([_vp] + sys.argv))
+    sys.exit('audio.py needs scipy — run: bash scripts/00_setup.sh --install')
 
 SR = 48000
 TAU = 2 * np.pi
@@ -242,7 +248,7 @@ class SFX:
 
     def make(self, kind, **k):
         fn = getattr(self, kind.replace('-', '_'), None)
-        if not fn: raise SystemExit(f'❌ نوع مؤثر مو معروف: {kind}')
+        if not fn: raise SystemExit(f'❌ unknown effect type: {kind}')
         kk = {a: b for a, b in k.items() if a in ('dur', 'pitch', 'pan', 'cps') and b is not None}
         return fn(**kk)
 
@@ -457,7 +463,7 @@ def resolve_at(at, tl):
     elif kind == 'word': w = vo[ref]['words'][int(idx or 0)]; base = w['s']
     elif kind == 'beat': base = tl.get('beatOffset', 0) + int(ref) * 60 / tl['bpm']
     elif kind == 'bar': base = tl.get('beatOffset', 0) + int(ref) * tl.get('beatsPerBar', 4) * 60 / tl['bpm']
-    else: raise SystemExit('❌ at غير مفهوم: ' + str(at))
+    else: raise SystemExit('❌ cannot read at: ' + str(at))
     return base + offs
 
 def limiter(x, thr, look=0.005, rel=0.08):
@@ -503,7 +509,7 @@ def main():
         try: _src = json.load(open(os.path.join(P, 'vo', 'words.json'), encoding='utf-8')).get('source', '')
         except Exception: _src = ''
         a.lufs = -20.0 if str(_src).startswith('own') else -14.0
-        print(f'🔊 المعايرة: {a.lufs:.0f} LUFS' + (' (صوتك الحقيقي — أعلى من كذا يحتاج ليمتر يغيّر صوتك)' if a.lufs == -20.0 else ''))
+        print(f'🔊 Loudness target: {a.lufs:.0f} LUFS' + (' (your real voice — louder needs a limiter that would change it)' if a.lufs == -20.0 else ''))
     tl = json.load(open(os.path.join(P, 'timeline.json'), encoding='utf-8')); dur = float(tl['duration']); N = int(math.ceil(dur * SR))
     music = proj.get('music', {}) or {}
     A = os.path.join(P, 'renders', 'audio'); os.makedirs(A, exist_ok=True)
@@ -518,7 +524,7 @@ def main():
     if len(vo) < N: vo = np.concatenate([vo, np.zeros(N - len(vo))])
     has_vo = np.max(np.abs(vo)) > 1e-4
     vo_ref = rms_db(vo[np.abs(vo) > 0.01]) if has_vo else -20.0          # speech-active RMS
-    print(f'🗣  VO: {"موجود" if has_vo else "ما في"} · RMS الكلام {vo_ref:.1f} dBFS')
+    print(f'🗣  VO: {"present" if has_vo else "none"} · speech RMS {vo_ref:.1f} dBFS')
     # SFX
     sj = os.path.join(P, 'sfx.json')
     cues = json.load(open(sj, encoding='utf-8')) if os.path.exists(sj) else [{'type': 'swoosh-pass', 'at': f'scene:{s["id"]}', 'gain': 0.7} for s in tl['scenes'][1:] if s.get('transition')]
@@ -548,11 +554,11 @@ def main():
     I, TPk = measure(mst)
     print(f'📏 loudnorm: {float(m1["input_i"]):.1f} → {I:.1f} LUFS · true peak {TPk:.1f} dBTP · mode {m2.get("normalization_type")}')
     video = a.video or os.path.join(P, 'renders', 'video.mp4')
-    if not os.path.exists(video): print('⚠ ما لقيت الفيديو (' + video + ') — الصوت جاهز بس: ' + mst); return
+    if not os.path.exists(video): print('⚠ Video not found (' + video + ') — only the audio is ready: ' + mst); return
     out = os.path.join(P, 'renders', f'final{tag}.mp4')
     run(['ffmpeg', '-y', '-v', 'error', '-i', video, '-i', mst, '-map', '0:v:0', '-map', '1:a:0', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '320k', '-ar', str(SR), '-t', f'{dur:.3f}', '-movflags', '+faststart', out])
     I2, TP2 = measure(out)
-    print(f'✅ {out}  ·  بعد AAC: {I2:.1f} LUFS · {TP2:.1f} dBTP')
+    print(f'✅ {out}  ·  after AAC: {I2:.1f} LUFS · {TP2:.1f} dBTP')
 
 
 if __name__ == '__main__':

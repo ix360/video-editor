@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """The user's language — one source of truth for every script.
-Order: env var VAE_LANG -> ~/.video-ad-editor/lang.json -> "en" (default).
-  python3 _lang.py            prints the current code (e.g. en)
-  python3 _lang.py list       prints the supported languages
-Used for the Whisper language, captions and Claude's replies."""
+Two settings, because they differ in real life (a user chats in English and makes a French video):
+  get()    the CHAT language — what Claude speaks to the user.   VAE_LANG  > lang.json "lang"  > "en"
+  video()  the VIDEO language — the voice, the Whisper language and the captions.   VAE_VIDEO_LANG > lang.json "video" > get()
+  python3 _lang.py            prints the chat language (e.g. en)
+  python3 _lang.py video      prints the video language
+  python3 _lang.py list       prints the supported languages"""
 import json, os, sys
 from pathlib import Path
 
@@ -37,12 +39,18 @@ def get():
     return c if c in LANGS else DEFAULT
 
 
+def video():
+    """The language of the VIDEO (voice, transcription, captions). Falls back to the chat language."""
+    c = (os.environ.get("VAE_VIDEO_LANG") or _profile().get("video") or get()).strip().lower()
+    return c if c in LANGS else get()
+
+
 def whisper():
-    return LANGS[get()][1]
+    return LANGS[video()][1]
 
 
 def rtl():
-    return LANGS[get()][2]
+    return LANGS[video()][2]
 
 
 if __name__ == "__main__":
@@ -53,5 +61,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         for k, (n, _, r) in LANGS.items():
             print(f"{k}\t{n}\t{'rtl' if r else 'ltr'}")
+    elif len(sys.argv) > 1 and sys.argv[1] == "video":
+        print(video())
     else:
         print(get())

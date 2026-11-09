@@ -37,6 +37,17 @@ ls ~/.video-ad-editor/lang.json   # exists = the user already chose
 
 - **If the user already wrote to you in a supported language**, don't ask: confirm in one line ("I'll work in English — say 'change language' any time.") and save it.
 - **"Change language" / «غيّر اللغة» / "cambia el idioma"** at any time → ask again and save.
+## Two languages: the chat and the video
+They can differ (someone who chats in English and posts a French video). `_lang.get()` is the **chat** language; `_lang.video()` is the **video** language — the voice, the Whisper language, the captions and the script. Every transcription and caption script uses the video language.
+- The video language defaults to the chat language. At the start of each video, **detect the script's/footage's language**; if it differs from the chat language, save it:
+  ```bash
+  python3 scripts/00_onboard.py lang video fr      # the video is French
+  python3 scripts/00_onboard.py lang video clear   # back to the chat language
+  python3 scripts/_lang.py video                   # what it is now
+  ```
+- One-off, without saving: `VAE_VIDEO_LANG=fr python3 …`.
+- Say it in one line ("Your script is in French, so voice and captions will be French; I'll keep talking to you in English.").
+
 - Unsupported language? Pick the closest supported code for transcription and tell the user in one line.
 
 ## The taste page has a language switcher

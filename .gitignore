@@ -13,3 +13,7 @@ video-editor/bin/
 
 # رسم أمثلة الموشن يتولّد محلياً (node render.js) — ما يدخل المستودع
 video-editor/motion/examples/*/renders/
+
+# python caches
+__pycache__/
+*.pyc

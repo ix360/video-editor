@@ -32,7 +32,7 @@ Ask only what you can't guess, in a single message:
 2. **Goal and where it will be posted** (sell · leads · teach · followers — Reels/TikTok/Shorts/YouTube).
 3. **Do you appear on camera, or is it voice only?**
 
-Everything else (audience, length 30–45 s, the CTA) you infer and say back in one sentence. Then pick the **format** yourself — never ask "which mode?":
+**Detect the language of the script/footage** — if it differs from the chat language, run `python3 scripts/00_onboard.py lang video <code>` (and `lang video clear` for a video in the chat language) so voice, transcription and captions use it; say so in one line. Everything else (audience, length 30–45 s, the CTA) you infer and say back in one sentence. Then pick the **format** yourself — never ask "which mode?":
 
 | What they have / want | Format | Skill that builds it |
 |---|---|---|

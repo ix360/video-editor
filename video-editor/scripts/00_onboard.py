@@ -499,7 +499,8 @@ def to_theme(args):
 
 
 def lang_cmd(rest):
-    """lang -> prints the current language · lang list -> supported · lang set <code> -> saves it to ~/.video-ad-editor/lang.json."""
+    """lang -> chat language · lang list -> supported · lang set <code> -> saves the chat language ·
+    lang video -> the VIDEO language (voice, transcription, captions) · lang video <code> -> saves it · lang video clear -> back to the chat language."""
     import _lang
     if not rest:
         print(_lang.get())
@@ -508,16 +509,33 @@ def lang_cmd(rest):
         for k, (n, _, r) in _lang.LANGS.items():
             print(f"{k}\t{n}\t{'rtl' if r else 'ltr'}")
         return 0
+    if rest[0] == "video":
+        cur = {}
+        try: cur = json.loads((HOME / "lang.json").read_text(encoding="utf-8"))
+        except Exception: pass
+        if len(rest) == 1:
+            print(_lang.video()); return 0
+        c = rest[1].strip().lower()
+        if c == "clear": cur.pop("video", None)
+        elif c in _lang.LANGS: cur["video"] = c
+        else:
+            log("❌ Unsupported language: %s — supported: %s" % (c, ", ".join(_lang.LANGS))); return 1
+        atomic_write(HOME / "lang.json", json.dumps(cur, ensure_ascii=False))
+        print(_lang.video()); return 0
     if rest[0] == "set" and len(rest) > 1:
         c = rest[1].strip().lower()
         if c not in _lang.LANGS:
             log("❌ Unsupported language: %s — supported: %s" % (c, ", ".join(_lang.LANGS)))
             return 1
         # its own file (lang.json) — kept out of profile.json so `show` doesn't think choices were saved and skip the intro page
-        atomic_write(HOME / "lang.json", json.dumps({"lang": c}, ensure_ascii=False))
+        cur = {}
+        try: cur = json.loads((HOME / "lang.json").read_text(encoding="utf-8"))
+        except Exception: pass
+        cur["lang"] = c   # keeps a saved "video" language
+        atomic_write(HOME / "lang.json", json.dumps(cur, ensure_ascii=False))
         print(c)
         return 0
-    log("usage: 00_onboard.py lang [list | set <code>]")
+    log("usage: 00_onboard.py lang [list | set <code> | video [<code>|clear]]")
     return 1
 
 

@@ -145,7 +145,7 @@ def main():
     pv = proj.get('voice', {}) or {}
     voice = a.voice or pv.get('name') or DEF_VOICE
     if not voice and not a.own:
-        sys.exit('⛔ ما فيه صوت مختار — حط project.json ← voice.name (أو --voice). جرّب أكثر من صوت على 3 جمل وقيّمها بوِسبر medium، وخل المستخدم يسمع ويختار. الفصحى المشكّلة أضمن من اللهجة.')
+        sys.exit('⛔ No voice chosen — set project.json → voice.name (or --voice), or record/attach your own voice with --own <file>. For a generated voice, try a few voices on 3 sentences, check them with Whisper medium, and let the user listen and choose.')
     wj = os.path.join(VO, 'words.json')
     old = {}
     if os.path.exists(wj):
@@ -159,7 +159,7 @@ def main():
         #    القطع تغطي التسجيل كامل بلا فراغ، الحدود عند أهدأ نقطة بين الأسطر، والقص الوحيد =
         #    تقصير السكتات الطويلة (≥0.45 ث ← 0.30 ث) بتلاشي 8 مللي (إلا مع --keep-silence).
         src = os.path.abspath(a.own); x = decode(src); x = x if x.ndim == 1 else x.mean(1)
-        print(f'🎙  صوتك: {os.path.basename(src)} ({len(x)/SR:.1f}s) → وِسبر {a.whisper_model} …', flush=True)
+        print(f'🎙  Your voice: {os.path.basename(src)} ({len(x)/SR:.1f}s) → Whisper {a.whisper_model} …', flush=True)
         tmpw = os.path.join(VO, '_own_48k.wav'); write_wav(tmpw, x)
         _lc = _lang.whisper() if _lang else 'ar'
         # the script as an initial prompt helps Arabic dialects, but derails other languages (a French take collapsed: 5 lines stacked at one timestamp)
@@ -172,7 +172,7 @@ def main():
         def frames(sig):
             n = len(sig) // HOP; return 20 * np.log10(np.sqrt(np.mean(sig[:n * HOP].reshape(n, HOP) ** 2, axis=1)) + 1e-9)
         r = frames(x); spm = r > -42; spi = np.where(spm)[0]
-        if not len(spi): sys.exit('⛔ ما لقيت كلام بالتسجيل')
+        if not len(spi): sys.exit('⛔ No speech found in the recording')
         first, last = int(spi[0]), int(spi[-1])               # بداية/نهاية الكلام بالطاقة — مو بوِسبر (يفوّت أول كلمة أحياناً)
         # كلمات البداية اللي وِسبر ما سمعها تنحط قبل الكلام (أو تتكدس عند 0) → نوزّعها من بداية الكلام الفعلية لأول كلمة مسموعة
         onset = first * HOP / SR; k = 0
@@ -181,7 +181,7 @@ def main():
             stop = T[k][0] if k < len(T) else onset + 0.3 * k
             step = (stop - onset) / k if stop - onset > 0.12 * k else 0.25
             for q in range(k): T[q] = (onset + step * q, onset + step * (q + 1))
-            print(f'  ↪ {k} كلمة بالبداية ما انسمعت — توزّعت من بداية الكلام ({onset:.2f}s)')
+            print(f'  ↪ {k} word(s) at the start were not heard — spread from the start of speech ({onset:.2f}s)')
         runs, i = [], first
         while i <= last:
             if spm[i]: i += 1; continue
@@ -230,12 +230,12 @@ def main():
             if n_ > 0:                                         # فحص: الحد لازم يكون سكتة، مو داخل كلام
                 near = float(20 * np.log10(np.sqrt(np.mean(y[max(0, p0 - 240):p0 + 240] ** 2)) + 1e-9))
                 loc = float(20 * np.log10(np.sqrt(np.mean(y[max(0, p0 - 14400):p0 + 14400] ** 2)) + 1e-9))
-                if near > loc - 14: bad += 1; print(f'  ⚠ حد {L["id"]} عند {s0:.2f}s قريب من كلام ({near:.0f} dB)')
-            print(f'  ✓ {L["id"]}  {s0:6.2f}→{p1/SR:6.2f}s  {len(words)} كلمة')
+                if near > loc - 14: bad += 1; print(f'  ⚠ boundary {L["id"]} at {s0:.2f}s is close to speech ({near:.0f} dB)')
+            print(f'  ✓ {L["id"]}  {s0:6.2f}→{p1/SR:6.2f}s  {len(words)} words')
         os.unlink(tmpw); write_wav(os.path.join(VO, '_own_clean_full.wav'), y)
-        print(f'  التسجيل {len(x)/SR:.1f}s ← النظيف {len(y)/SR:.1f}s · سكتات مقصّرة {len(runs)} · حدود داخل كلام: {bad}')
+        print(f'  Recording {len(x)/SR:.1f}s → cleaned {len(y)/SR:.1f}s · long pauses shortened: {len(runs)} · boundaries inside speech: {bad}')
         json.dump({'voice': 'own:' + os.path.basename(src), 'source': 'own', 'lines': lines}, open(wj, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
-        print('  👉 حط بـproject.json: "timing": {"keepOriginal": true, "snap": "none"} — وaudio.py يعاير صوتك على ‎-20 LUFS تلقائياً (بلا ليمتر يغيّر صوتك)')
+        print('  👉 Put in project.json: "timing": {"keepOriginal": true, "snap": "none"} — audio.py then levels your voice to -20 LUFS automatically (no limiter that would change your voice)')
         print('✅ ' + wj); return
 
     for L in script:                                            # ── edge-tts per line
@@ -243,13 +243,13 @@ def main():
         key = hashlib.sha1(json.dumps([L['text'], v, rate, pitch, a.align]).encode()).hexdigest()[:12]
         fn = os.path.join(VO, L['id'] + '.wav'); o = old.get(L['id'])
         if not a.force and (only is None or L['id'] not in only) and o and o.get('hash') == key and os.path.exists(fn):
-            o['gap_after'] = L.get('gap_after'); lines.append(o); print(f'  = {L["id"]} (كاش)'); continue
+            o['gap_after'] = L.get('gap_after'); lines.append(o); print(f'  = {L["id"]} (cached)'); continue
         audio, words = None, []
         for attempt in range(2):                                # network hiccup → one retry, then stop (red-flag rule)
             try: audio, words = asyncio.run(tts(L['text'], v, rate, pitch)); break
             except Exception as e:
                 if attempt: raise
-                print('  ⚠ edge-tts فشل، محاولة ثانية وحدة:', e)
+                print('  ⚠ edge-tts failed, one more try:', e)
         x = decode(audio); y, shift = trim(x)
         src = 'edge-tts'
         if a.align == 'whisper' or not words:
@@ -268,7 +268,7 @@ def main():
         write_wav(fn, y)
         lines.append({'id': L['id'], 'text': L['text'], 'file': 'vo/' + L['id'] + '.wav', 'dur': round(dur, 4), 'words': words,
                       'gap_after': L.get('gap_after'), 'source': src, 'voice': v, 'rate': rate, 'pitch': pitch, 'hash': key})
-        print(f'  ✓ {L["id"]}  {dur:5.2f}s  {len(words)} كلمة  [{src}]  «{L["text"][:40]}»')
+        print(f'  ✓ {L["id"]}  {dur:5.2f}s  {len(words)} words  [{src}]  "{L["text"][:40]}"')
     json.dump({'voice': voice, 'source': 'tts', 'lines': lines}, open(wj, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('✅ ' + wj)
 

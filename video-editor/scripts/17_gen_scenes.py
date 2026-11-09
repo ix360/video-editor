@@ -32,7 +32,12 @@ import _setup
 IMG_MODEL = "fal-ai/nano-banana"
 VID_MODEL = "fal-ai/wan-25-preview/text-to-video"
 IMG_COST, VID_COST_PER_S = 0.04, 0.05
-NEG = "no women, no people, no readable text, no logos, no watermark"   # قواعد المستخدم: بلا نساء وبلا شعارات مرسومة
+NEG = "no readable text, no logos, no watermark"   # engine default only. Content rules (e.g. "no people", "no women") are the OWNER'S choice: theme.json -> "avoid": ["no people", ...]
+
+def _neg(work):
+    try: av = json.load(open(os.path.join(work, "theme.json"), encoding="utf-8")).get("avoid") or []
+    except Exception: av = []
+    return ", ".join([NEG] + [str(x) for x in av])
 
 def _env(work, *names):
     """أول قيمة لأحد الأسماء من البيئة ثم .env (مجلد الشغل ← الحالي ← البيت)"""
@@ -102,7 +107,7 @@ def _dl(url, path):
 def load(work):
     p = os.path.join(work, "gen.json")
     if not os.path.exists(p):
-        sys.exit("❌ ما فيه gen.json بمجلد الشغل — اكتبه أولاً (الصيغة بأعلى هذا الملف)")
+        sys.exit("❌ No gen.json in the work folder — write it first (format at the top of this file)")
     return json.load(open(p, encoding="utf-8"))
 
 def have(work, a):
@@ -134,7 +139,11 @@ def main():
     if cmd == "import":
         if len(sys.argv) < 5: sys.exit("usage: 17_gen_scenes.py <work> import <k> <file>")
         import_asset(work, sys.argv[3], sys.argv[4])
-        cfg = load(work); write_studio(work, cfg); return
+        if os.path.exists(os.path.join(work, "gen.json")):   # reel/podcast flow: wire the asset into studio.json
+            write_studio(work, load(work))
+        else:   # motion film (no gen.json): the file is ready in gen/ — copy it to <project>/assets/ and declare it in project.json "images"
+            print("ℹ️  No gen.json here (a motion film does not need one): the asset is ready in %s" % os.path.join(work, "gen"))
+        return
     cfg = load(work); assets = cfg.get("assets", [])
     missing = [a for a in assets if not have(work, a)]
     be = _backend(work); gimg = 0.0 if be in ("gemini", "flow") else IMG_COST     # جوجل: حصة مجانية (تحقق من حدّك) — نحسبها صفر
@@ -147,8 +156,8 @@ def main():
         for a in missing: print("  •", a["k"], a.get("kind", "image"), ("%ss" % a.get("dur", 5)) if a.get("kind") == "video" else "", "≈ %.2f$" % (VID_COST_PER_S * float(a.get("dur", 5)) if a.get("kind") == "video" else gimg))
         return
     if cmd == "status":
-        for a in assets: print(("✅" if have(work, a) else "⏳"), a["k"], a.get("kind", "image"), (("%d فريم" % frames_of(work, a["k"])) if a.get("kind") == "video" and have(work, a) else ""))
-        write_studio(work, cfg); print("studio.json ← gen:", len(cfg.get("scenes", [])), "مشهد"); return
+        for a in assets: print(("✅" if have(work, a) else "⏳"), a["k"], a.get("kind", "image"), (("%d frames" % frames_of(work, a["k"])) if a.get("kind") == "video" and have(work, a) else ""))
+        write_studio(work, cfg); print("studio.json ← gen:", len(cfg.get("scenes", [])), "scenes"); return
     if cmd != "fetch": sys.exit(__doc__)
     if be == "flow":
         print("ℹ️ Your assets source = subscription (Google Flow). Not generating by API — generate the missing ones in the browser per references/google-flow.md, then for each asset:")
@@ -162,7 +171,7 @@ def main():
     g = os.path.join(work, "gen"); os.makedirs(g, exist_ok=True)
     print("🎨 Generating %d assets (≈ $%.2f) — images via %s" % (len(missing), cost(missing, gimg), be))
     for a in missing:
-        k, kind, prompt = a["k"], a.get("kind", "image"), a["prompt"].strip() + ", " + NEG
+        k, kind, prompt = a["k"], a.get("kind", "image"), a["prompt"].strip() + ", " + _neg(work)
         t0 = time.time()
         try:
             if kind == "video":
@@ -172,26 +181,26 @@ def main():
                 for _ in range(120):
                     st = _get(su, key).get("status")
                     if st == "COMPLETED": break
-                    if st == "FAILED": raise RuntimeError("فشل توليد المقطع " + k)
+                    if st == "FAILED": raise RuntimeError("Clip generation failed: " + k)
                     time.sleep(5)
                 res = _get(ru, key); url = res["video"]["url"]
                 mp4 = os.path.join(g, k + ".mp4"); _dl(url, mp4)
                 subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", mp4, "-vf", "fps=30", "-q:v", "3", os.path.join(g, k + "_%04d.jpg")], check=True)
-                print("  ✅ %s مقطع %s ث → %d فريم (%.0f ث)" % (k, dur, frames_of(work, k), time.time() - t0))
+                print("  ✅ %s clip %s s → %d frames (%.0f s)" % (k, dur, frames_of(work, k), time.time() - t0))
             elif be == "gemini":
                 _gemini_image(gkey, prompt, a.get("ar", "3:4"), os.path.join(g, k + ".jpg"))
                 print("  ✅ %s image (Google, %.0f s)" % (k, time.time() - t0))
             else:
                 res = _post("https://fal.run/" + IMG_MODEL, key, {"prompt": prompt, "num_images": 1, "aspect_ratio": a.get("ar", "3:4"), "output_format": "jpeg"}, 120)
                 _dl(res["images"][0]["url"], os.path.join(g, k + ".jpg"))
-                print("  ✅ %s صورة (%.0f ث)" % (k, time.time() - t0))
+                print("  ✅ %s image (%.0f s)" % (k, time.time() - t0))
         except urllib.error.HTTPError as e:
             body = e.read()[:300].decode("utf-8", "ignore")
-            sys.exit("❌ فال رفض طلب «%s»: %s %s\n   (ما أعدت الطلب — شخّص السبب: المفتاح؟ الرصيد؟ المحتوى؟)" % (k, e.code, body))
+            sys.exit("❌ fal rejected \"%s\": %s %s\n   (not retried — diagnose: the key? the credit? the content?)" % (k, e.code, body))
         except Exception as e:
-            sys.exit("❌ توقفت عند «%s»: %s" % (k, str(e)[:200]))
+            sys.exit("❌ Stopped at \"%s\": %s" % (k, str(e)[:200]))
     st = write_studio(work, cfg)
-    print("📝 studio.json ← gen: %d مشهد · genFrames: %s" % (len(st["gen"]), st["genFrames"]))
+    print("📝 studio.json ← gen: %d scenes · genFrames: %s" % (len(st["gen"]), st["genFrames"]))
 
 if __name__ == "__main__":
     main()

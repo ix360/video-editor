@@ -19,8 +19,8 @@ SKILL="$(abspath "$(dirname "$0")/..")"
 #    هنا تنزيل موديل وِسبر الأصلي قد يكون محجوب وما فيه واجهة، فنستخدم السلّم بـreferences/any-environment.md
 #    (faster-whisper · MODNet · كروم بلا واجهة + ffmpeg). الجلسة الأولى على الجوال أثبتت إنه يشتغل.
 if [ "$OS" = linux ] && { [ -n "$CLAUDE_SANDBOX" ] || [ ! -d /Applications ]; } && ! curl -sI -m 8 https://openaipublic.azureedge.net >/dev/null 2>&1; then
-  echo "☁️ بيئة سحابية (جوال/ويب): وِسبر الأصلي محجوب هنا — نكمّل بالبدائل: faster-whisper للتفريغ، MODNet لقص الشخص، كروم بلا واجهة للرسم."
-  echo "   اقرأ references/any-environment.md. ما توقف ولا تقول للمستخدم «ما يصير»."
+  echo "☁️ Cloud/phone environment: the original Whisper download is blocked here — continuing with the fallbacks: faster-whisper for transcription, MODNet for person cut-out, headless Chrome for drawing."
+  echo "   Read references/any-environment.md. Don't stop, and never tell the user \"it can't be done\"."
   CLOUD=1
 fi
 
@@ -31,23 +31,23 @@ SKROOT="$(cd "$(dirname "$0")/.." && pwd)"; LOCALV="$(cat "$SKROOT/VERSION" 2>/d
 case "$SKROOT" in */.claude/plugins/*) PLUGIN=1 ;; *) PLUGIN=0 ;; esac
 PLUG_UPD="claude plugin marketplace update ix360-plugins && claude plugin update video-editor@ix360-plugins"
 if [ "$1" = "--update" ] && [ "$PLUGIN" = 1 ]; then
-  echo "ℹ️ السكل منصّب كـplugin — شغّل: $PLUG_UPD  (ثم افتح جلسة جديدة)"; exit 0
+  echo "ℹ️ Installed as a plugin — run: $PLUG_UPD  (then open a new session)"; exit 0
 fi
 if [ "$1" = "--update" ]; then
-  TMP="$(mktemp -d)"; echo "⬇️ أنزّل آخر إصدار…"
+  TMP="$(mktemp -d)"; echo "⬇️ Downloading the latest version…"
   if curl -sL -m 120 -o "$TMP/skill.zip" https://github.com/ix360/video-editor/releases/latest/download/video-editor.skill \
      && unzip -q -o "$TMP/skill.zip" -d "$TMP/x" && [ -f "$TMP/x/video-editor/SKILL.md" ]; then
     rsync -a --delete --exclude=bin --exclude=hdr2sdr --exclude=personmask --exclude=facetrack --exclude=node_modules "$TMP/x/video-editor/" "$SKROOT/" \
-      && echo "✅ انحدّث السكل إلى v$(cat "$SKROOT/VERSION" 2>/dev/null) — كمّل شغلك عادي" || echo "⚠️ ما قدرت أستبدل الملفات"
-  else echo "⚠️ ما قدرت أنزّل التحديث — جرّب لاحقاً"; fi
+      && echo "✅ Updated to v$(cat "$SKROOT/VERSION" 2>/dev/null) — carry on as usual" || echo "⚠️ Could not replace the files"
+  else echo "⚠️ Could not download the update — try again later"; fi
   rm -rf "$TMP"; exit 0
 fi
 LATEST="$(curl -sL -m 5 https://api.github.com/repos/ix360/video-editor/releases/latest 2>/dev/null | sed -n 's/.*"tag_name": *"v\([0-9.]*\)".*/\1/p' | head -1)"
 if [ -n "$LATEST" ] && [ "$LATEST" != "$LOCALV" ] && [ "$(printf '%s\n%s' "$LOCALV" "$LATEST" | sort -V | tail -1)" = "$LATEST" ]; then
   if [ "$PLUGIN" = 1 ]; then
-    echo "🆕 فيه إصدار أحدث من السكل: v$LATEST (عندك v$LOCALV) — اسأل المستخدم، ولو وافق شغّل: $PLUG_UPD  (ثم جلسة جديدة)"
+    echo "🆕 A newer version exists: v$LATEST (you have v$LOCALV) — ask the user, and if they agree run: $PLUG_UPD  (then a new session)"
   else
-    echo "🆕 فيه إصدار أحدث من السكل: v$LATEST (عندك v$LOCALV) — اسأل المستخدم، ولو وافق شغّل: bash scripts/00_setup.sh --update"
+    echo "🆕 A newer version exists: v$LATEST (you have v$LOCALV) — ask the user, and if they agree run: bash scripts/00_setup.sh --update"
   fi
 fi
 
@@ -62,8 +62,8 @@ pip_in(){ "$PY" -m pip install --quiet "$@" 2>/dev/null && return 0
   "$PY" -m pip install --quiet --user "$@"; }
 extras_status(){
   local e=()
-  { [ -x "$SKILL/bin/deep-filter" ] || [ -x "$SKILL/bin/deep-filter.exe" ] || have deep-filter; } && e+=("تنظيف-الصوت✅") || e+=("تنظيف-الصوت—")
-  "$PY" -c "import transformers,PIL" 2>/dev/null && e+=("البحث-بالمعنى✅") || e+=("البحث-بالمعنى—")
+  { [ -x "$SKILL/bin/deep-filter" ] || [ -x "$SKILL/bin/deep-filter.exe" ] || have deep-filter; } && e+=("audio-cleanup✅") || e+=("audio-cleanup—")
+  "$PY" -c "import transformers,PIL" 2>/dev/null && e+=("search-by-meaning✅") || e+=("search-by-meaning—")
   echo "${e[*]}"
 }
 if [ "$1" = "--extras" ]; then
@@ -79,16 +79,16 @@ if [ "$1" = "--extras" ]; then
   esac
   DF="$SKILL/bin/deep-filter"; [ "$OS" = win ] && DF="$DF.exe"
   if [ -n "$T" ] && [ ! -x "$DF" ]; then
-    line "⏬ تنظيف الصوت الذكي (DeepFilterNet3، ~20 ميقا)…"
+    line "⏬ Smart audio cleanup (DeepFilterNet3, ~20 MB)…"
     if curl -sfL -m 180 -o "$DF" "https://github.com/Rikorose/DeepFilterNet/releases/download/v$DFV/deep-filter-$DFV-$T" \
        && [ "$(wc -c < "$DF")" -gt 1000000 ]; then
       chmod +x "$DF"; [ "$OS" = mac ] && xattr -d com.apple.quarantine "$DF" 2>/dev/null
-      "$DF" --help >/dev/null 2>&1 && line "   ✅ جاهز" || { rm -f "$DF"; line "   ⚠️ نزل بس ما اشتغل — يبقى فلتر ffmpeg العادي"; }
-    else rm -f "$DF"; line "   ⚠️ ما قدرت أنزّله — يبقى فلتر ffmpeg العادي"; fi
+      "$DF" --help >/dev/null 2>&1 && line "   ✅ ready" || { rm -f "$DF"; line "   ⚠️ downloaded but did not run — the normal ffmpeg filter stays"; }
+    else rm -f "$DF"; line "   ⚠️ could not download it — the normal ffmpeg filter stays"; fi
   fi
-  "$PY" -c "import torch" 2>/dev/null || { line "⏬ torch (أساس الموديلات)…"; pipx2 torch; }
-  "$PY" -c "import transformers,PIL" 2>/dev/null || { line "⏬ البحث بالمعنى (transformers — الموديل ~1.5 قيقا ينزل أول بحث)…"; pipx2 "transformers>=4.49" pillow sentencepiece protobuf || line "   ⚠️ فشل"; }
-  line "الإضافات: $(extras_status)"
+  "$PY" -c "import torch" 2>/dev/null || { line "⏬ torch (base for the models)…"; pipx2 torch; }
+  "$PY" -c "import transformers,PIL" 2>/dev/null || { line "⏬ Search by meaning (transformers — the ~1.5 GB model downloads on first search)…"; pipx2 "transformers>=4.49" pillow sentencepiece protobuf || line "   ⚠️ failed"; }
+  line "Extras: $(extras_status)"
   exit 0
 fi
 
@@ -116,21 +116,25 @@ CHROME="$(find_chrome)" && OK+=("chrome") || MISS+=("chrome")
 ( cd "$SKILL" && node -e "require.resolve('puppeteer-core')" ) 2>/dev/null \
   && OK+=("puppeteer-core") || MISS+=("puppeteer-core")
 
-line "النظام: $OS · بايثون: $PY"
-[ -n "$CHROME" ] && line "كروم: $CHROME"
-line "الجاهز: ${OK[*]:-لا شيء}"
-line "الإضافات (اختيارية — 00_setup.sh --extras): $(extras_status)"
-if have npm; then line "المحرّك الثاني (ريموشن): متاح عند الطلب — 04b_remotion.sh setup ينزّله (~500 ميقا)"
-else line "المحرّك الثاني (ريموشن): يحتاج npm — غير متاح، والخفيف يكفي"; fi
-[ "$OS" = mac ] || NOTE+=("مؤثّر «الكلام ورا الشخص» (11_behind_text.js) يشتغل على ماك فقط — بقية السكل يشتغل عادي")
+# scipy: the audio mixer (motion/audio.py) needs it. Systems that block system-wide pip (PEP 668) get a small venv in ~/.video-ad-editor/venv.
+VAE_H="${VAE_HOME:-$HOME/.video-ad-editor}"; VPY="$VAE_H/venv/bin/python"; [ "$OS" = win ] && VPY="$VAE_H/venv/Scripts/python.exe"
+if "$PY" -c "import scipy" 2>/dev/null || { [ -x "$VPY" ] && "$VPY" -c "import scipy" 2>/dev/null; }; then OK+=("scipy"); else MISS+=("scipy"); fi
+
+line "System: $OS · Python: $PY"
+[ -n "$CHROME" ] && line "Chrome: $CHROME"
+line "Ready: ${OK[*]:-nothing}"
+line "Extras (optional — 00_setup.sh --extras): $(extras_status)"
+if have npm; then line "Second engine (Remotion): available on request — 04b_remotion.sh setup downloads it (~500 MB)"
+else line "Second engine (Remotion): needs npm — not available, the light one is enough"; fi
+[ "$OS" = mac ] || NOTE+=("The \"text behind the person\" effect (11_behind_text.js) works on Mac only — everything else works as usual")
 
 if [ ${#MISS[@]} -eq 0 ]; then
-  line "✅ كل شي جاهز — نقدر نبدأ."
+  line "✅ Everything is ready — we can start."
   [ ${#NOTE[@]} -gt 0 ] && printf 'ℹ️  %s\n' "${NOTE[@]}"
   exit 0
 fi
-line "الناقص: ${MISS[*]}"
-if [ $INSTALL -eq 0 ]; then line "شغّل: $0 --install"; exit 10; fi
+line "Missing: ${MISS[*]}"
+if [ $INSTALL -eq 0 ]; then line "Run: $0 --install"; exit 10; fi
 
 pipi(){ pip_in "$@"; }
 for m in "${MISS[@]}"; do
@@ -138,16 +142,18 @@ for m in "${MISS[@]}"; do
     ffmpeg|ffprobe)
       [ "$m" = ffprobe ] && continue
       line "⏬ ffmpeg…"
-      if   [ "$OS" = win ] && have winget; then winget install --id Gyan.FFmpeg -e --accept-package-agreements --accept-source-agreements || NOTE+=("ffmpeg فشل — نزّله من ffmpeg.org وضفه للـPATH")
-      elif have brew;  then brew install ffmpeg || NOTE+=("ffmpeg فشل")
-      elif have apt;   then sudo apt install -y ffmpeg || NOTE+=("ffmpeg فشل")
-      else NOTE+=("نزّل ffmpeg يدوياً من ffmpeg.org وضفه للـPATH"); fi ;;
-    whisper) line "⏬ openai-whisper… (الموديل ينزل أول تشغيل، 1.4 قيقا)"
-      pipi openai-whisper || NOTE+=("whisper فشل") ;;
-    numpy)   pipi numpy || NOTE+=("numpy فشل") ;;
+      if   [ "$OS" = win ] && have winget; then winget install --id Gyan.FFmpeg -e --accept-package-agreements --accept-source-agreements || NOTE+=("ffmpeg failed — download it from ffmpeg.org and add it to PATH")
+      elif have brew;  then brew install ffmpeg || NOTE+=("ffmpeg failed")
+      elif have apt;   then sudo apt install -y ffmpeg || NOTE+=("ffmpeg failed")
+      else NOTE+=("Download ffmpeg manually from ffmpeg.org and add it to PATH"); fi ;;
+    whisper) line "⏬ openai-whisper… (the model downloads on first run, 1.4 GB)"
+      pipi openai-whisper || NOTE+=("whisper failed") ;;
+    scipy)   line "⏬ scipy (audio mixer, ~35 MB, into $VAE_H/venv)…"
+      { "$PY" -m venv --system-site-packages "$VAE_H/venv" && "$VPY" -m pip install --quiet scipy; } || NOTE+=("scipy failed — try: $PY -m venv --system-site-packages $VAE_H/venv && $VPY -m pip install scipy") ;;
+    numpy)   pipi numpy || NOTE+=("numpy failed") ;;
     puppeteer-core) line "⏬ puppeteer-core…"
-      ( cd "$SKILL" && npm i --silent puppeteer-core ) || NOTE+=("puppeteer-core فشل") ;;
-    chrome) NOTE+=("كروم مو منصّب — نزّله من google.com/chrome أو حدّد CHROME_PATH") ;;
+      ( cd "$SKILL" && npm i --silent puppeteer-core ) || NOTE+=("puppeteer-core failed") ;;
+    chrome) NOTE+=("Chrome is not installed — get it from google.com/chrome or set CHROME_PATH") ;;
   esac
 done
 
@@ -155,6 +161,7 @@ FAIL=0
 have ffmpeg || FAIL=1
 "$PY" -c "import whisper,numpy" 2>/dev/null || FAIL=1
 find_chrome >/dev/null || FAIL=1
+{ "$PY" -c "import scipy" 2>/dev/null || { [ -x "$VPY" ] && "$VPY" -c "import scipy" 2>/dev/null; }; } || FAIL=1
 ( cd "$SKILL" && node -e "require.resolve('puppeteer-core')" ) 2>/dev/null || FAIL=1
 [ ${#NOTE[@]} -gt 0 ] && printf '⚠️  %s\n' "${NOTE[@]}"
-[ $FAIL -eq 0 ] && line "✅ كل شي جاهز الحين." || { line "❌ باقي ناقص — شوف الملاحظات فوق."; exit 11; }
+[ $FAIL -eq 0 ] && line "✅ Everything is ready now." || { line "❌ Still missing something — see the notes above."; exit 11; }

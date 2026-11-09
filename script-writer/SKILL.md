@@ -8,7 +8,7 @@ description: Writes the script for a short video — a direct hook in the first 
 The method lives in `${CLAUDE_SKILL_DIR}/../video-editor/references/script-writing.md`. **Read it and follow it.** All other scripts and references are in `${CLAUDE_SKILL_DIR}/../video-editor`.
 
 ## 🌐 Language
-Write the script in the user's saved language (`python3 scripts/_lang.py`, see `references/language.md`); ask once if none is saved. Talk to them in it too.
+Talk to the user in their saved chat language (`python3 scripts/_lang.py`, see `references/language.md`; ask once if none is saved). Write the **script** in the video's language (`python3 scripts/_lang.py video`) — it can differ.
 
 ## Steps
 0. **Pick the mode from their first words** — *rhythm* (default) or *yapping* (talk to camera, bullets, no manufactured hook) — see the reference's "Two modes" and §8.
