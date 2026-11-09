@@ -25,6 +25,36 @@ Details: [`language.md`](video-editor/references/language.md).
 - **The move gallery speaks English, Français and العربية** (switcher at the top; English by default).
 - Saved taste is announced ("I have your saved taste: deep-mint… use it or change it?") instead of being skipped silently.
 
+### The mega prompt: one prompt, every time
+After installing, paste this (fill the `<…>` parts) — or just `/video-editor:start` and answer the questions:
+
+```text
+/video-editor:start
+
+MAKE ONE FINISHED VIDEO. Follow the plugin's workflow exactly and do not skip a stage.
+
+TOPIC / SCRIPT : <paste my script, or one line about the topic and write it for me: hook, story, one call to action>
+GOAL           : <sell | leads | teach | followers>
+PLATFORM       : <Reels | TikTok | Shorts | YouTube>        LENGTH: <e.g. 60 s>
+VIDEO LANGUAGE : <fr | en | ar | es | pt | de | tr | ...>    (talk to me in my own language)
+VOICE          : ElevenLabs voice ID <PASTE_YOUR_VOICE_ID>   (price it first and tell me the credits; one take)
+                 [no ElevenLabs? write instead:  my own mp3: <path>   or   free voice]
+LOOK           : use my saved taste (colors, font, caption style)
+RECIPE         : a full combination. About 80% of the scenes use AI-generated Google Flow VIDEO as the
+                 background; motion graphics and 3D go on top and carry the facts. At least one 3D scene.
+                 A camera move or punch-in zoom on every scene and on the key words, kinetic type, and the
+                 move-bank plan. Reuse a clip in several scenes (different crop/speed) to save credits.
+FLOW BUDGET    : up to <6> new clips (about 12 credits each). If Google pauses Flow, stop, tell me, reuse what exists.
+AVOID          : <e.g. no surgery images, no before/after promises, no faces in focus>   (or: nothing)
+CTA            : <one action, e.g. comment PRICE>
+DELIVER        : the final mp4 + a small compressed copy + a contact sheet. A file only: post nothing.
+```
+
+- **The first time only**, the plugin sets itself up automatically (language, tools, your taste page, ElevenLabs/Chrome/Flow checks) and remembers it. Every later run starts straight on your video. Say "change my settings" to redo it.
+- **Forced workflow:** the renderer refuses a full render until the move plan exists and the audit passes (AI footage behind ~80% of scenes, camera moves and zooms on the scenes, the planned moves used).
+- **ElevenLabs:** your voice ID is in ElevenLabs → Voices → your voice → "ID". Don't have ElevenLabs? Use `my own mp3: <path>` (record it on your phone) or `free voice`.
+- Flow clips use your Google subscription's credits (about 12 per 4 s clip). If Google pauses Flow ("unusual activity"), the plugin stops, tells you, and reuses the clips and photos it already has.
+
 ### One command for the whole workflow · a script writer
 - **`/video-editor:start`** runs everything in order — setup check → a one-message brief → script → voice → look and assets → build → delivery — and picks the right skill for you (reel, podcast, montage, motion film, cover). It remembers where you are, so you can stop and come back (`42_start.py status`).
 - **The `script-writer` skill:** three hooks to choose from (the first word already carries the point — no greetings), a story skeleton that fits your goal, **one** direct call to action, and a shot list saying what the viewer sees on every line → [`script-writing.md`](video-editor/references/script-writing.md).

@@ -7,6 +7,8 @@ All paths here are from the main skill folder (`video-editor`).
 
 ---
 
+> **Run `python3 scripts/42_start.py ready` first.** `configured: true` → skip steps 0.2, 0.3, 0 and 0.5 below entirely (they ran once already). Only the items listed in `missing` are done, then `ready --mark`.
+
 ## Before anything — a model and effort tip (once per session)
 In your first message of the session, tell the user in two lines (and don't repeat it):
 > "For the strongest result: **Opus 5.5** with effort **max**. It uses more of your limit, but the edit comes out much better."

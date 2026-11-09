@@ -5,6 +5,9 @@
   python3 42_start.py set <work> key=value [key=value ...]     saves the brief into <work>/brief.json
         keys: topic goal audience platform length format voice cta language   (any key is allowed)
   python3 42_start.py status <work>                            prints the stages done / missing and the NEXT step (JSON with --json)
+  python3 42_start.py ready [--mark [--elevenlabs yes|no|skip] [--flow yes|no|skip]] [--reset]
+        the ONE-TIME setup gate: prints {configured, first_run, missing[]} (exit 0 = ready, 10 = something to set up). Machine items are checked here (language, taste, assets source,
+        tools); the connections (ElevenLabs, Chrome, Flow) are checked by Claude, then `--mark` writes ~/.video-ad-editor/ready.json so the next run skips setup silently. `--reset` = "change my settings".
   python3 42_start.py audit <project>                          motion film only: checks the scenes really use the move bank (FX.*), camera moves/zooms and the saved plan. Exit 0 = pass, 3 = fix it before rendering
 
 Stages (in order): brief → script → voice → theme → assets → build.  `assets` is optional (graphic-only films skip it).
@@ -69,6 +72,56 @@ def status(work, as_json):
     print("NEXT:", ("%s — %s" % (nxt, HINT[nxt])) if nxt else "all done — deliver the file")
 
 
+READY_LEVEL = 1   # bump when a NEW requirement is added: existing users are re-checked once, for that item only
+
+
+def _home():
+    from pathlib import Path
+    return Path(os.environ.get("VAE_HOME") or (Path.home() / ".video-ad-editor"))
+
+
+def ready(args):
+    import shutil, importlib.util, subprocess, datetime
+    home = _home(); eng = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+    stamp_p = home / "ready.json"
+    if "--reset" in args:
+        try: stamp_p.unlink()
+        except FileNotFoundError: pass
+        print("✅ setup stamp cleared — the next /start re-checks everything"); return
+    if "--mark" in args:
+        def opt(k, d):
+            return args[args.index(k) + 1] if k in args and args.index(k) + 1 < len(args) else d
+        home.mkdir(parents=True, exist_ok=True)
+        try: ver = open(os.path.join(eng, "VERSION")).read().strip()
+        except Exception: ver = "?"
+        json.dump({"level": READY_LEVEL, "version": ver, "date": datetime.date.today().isoformat(), "elevenlabs": opt("--elevenlabs", "skip"), "flow": opt("--flow", "skip")}, open(stamp_p, "w"), indent=1)
+        print("✅ marked ready:", stamp_p); return
+    miss = []
+    if not (home / "lang.json").exists(): miss.append("language")
+    if not (home / "profile.json").exists(): miss.append("taste (open the taste page once: 00_onboard.py --work <work>)")
+    try: mode = json.load(open(home / "setup.json")).get("assets")
+    except Exception: mode = None
+    if mode not in ("api", "subscription"): miss.append("assets source (python3 scripts/00_check.py set-assets api|subscription)")
+    for t in ("ffmpeg", "ffprobe", "node"):
+        if not shutil.which(t): miss.append("tool: " + t)
+    for m in ("whisper", "numpy"):
+        if importlib.util.find_spec(m) is None: miss.append("python module: " + m)
+    vpy = home / "venv" / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    ok_scipy = importlib.util.find_spec("scipy") is not None
+    if not ok_scipy and vpy.exists():
+        ok_scipy = subprocess.run([str(vpy), "-c", "import scipy"], capture_output=True).returncode == 0
+    if not ok_scipy: miss.append("python module: scipy (bash scripts/00_setup.sh --install)")
+    if not os.path.isdir(os.path.join(eng, "node_modules", "puppeteer-core")): miss.append("tool: puppeteer-core (bash scripts/00_setup.sh --install)")
+    stamp = None
+    try: stamp = json.load(open(stamp_p))
+    except Exception: pass
+    if not stamp: miss.append("connections not verified yet (ElevenLabs, Chrome extension, Flow) — verify, then `ready --mark`")
+    elif stamp.get("level", 0) < READY_LEVEL: miss.append("new requirement since your last setup — re-verify, then `ready --mark`")
+    out = {"configured": not miss, "first_run": stamp is None, "missing": miss, "stamp": stamp}
+    print(json.dumps(out, ensure_ascii=False, indent=1))
+    sys.exit(0 if not miss else 10)
+
+
 CAMERA = {"pushIn", "pullOut", "handheld", "kenBurns", "snapZoom", "punchCut", "dollyZoom", "rackFocus", "parallax", "shake", "crossZoom", "zoomWipe", "dotZoom", "tilt3D", "orbit", "craneUp"}
 
 
@@ -121,6 +174,9 @@ def audit(proj):
                     problems.append("%s contains Arabic text but the script is not Arabic — replace it" % os.path.basename(f))
     except Exception:
         pass
+    clips = [f for f in sc if re.search(r"\bdrawClip\s*\(", open(f, encoding="utf-8").read() + (libsrc if libsrc else ""))]
+    if len(clips) < int(len(sc) * 0.5):
+        print("⚠ only %d of %d scenes use Flow VIDEO clips (drawClip); photos are the fallback, clips are the goal (~80%% of scenes)" % (len(clips), len(sc)))
     print("Scenes: %d · camera/zoom scenes: %d · distinct moves: %s" % (len(sc), cam_scenes, ", ".join(sorted(used_all)) or "none"))
     if problems:
         print("❌ AUDIT FAILED — fix before rendering:"); [print("  -", p) for p in problems]; sys.exit(3)
@@ -140,6 +196,7 @@ def set_(work, kv):
 
 def main():
     a = sys.argv[1:]
+    if a and a[0] == "ready": return ready(a[1:])
     if len(a) < 2: sys.exit(__doc__)
     if a[0] == "status": return status(a[1], "--json" in a)
     if a[0] == "audit": return audit(a[1])

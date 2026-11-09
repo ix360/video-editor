@@ -12,6 +12,12 @@ Engine (all `scripts/`, `references/`, `motion/`): `${CLAUDE_SKILL_DIR}/../video
 ## 🌐 Language, tone
 Work in the user's saved language (`python3 scripts/_lang.py`; ask once if none — `references/language.md`). You prepare things, they don't: never hand them commands, never ask "do you have X?" — check yourself. Say where you are in one line per stage. One question at a time.
 
+## The brief it understands (the "mega prompt")
+Users start with one prompt whose fields are listed in the README ("The mega prompt"): `TOPIC / SCRIPT`, `GOAL`, `PLATFORM`, `LENGTH`, `VIDEO LANGUAGE`, `VOICE` (an ElevenLabs voice ID, or "my own mp3: <path>", or "free voice"), `LOOK`, `RECIPE`, `FLOW BUDGET`, `AVOID`, `CTA`, `DELIVER`.
+- Parse every field you can; **ask only for what is missing and essential** (the topic or script; the voice if absent), one question at a time. Save the fields with `42_start.py set`.
+- `VOICE: ElevenLabs voice ID …` → that is a user-supplied `voice_id` (allowed by `voiceover-video`): price with `estimate_only` first, then one take.
+- `RECIPE` defaults to: ~80% of scenes with a Flow video background + 3D/graphics on top. `AVOID` → `theme.json → "avoid"`. `FLOW BUDGET` caps the new clips. `VIDEO LANGUAGE` → `VAE_VIDEO_LANG` / `lang video`.
+
 ## The map (6 stages)
 
 ```
@@ -23,8 +29,13 @@ Work in the user's saved language (`python3 scripts/_lang.py`; ask once if none 
 
 ---
 
-### 0 · Setup (first time only — skip silently if done)
-Do `references/start.md` steps **0.2 language** and **0.3 setup check** (assets source A/B, ElevenLabs, Chrome, Flow). Don't repeat them on later videos. Tell them in one line what's ready.
+### 0 · Setup — once, automatically (never nag)
+Run **`python3 scripts/42_start.py ready`** first, before anything else.
+- **`configured: true`** → say "Ready." in one line and go to stage 1. Do not ask about language, taste, tools or connections again.
+- **`configured: false`** → set up **only what `missing` lists**, in this order, then mark it done:
+  1. `language` → `references/language.md`. 2. tools → `bash scripts/00_setup.sh` then `--install` with their OK (it also installs scipy in a venv). 3. `assets source` → `references/setup-check.md` (A: Google API key, B: their Flow subscription). 4. `taste` → the taste page (`references/start.md` step 0.5). 5. **connections**: ElevenLabs connector present? (offer the Connect button if missing, or "skip"), Chrome extension present, Flow signed in (open `https://labs.google/fx/tools/flow`; if not signed in, bring Chrome forward and ask them to sign in).
+  6. Finish with `python3 scripts/42_start.py ready --mark --elevenlabs yes|no|skip --flow yes|no|skip`.
+- "Change my settings" / a failed check later → `ready --reset` (or fix just that item) and redo only that part. The plugin raising `READY_LEVEL` re-asks only for the new requirement.
 
 ### 1 · The brief — ONE message
 Ask only what you can't guess, in a single message:
@@ -69,6 +80,7 @@ Never generate before pricing it (`voiceover-video` rules). The audio becomes `<
 - Register each file straight into the project: `python3 scripts/17_gen_scenes.py <work> import <k> <file> --project <project>`; scenes play it with `ctx.drawClip(X, "<k>", lt, {...})` (`references/motion-mode.md`). Other sources, cheapest first, for the fallback: free stock (`references/stock.md`) → Gemini images (`references/gen-scenes.md`) → fal (paid, only if they agree).
 
 ### 5 · Build
+**The workflow is enforced by the tools, not by your memory:** `node motion/render.js <project> all` refuses to run on a `/start` project until `moves_plan.json` exists and `42_start.py audit` passes (≥80% of scenes with AI footage, a camera move/zoom on ≥70%, the planned moves used). Don't look for a way round it (`--no-audit` only if the user explicitly asks).
 **Zoom and motion are the point of this plugin, in every video:** a punch-in/camera move on the hook and on every key word, kinetic type, and a move from the plan on every scene — never a film of static cards. Photos are never still: push, parallax or ken-burns through `ctx.FX` (`pushIn`, `kenBurns`, `snapZoom`, `punchCut`…). Talking reels: `hookZoom`, `punchCut` and the compose moves.
 For a motion film, **before rendering** run `python3 scripts/42_start.py audit <project>` — it fails if scenes don't use the move bank or have no camera/zoom moves; fix and re-run until it passes.
 Hand over to the skill from the table in stage 1 and follow its steps (`motion-video` → `references/motion-mode.md`; `video-editor` → its SKILL.md). Rules that always apply: show a frame after each important step; no number or name on screen that isn't in the script or `facts.md`; Western digits; colors from `theme.json`.

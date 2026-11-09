@@ -27,6 +27,13 @@ const SCALE = parseFloat(flag('scale', '1')), SAFE = !!flag('safe', false), WORK
 const Q = parseFloat(flag('q', '0.95')), CRF = String(flag('crf', '16')), NOENC = !!flag('no-encode', false), FRESH = !!flag('fresh', false);
 const proj = JSON.parse(fs.readFileSync(path.join(PROJ, 'project.json'), 'utf8'));
 
+/* ── the workflow gate: a project made through /start (a brief.json next to it) cannot be rendered in full until the move plan exists and the audit passes ── */
+if ((mode === 'all' || mode === 'range') && !flag('no-audit', false) && (fs.existsSync(path.join(path.dirname(PROJ), 'brief.json')) || fs.existsSync(path.join(PROJ, 'brief.json')))) {
+  const r = require('child_process').spawnSync(process.env.PYTHON || 'python3', [path.join(ROOT, 'scripts', '42_start.py'), 'audit', PROJ], { encoding: 'utf8' });
+  process.stdout.write(r.stdout || '');
+  if (r.status !== 0) { console.error('⛔ Render refused: this film was started with /start and must pass the audit first (move plan + moves + camera zooms + AI footage). Fix the points above, then render again. (--no-audit skips this check: only if the user asked for it.)'); process.exit(3); }
+}
+
 /* ── static server: /proj/* → project, /@logos/* → hook-assets/logos, else → video-editor ── */
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.mjs': 'text/javascript', '.json': 'application/json', '.ttf': 'font/ttf', '.otf': 'font/otf', '.woff2': 'font/woff2', '.woff': 'font/woff', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.wav': 'audio/wav', '.mp3': 'audio/mpeg', '.mp4': 'video/mp4', '.css': 'text/css' };
 function serve() {
