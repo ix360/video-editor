@@ -1,22 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-معرض الحركات — المستخدم يشوف الحركات المرقّمة (motion/moves) ويختار: «أبي» أو «لا» (references/moves.md).
+Move gallery: the user browses the numbered moves (motion/moves) and picks "Yes" or "No" (references/moves.md).
 
-  python3 scripts/35_moves.py [serve] [--port N] [--no-open] [--timeout SEC]
-      يفتح صفحة المعرض، ينتظر «احفظ»، يكتب الاختيار بـ~/.video-ad-editor/profile.json تحت "moves"
-      (ما يلمس باقي الملف) ويطبعه. سطر «URL: …» ينطبع أول شي — لو المتصفح ما انفتح عطه للمستخدم.
-      الرمز: 0 = انحفظ · 2 = خلص الوقت بلا حفظ · 1 = خطأ.
-  python3 scripts/35_moves.py show             يطبع الاختيار: {"on":[…], "off":[…]} بالـid + الأرقام
+  python3 scripts/35_moves.py serve [--port N] [--no-open] [--timeout SEC]
+      Opens the gallery page and waits for "Save"; writes the choice into ~/.video-ad-editor/profile.json under "moves"
+      (touching nothing else) and prints it. The line "URL: ..." is printed first: give it to the user if the browser did not open.
+      Exit codes: 0 = saved · 2 = timed out without saving · 1 = error.   ⚠ blocks until saved: never run it without arguments in a script.
+  python3 scripts/35_moves.py show             prints the choice: {"on": [...], "off": [...]} by id + number
   python3 scripts/35_moves.py set "3 7 12" [--off "5"]
-      يحفظ اختياراً من الشات مباشرة (أرقام المعرض) — لما يرد المستخدم «أبي 3 و7، 5 لا» بدل الصفحة.
-  python3 scripts/35_moves.py list             يطبع الكتالوج (رقم · id · الاسم · الحالة)
-  python3 scripts/35_moves.py plan --title "عنوان الفيديو" [--family calm|punch|onetake|editorial|auto] [--cues number,list,price,cta,contrast,emphasis,reveal,tech,hit] [--style auto|none|<id>|<a>+<b>] [--dry]
-      لوحة حركات الفيديو: 3 حركات أساسية (كلمات + انتقال + كاميرا/كرت) من عائلة وحدة يدور حولها الفيديو كله،
-      + لهجات (accents) للحظات الخاصة حسب cues، + القواعد اللي تمشي دايماً. يتجنب أساسيات آخر 3 فيديوهات و"off".
-      ينحفظ بسجل moves-history.json (إلا مع --dry) عشان الفيديو الجاي يطلع غير.
+      saves a choice straight from the chat (gallery numbers), for when the user answers "I want 3 and 7, not 5" instead of using the page.
+  python3 scripts/35_moves.py list             prints the catalog (number · id · name · state)
+  python3 scripts/35_moves.py plan --title "<video title>" [--family calm|punch|onetake|editorial|auto] [--cues number,list,price,cta,contrast,emphasis,reveal,tech,hit] [--style auto|none|<id>] [--dry]
+      The video's move board: 3 core moves (words + transition + camera/card) from ONE family that the whole video revolves around,
+      + accents for special moments (from --cues), + the rules that always apply. It avoids the cores of the last 3 videos and anything the user turned "off".
+      For a non-Arabic video (python3 scripts/_lang.py video) the Arabic-script moves are skipped. Saved to moves-history.json (unless --dry)
+      so the next video comes out different. Save the output as <work>/moves_plan.json.
 
-  VAE_HOME=<مجلد> يغيّر مكان الحفظ (للتجربة) بدل ~/.video-ad-editor — مكتبات بايثون القياسية بس.
+  VAE_HOME=<folder> changes where things are saved (for testing) instead of ~/.video-ad-editor. Python standard library only.
 """
 import json, os, re, sys, threading, webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -202,13 +203,13 @@ def pick_style(title, family, cues, hist, want="auto"):
         return s
     pool = sorted([c for c in cat if not c.get("moment")], key=score)
     a = pool[0]
-    style, why = a["id"], ["ستايل: %s — %s" % (a["name"], a["desc"])]
+    style, why = a["id"], ["style: %s — %s" % (a["name"], a["desc"])]
     mates = [b for b in a.get("blend", []) if b in ids and not ids[b].get("moment") and b not in recent]
     if mates and _h(title, "blend") < 0.35:                 # ثلث الفيديوهات تطلع دمج: سطح الأول + خط وحركة الثاني
         style += "+" + mates[0]
-        why = ["ستايل: دمج %s × %s (السطح من الأول، الخط والحركة من الثاني)" % (a["name"], ids[mates[0]]["name"])]
+        why = ["style: blend %s × %s (surface from the first, font and motion from the second)" % (a["name"], ids[mates[0]]["name"])]
     if moments:
-        why.append("لحظات: " + " · ".join(ids[m]["name"] for m in moments) + " (للهوك أو الطلب بس، 1–3 ث)")
+        why.append("moments: " + " · ".join(ids[m]["name"] for m in moments) + " (hook or call to action only, 1–3 s)")
     return style, moments, why
 SLOTS = [("text", ("text",)), ("transition", ("transition",)), ("camera", ("camera", "card"))]
 
@@ -225,11 +226,24 @@ def _h(*a):
     return int(hashlib.sha1("|".join(map(str, a)).encode("utf-8")).hexdigest()[:8], 16) / 0xFFFFFFFF
 
 
+ARABIC_ONLY = {"kashida", "ijamDrop", "qalamWrite", "joinSnap", "kufiGrid", "ayahCalm"}   # move arabic-script letters: never planned for Latin-script films
+
+
+def _en(m):
+    return ((m.get("i18n") or {}).get("en") or {}).get("name") or m["name"]
+
+
 def plan(title, family="auto", cues=(), dry=False, style="auto"):
     cat = catalog()
     off = set((load_profile().get("moves") or {}).get("off", []))
     if sys.platform != "darwin":                           # حركات القصّ (mac: true) تحتاج Vision بالماك — برّاه ما تنختار
         off |= {m["id"] for m in cat if m.get("mac")}
+    try:
+        sys.path.insert(0, str(Path(__file__).resolve().parent)); import _lang; vlang = _lang.video()
+    except Exception:
+        vlang = "en"
+    if vlang != "ar":                                      # the video is not Arabic: skip the Arabic-script moves
+        off |= ARABIC_ONLY | {m["id"] for m in cat if m.get("bonus")}
     pref = set((load_profile().get("moves") or {}).get("on", []))
     hist = history()
     fams = list(json.loads(CATALOG.read_text(encoding="utf-8")).get("families", {}))
@@ -245,12 +259,12 @@ def plan(title, family="auto", cues=(), dry=False, style="auto"):
     for slot, roles in SLOTS:
         cands = sorted([m for m in pool if m["role"] in roles], key=score)
         if cands:
-            core.append(cands[0]["id"]); why.append("%s: %d %s" % (slot, cands[0]["n"], cands[0]["name"]))
+            core.append(cands[0]["id"]); why.append("%s: %d %s" % (slot, cands[0]["n"], _en(cands[0])))
     accents = []
     for cue in cues:                                       # لهجة لكل لحظة خاصة — من أي عائلة، بلا تكرار الأساسيات
         cands = sorted([m for m in cat if cue in m.get("cues", []) and m["id"] not in off and not m.get("manual") and m["id"] not in core + accents], key=score)
         if cands:
-            accents.append(cands[0]["id"]); why.append("لهجة %s: %d %s" % (cue, cands[0]["n"], cands[0]["name"]))
+            accents.append(cands[0]["id"]); why.append("accent %s: %d %s" % (cue, cands[0]["n"], _en(cands[0])))
     rules = [m["id"] for m in cat if m["role"] == "rule" and family in m.get("families", []) and m["id"] not in off and m["id"] not in accents]
     caption = [m["id"] for m in cat if m["role"] == "caption" and m["id"] not in off]
     st, moments, swhy = pick_style(title, family, cues, hist, style)
@@ -269,8 +283,12 @@ def nums(s):
 
 
 def main(argv):
+    if any(a in ("-h", "--help", "help") for a in argv[:1]):
+        print(__doc__); return 0
     cmd = argv[0] if argv and not argv[0].startswith("--") else "serve"
     rest = argv[1:] if argv and not argv[0].startswith("--") else argv
+    if cmd not in ("serve", "show", "set", "list", "plan"):
+        print("unknown command: %s\n" % cmd); print(__doc__); return 1
     if cmd == "serve":
         return serve(rest)
     if cmd == "show":
@@ -290,7 +308,7 @@ def main(argv):
     if cmd == "plan":
         opt = lambda k, d=None: rest[rest.index(k) + 1] if k in rest else d
         cues = [c.strip() for c in (opt("--cues", "") or "").split(",") if c.strip()]
-        print(json.dumps(plan(opt("--title", "بلا عنوان"), opt("--family", "auto"), cues, "--dry" in rest, opt("--style", "auto")), ensure_ascii=False, indent=2))
+        print(json.dumps(plan(opt("--title", "Untitled"), opt("--family", "auto"), cues, "--dry" in rest, opt("--style", "auto")), ensure_ascii=False, indent=2))
         return 0
     log(__doc__)
     return 1

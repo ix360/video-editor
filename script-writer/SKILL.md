@@ -17,7 +17,7 @@ Talk to the user in their saved chat language (`python3 scripts/_lang.py`, see `
 3. **The body** with the skeleton that fits the goal (§1 Part 2) — in rhythm mode: lead past second 10, then exactly two body+loop cycles, then a bridge — and **one** call to action that serves the same need as the hook (Part 3).
 4. **The shot list** (§3): next to every line, what the viewer sees — `person`, `graphic`, `image`, `clip`, `screen` — and an asset prompt for each `image`/`clip`.
 5. **Run the checklist silently** (§5), fix what fails, then show the script in the chat — the whole of it, not a path.
-6. Save `<work>/script.md` in the format of §4, and the call to action as the end card text (`theme.json → outro`).
+6. Save `<work>/script.md` in the format of §4, and the call to action as the end-card text: `theme.json → outro` for a reel/podcast; for a motion film it is the last scene.
 
 If the user already has a script: don't rewrite it — run the checklist and report only what fails (§6).
 

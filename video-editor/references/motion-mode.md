@@ -50,6 +50,7 @@ A film made only of graphics reads as a slideshow. Before writing any scene, giv
 - A photo scene = the image as a full-bleed background with a slow push (`ctx.img(name)`, `project.json → images`), used when a clip isn't worth the credits. Flow's free image download is 768×1376 (the 2K upscale may cost credits): keep photos behind overlays and motion.
 - Clips are frame sequences at 720 px wide, 30 fps: fine as backgrounds and full-bleed shots under overlays.
 - The owner's content rules (people, symbols, anything to avoid) live in `theme.json → "avoid"` — nothing is forbidden by default.
+- **Latin-script films (French, English, Spanish…):** set `project.json → fonts` to Latin families (Inter, or fonts registered with `extraFonts`), pass explicit `text`/`labels` to every FX (their built-in defaults are Arabic), keep `keepBrand` on so the user's palette wins over a style, and skip Arabic-only moves (the planner already does). Text lays out left-to-right automatically.
 
 ## One-takes and examples
 

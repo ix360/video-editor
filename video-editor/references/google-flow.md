@@ -37,10 +37,10 @@ Use the Chrome tools (`mcp__claude-in-chrome__*`; load them with ToolSearch in O
 6. Ask permission to download (it saves a file to the Downloads folder: say the file name). Then download via the page's download control.
 7. Find the newest file: `ls -t ~/Downloads | head -3`; check with `ffprobe`; import:
    ```bash
-   python3 scripts/17_gen_scenes.py <work> import <k> ~/Downloads/<file>.mp4
+   python3 scripts/17_gen_scenes.py <work> import <k> ~/Downloads/<file>.mp4 --project <motion-project>
    ```
-   (`import` turns a clip into frames, or a picture into the asset image.) Move on to the next asset.
-8. Log what each clip cost (credits shown on the page) in your status line to the user.
+   (`--project` is for motion films: it turns a clip into frames inside the project and registers `project.json → clips`, or a picture into `assets/` + `images`. Without it, `import` writes to `<work>/gen/` for the reel/podcast flow.) Move on to the next asset.
+8. Log what each clip cost in your status line to the user. Flow's agent shows its own confirmation with the credit cost and the model before it generates (tested: **12 credits per 4-second clip**, model "Omni 1.2 Flash", about 2.5–3 minutes each); that dialog is Flow's, not a replacement for the user's one-time yes to the credits and the downloads. Downloaded video options: take **720p "Original size"**, not the upscales.
 
 ## Setup, and sign-in failures
 The one-time choice (Google API vs. subscription) and the connection check are in `references/setup-check.md`. Use this file only when the saved mode is `subscription` (`python3 scripts/00_check.py show`).

@@ -468,17 +468,19 @@ def to_theme(args):
         short = mine if (mine and len(mine) <= CTA_MAX) else ""
         # جملته الطويلة ما تنضغط بالسطر الكبير — تنزل للسطرين الرماديين فوق (l1/l2)
         l1, l2 = split_small(mine) if (mine and not short) else ("", "")
+        import _lang
+        _cw, _fl = CTA_DEFAULT.get(_lang.video(), CTA_DEFAULT["en"])   # default end-card wording follows the VIDEO language
         if word:
-            o = dict(l1=l1, l2=l2, chips=[], cta=short or "علّق بكلمة", word=word, sub="")
+            o = dict(l1=l1, l2=l2, chips=[], cta=short or _cw, word=word, sub="")
         elif h:
             # الحساب داخل القرص: محاط بعلامة LRM وإلا المحرّك (نص عربي) يقلبه my.brand@
-            o = dict(l1=l1, l2=l2, chips=[], cta=short or "تابعني", word=LRM + h + LRM, sub="")
+            o = dict(l1=l1, l2=l2, chips=[], cta=short or _fl, word=LRM + h + LRM, sub="")
         else:
-            o = dict(l1=l1, l2=l2, chips=[], cta=short or "تابعني", word="", sub="")
-            log("⚠️ كرت النهاية بلا كلمة ولا حساب — القرص الملوّن بيطلع فاضي: اسأله عن حسابه أو اكتب outro.word بنفسك")
+            o = dict(l1=l1, l2=l2, chips=[], cta=short or _fl, word="", sub="")
+            log("⚠️ The end card has no word and no handle — the coloured disc would be empty: ask for their account or write outro.word yourself")
         t["outro"] = o
     else:
-        log("ℹ️ ما يبي كرت نهاية ← حط \"outro\": 0 بـsfx.json")
+        log("ℹ️ No end card wanted → put \"outro\": 0 in sfx.json (talking reels; a motion film has no automatic end card: its last scene is the call to action)")
     set_on_acc(t)
     cp = work / "compose.html"
     if cp.exists() and "ONACC" not in cp.read_text(encoding="utf-8", errors="ignore"):
@@ -496,6 +498,13 @@ def to_theme(args):
     log("✅ كتبت " + str(tp) + ("" if not missing_colors else "  ⚠️ بلا ألوان — ناقص bg/ink/acc (رابط أو تلقائي): طلّعها قبل الرسم"))
     print(json.dumps(t, ensure_ascii=False, indent=2))
     return 0
+
+
+CTA_DEFAULT = {   # video language -> (comment-the-word call, follow call) for the default end card
+    "ar": ("علّق بكلمة", "تابعني"), "en": ("Comment the word", "Follow me"), "fr": ("Commentez le mot", "Suivez-moi"),
+    "es": ("Comenta la palabra", "Sígueme"), "pt": ("Comente a palavra", "Siga-me"), "de": ("Kommentiere das Wort", "Folge mir"),
+    "tr": ("Kelimeyi yaz", "Takip et"), "ur": ("لفظ لکھیں", "فالو کریں"), "fa": ("کلمه را کامنت کن", "دنبالم کن"), "id": ("Komentari kata", "Ikuti saya"),
+}
 
 
 def lang_cmd(rest):

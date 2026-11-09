@@ -9,10 +9,10 @@ motion/
   render.js               preview / range / all / bench / serve   (headless Chrome, real GPU via ANGLE-Metal)
   voice.py                script.json → vo/<id>.wav + vo/words.json   (edge-tts, or --own + whisper)
   timeline.py             project.json + words.json → timeline.json + vo/vo_full.wav
-  audio.py                bed + sfx + VO → -14 LUFS → renders/final.mp4
+  audio.py                bed + sfx + VO → -14 LUFS (generated voice) or -20 LUFS (the person's own voice) → renders/final.mp4
   vendor/three/           three.module.js + addons (EffectComposer, RenderPass, UnrealBloomPass, OutputPass, ShaderPass, FXAAPass, AfterimagePass, RoundedBoxGeometry, RoomEnvironment, TextGeometry, SVGLoader, BufferGeometryUtils)
   fonts/                  OFL fonts + licenses/
-  demo/                   working reference project (3D + bloom scene, and Arabic kinetic scene)
+  examples/               working reference projects (stage-wall, one-take, machine)
 ```
 
 ## 1. Project folder
@@ -20,7 +20,7 @@ motion/
 ```
 myproj/
   project.json   settings (you write it)
-  script.json    [{id, text, rate?, pitch?, voice?, gap_after?}]   (you write it; Kuwaiti dialect)
+  script.json    [{id, text, rate?, pitch?, voice?, gap_after?}]   (you write it, in the video's language)
   sfx.json       [{type, at, gain?, dur?, pitch?, pan?}]            (optional)
   scenes/*.js    one file per scene
   assets/        images (declared in project.images)
@@ -91,6 +91,9 @@ For a custom transition, set `type: (X, A, B, k, opts) => {…}`. A and B are th
 | Group | Members |
 |---|---|
 | canvas | `X` (current 2D context), `OUT` (final composite), `W`, `H`, `fps`, `P`/`palette`, `resetTransform(X?)`, `img(name)`, `images` |
+| video clips | `drawClip(X, name, secondsIntoClip, {x,y,w,h,zoom,ox,oy,alpha,speed,loop,pingpong})` plays a Flow clip registered in `project.json → clips` (frame sequence; loops by default), `clip(name)` = `{n,fps,dur,frames}`. Import with `17_gen_scenes.py <work> import <k> <file.mp4> --project <proj>` |
+| moves | `FX.<id>(ctx, t, opts)` — the move bank (100 moves, `references/moves.md`); camera moves wrap `draw`. Every film uses it; `scripts/42_start.py audit <proj>` checks |
+| text direction | `text.layout` lays Latin text left-to-right and Arabic right-to-left automatically (`o.dir` forces it). A move's built-in default text is Arabic: pass explicit text/labels in non-Arabic films (the renderer warns when it draws Arabic in a film whose script isn't Arabic) |
 | scene | `scene` (`{id,start,end,dur,lines,transition}`), `project`, `timeline` |
 | random | `rng(salt)` returns r() in [0,1) seeded by scene id+salt, with `r.range(a,b)`, `r.int`, `r.pick`, `r.sign`, `r.gauss`. `seeded(seed)`, `noise1(x,seed)`, `noise2(x,y,seed)`, `fbm(x,y,oct,seed)`, `hash01(...)` |
 | easing | `E.linear`, `E.{quad,cubic,quart,quint,sine,expo,circ}{In,Out,InOut}`, `E.backIn/backOut/backInOut`, `E.back(s)`, `E.elasticOut/elasticIn`, `E.elastic(amp,per)`, `E.bounceIn/Out`, `E.spring({stiffness,damping,mass,velocity})(seconds)`, `E.springK(k)`, `E.bezier(x1,y1,x2,y2)(k)`, `E.snappy`, `E.smooth`, `E.anticipate` |
@@ -172,7 +175,7 @@ node render.js <proj> all                    # final frames (resume) → renders
 node render.js <proj> all --fresh            # after editing scenes (resume would keep stale frames)
 node render.js <proj> range 4 6              # re-render seconds 4..6 only (delete those frames first, or use --fresh)
 node render.js <proj> bench                  # cost split: CPU submit vs GPU+readback+JPEG
-python3 audio.py <proj> [--no-bed]           # bed + sfx + VO → -14 LUFS / TP ≤ -1.5 → renders/final.mp4
+python3 audio.py <proj> [--no-bed]           # bed + sfx + VO → -14 LUFS (own voice: -20) / TP ≤ -1.5 → renders/final.mp4
 python3 audio.py <proj> --audition           # every sfx as its own wav in renders/audio/
 ```
 

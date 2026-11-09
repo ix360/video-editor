@@ -23,7 +23,7 @@ Transcription uses the **video language** (`python3 scripts/_lang.py video`), wh
 - `scenes/*.js`: one scene per file
 - `assets/`: photos declared in `project.images` (from stock, Gemini or Flow)
 
-A ready example is in `demo/`; the full guide for the scene writer is `ENGINE-API.md`.
+Ready examples are in `examples/`; the full guide for the scene writer is `ENGINE-API.md`.
 
 ## Rules
 - No templates. Every film's motion is built from the meaning of its script.

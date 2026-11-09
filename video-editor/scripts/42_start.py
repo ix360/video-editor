@@ -28,6 +28,16 @@ def _has(work, *pats):
     return any(glob.glob(os.path.join(work, p)) for p in pats)
 
 
+def _built(work):
+    """A finished film: final*.mp4 / *-final.mp4 / out.mp4 / output*.mp4, or any top-level mp4 that isn't a source clip, or <project>/renders/final*.mp4."""
+    import fnmatch
+    src = ("input", "src", "raw", "img_", "clip", "source")
+    for f in glob.glob(os.path.join(work, "*.mp4")):
+        n = os.path.basename(f).lower()
+        if not n.startswith(src): return True
+    return _has(work, "*/renders/final*.mp4", "renders/final*.mp4")
+
+
 def stages(work):
     brief = {}
     p = os.path.join(work, "brief.json")
@@ -40,8 +50,8 @@ def stages(work):
         "voice": _has(work, "vo.mp3", "vo.wav", "a.wav", "input.*"),
         "theme": _has(work, "theme.json"),
         "moves": _has(work, "moves_plan.json"),
-        "assets": _has(work, "gen.json", "stock/credits.json", "gen/*"),
-        "build": _has(work, "final*.mp4", "*_final.mp4", "out.mp4", "output*.mp4"),
+        "assets": _has(work, "gen.json", "stock/credits.json", "gen/*", "*/assets/clips/*", "*/assets/*.jpg", "assets/clips/*"),
+        "build": _built(work),
     }
     optional = {"assets"} if brief.get("format") in ("graphics", "motion-graphics") else set()
     return brief, done, optional
@@ -59,7 +69,16 @@ def status(work, as_json):
     print("NEXT:", ("%s — %s" % (nxt, HINT[nxt])) if nxt else "all done — deliver the file")
 
 
-CAMERA = {"pushIn", "pullOut", "handheld", "kenBurns", "snapZoom", "punchCut", "dollyZoom", "rackFocus", "parallax", "shake", "crossZoom", "zoomWipe", "dotZoom"}
+CAMERA = {"pushIn", "pullOut", "handheld", "kenBurns", "snapZoom", "punchCut", "dollyZoom", "rackFocus", "parallax", "shake", "crossZoom", "zoomWipe", "dotZoom", "tilt3D", "orbit", "craneUp"}
+
+
+def _camera_ids():
+    """The camera moves = the catalog's cat=="camera" ids (plus the static list)."""
+    try:
+        cat = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "motion", "moves", "catalog.json"), encoding="utf-8"))
+        return CAMERA | {m["id"] for m in cat["moves"] if m.get("cat") == "camera"}
+    except Exception:
+        return CAMERA
 
 
 def audit(proj):
@@ -71,8 +90,8 @@ def audit(proj):
     problems, used_all, cam_scenes = [], set(), 0
     for f in sc:
         src = open(f, encoding="utf-8").read()
-        ids = set(re.findall(r"\bFX\.(\w+)", src)); used_all |= ids
-        cam = ids & CAMERA
+        ids = set(re.findall(r"\bFX\.(\w+)\s*\(", src)); used_all |= ids   # real calls only, not a mention in a comment
+        cam = ids & _camera_ids()
         if not ids: problems.append("%s uses no FX.* move at all" % os.path.basename(f))
         if cam: cam_scenes += 1
     if cam_scenes < max(1, int(len(sc) * 0.7 + 0.5)):
@@ -88,6 +107,15 @@ def audit(proj):
     if plan_ids:
         miss = sorted(plan_ids - used_all)
         if miss: problems.append("planned moves never used: %s" % ", ".join(miss))
+    # Arabic literals in a film whose script isn't Arabic = a leftover default/sample text
+    try:
+        sj = open(os.path.join(proj, "script.json"), encoding="utf-8").read()
+        if not re.search(r"[\u0600-\u06FF]", sj):
+            for f in sc:
+                if re.search(r"[\u0600-\u06FF]", re.sub(r"//.*|/\*[\s\S]*?\*/", "", open(f, encoding="utf-8").read())):
+                    problems.append("%s contains Arabic text but the script is not Arabic — replace it" % os.path.basename(f))
+    except Exception:
+        pass
     print("Scenes: %d · camera/zoom scenes: %d · distinct moves: %s" % (len(sc), cam_scenes, ", ".join(sorted(used_all)) or "none"))
     if problems:
         print("❌ AUDIT FAILED — fix before rendering:"); [print("  -", p) for p in problems]; sys.exit(3)

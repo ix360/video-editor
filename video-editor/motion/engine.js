@@ -381,8 +381,15 @@ function visualOrder(words) {                          // returns indices in rig
 }
 /* layout(X, str, {family,weight,size,maxWidth,lineHeight,letterSpacing}) → {lines:[{words:[{text,i,x,w}],width,y}],width,height,size,ascent}
    x of each word = its LEFT edge relative to line's right edge going left (negative numbers); use drawLayout to place */
+const _warned = new Set();
+function guardLang(str) {   // a move's built-in default text is Arabic: say so loudly when the film's script is not Arabic
+  if (!str || !/[؀-ۿ]/.test(str) || _warned.has(str)) return; if (!S.voList || !S.voList.length) return;
+  if (S.voList.some(l => /[؀-ۿ]/.test(l.text || ''))) return; _warned.add(str);
+  console.warn('Arabic text "' + String(str).slice(0, 30) + '" is drawn in a film whose script is not Arabic — a move used its built-in default text; pass explicit text/labels in the FX options');
+}
 function layout(X, str, o = {}) {
   X.save(); applyFont(X, o);
+  guardLang(str);
   str = westernDigits(str);
   const size = o.size || 80, lh = (o.lineHeight || 1.35) * size, maxW = o.maxWidth || 1e9, sp = X.measureText(' ').width * (o.wordSpacing || 1);
   const words = str.split(/\s+/).filter(Boolean), W = words.map(w => X.measureText(w).width);
@@ -390,21 +397,28 @@ function layout(X, str, o = {}) {
   words.forEach((w, i) => { const add = (cur.length ? sp : 0) + W[i]; if (cur.length && cw + add > maxW) { lines.push(cur); cur = []; cw = 0; } cur.push(i); cw += (cur.length > 1 ? sp : 0) + W[i]; });
   if (cur.length) lines.push(cur);
   const m = X.measureText('أبجد Hg'); X.restore();
+  // direction: Arabic-script text lays out right-to-left; Latin (French, English…) lays out left-to-right. Force with o.dir = 'ltr' | 'rtl'.
+  const ltr = o.dir ? o.dir === 'ltr' : !/[؀-ۿݐ-ݿ]/.test(str);
   const out = lines.map((li, L) => {
     const ws = li.map(i => words[i]), order = visualOrder(ws);
     let x = 0; const placed = [];
+    if (ltr) {
+      const total = li.reduce((a, i) => a + W[i], 0) + sp * (li.length - 1); x = -total;
+      li.forEach(i => { placed.push({ text: words[i], i, x, w: W[i], line: L }); x += W[i] + sp; });
+      return { words: placed, width: total, y: L * lh };
+    }
     order.forEach(k => { const i = li[k]; placed.push({ text: words[i], i, x: x - W[i], w: W[i], line: L }); x -= W[i] + sp; });
     const width = -x - sp;
     placed.sort((a, b) => a.i - b.i);
     return { words: placed, width, y: L * lh };
   });
-  return { lines: out, width: Math.max(0, ...out.map(l => l.width)), height: (out.length - 1) * lh + size, size, lh, words, ascent: m.actualBoundingBoxAscent, descent: m.actualBoundingBoxDescent, o };
+  return { ltr, lines: out, width: Math.max(0, ...out.map(l => l.width)), height: (out.length - 1) * lh + size, size, lh, words, ascent: m.actualBoundingBoxAscent, descent: m.actualBoundingBoxDescent, o };
 }
 /* drawLayout(X, L, x, y, {align:'center'|'right'|'left', color, perWord:(i,word,box)=>({alpha,dx,dy,scale,rot,color,reveal,clipUp,skip})})
    (x,y) = anchor: align point horizontally, first baseline vertically. Returns word boxes in canvas coords. */
 function drawLayout(X, L, x, y, o = {}) {
   const align = o.align || 'center', boxes = [];
-  X.save(); applyFont(X, L.o); X.direction = 'rtl'; X.textAlign = 'left'; X.textBaseline = 'alphabetic';
+  X.save(); applyFont(X, L.o); X.direction = L.ltr ? 'ltr' : 'rtl'; X.textAlign = 'left'; X.textBaseline = 'alphabetic';
   for (const line of L.lines) {
     const right = align === 'right' ? x : align === 'left' ? x + line.width : x + line.width / 2;
     for (const w of line.words) {
@@ -416,7 +430,7 @@ function drawLayout(X, L, x, y, o = {}) {
       if (st.alpha != null) X.globalAlpha *= clamp(st.alpha);
       if (st.clip || st.reveal != null || st.clipUp != null) {         // masks
         X.beginPath();
-        if (st.reveal != null) { const rw = (box.w + 20) * clamp(st.reveal); X.rect(box.x + box.w + 10 - rw, box.y - L.size * .3, rw, box.h + L.size * .6); }   // RTL wipe
+        if (st.reveal != null) { const rw = (box.w + 20) * clamp(st.reveal); if (L.ltr) X.rect(box.x - 10, box.y - L.size * .3, rw, box.h + L.size * .6); else X.rect(box.x + box.w + 10 - rw, box.y - L.size * .3, rw, box.h + L.size * .6); }   // wipe follows the reading direction
         else if (st.clipUp != null) { const ext = L.size * .75 * Math.max(0, Math.min(1, 1 - (st.dy || 0) / (L.size * .6))); X.rect(box.x - 20, box.y - L.size * .3, box.w + 40, box.h + L.size * .3 + ext); }   // وهي طالعة: القناع على السطر (طلعة نظيفة). لما توصل: ينزل تحت السطر فتكمل ذيول ج ي ع ونقاط الياء بلا حد ينشاف                                           // rise from below baseline
         else X.rect(st.clip.x, st.clip.y, st.clip.w, st.clip.h);
         X.clip();
@@ -435,6 +449,7 @@ function drawLayout(X, L, x, y, o = {}) {
 }
 /* one-call text: text(X, str, x, y, {family,weight,size,color,align,maxWidth(→shrink),stroke,shadow,alpha}) */
 function text(X, str, x, y, o = {}) {
+  guardLang(str);
   X.save(); applyFont(X, o); str = westernDigits(str);
   X.direction = o.dir || (/[؀-ۿ]/.test(str) ? 'rtl' : 'ltr'); X.textAlign = o.align || 'center'; X.textBaseline = o.baseline || 'alphabetic';
   if (o.letterSpacing) try { X.letterSpacing = o.letterSpacing + 'px'; } catch (e) { }
@@ -768,7 +783,7 @@ async function boot() {
     // 🎨 بنك الستايلات (styles.js): project.style = "paperCut" أو "explainer+keynote" — ألوانه وخطوطه للمحرّك كله، وctx.S للمشاهد
     S.ST = null;
     if (proj.style && G.STYLES) {
-      S.ST = G.STYLES.make(proj.style, { W: S.W, H: S.H, fps: S.fps, brand: proj.palette, keepBrand: proj.keepBrand });
+      S.ST = G.STYLES.make(proj.style, { W: S.W, H: S.H, fps: S.fps, brand: proj.palette, keepBrand: proj.keepBrand !== false });   // the user's saved palette wins by default (keepBrand:false lets a style override it)
       S.P = Object.assign({}, S.P, S.ST.P, proj.styleOverride || {});
       FAMS = Object.assign(FAMS, { display: S.ST.fonts.display, body: S.ST.fonts.body, num: S.ST.fonts.num });
     }
