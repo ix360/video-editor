@@ -5,7 +5,7 @@ description: Writes the script for a short video — a direct hook in the first 
 
 # Script writer — hook, story, call to action
 
-The method lives in `${CLAUDE_SKILL_DIR}/../video-editor/references/script-writing.md`. **Read it and follow it.** All other scripts and references are in `${CLAUDE_SKILL_DIR}/../video-editor`.
+The method lives in `video-editor/references/script-writing.md` (the `video-editor` folder next to this skill's folder; `${CLAUDE_SKILL_DIR}/../video-editor` in Claude Code). **Read it and follow it.** All other scripts and references are in `${CLAUDE_SKILL_DIR}/../video-editor`.
 
 ## 🌐 Language
 Talk to the user in their saved chat language (`python3 scripts/_lang.py`, see `references/language.md`; ask once if none is saved). Write the **script** in the video's language (`python3 scripts/_lang.py video`) — it can differ.

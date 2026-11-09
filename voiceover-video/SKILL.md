@@ -6,7 +6,7 @@ description: Voiceover for videos with ElevenLabs — lists the user's own voice
 # Voiceover — your voice, via ElevenLabs
 
 The engine is shared with the reel skill: all `scripts/` and `references/` live in
-`${CLAUDE_SKILL_DIR}/../video-editor`.
+`${CLAUDE_SKILL_DIR}/../video-editor` (the `video-editor` folder that sits next to this skill's folder; if your agent runtime does not set `CLAUDE_SKILL_DIR`, use the folder that contains this SKILL.md).
 
 ## 🌐 Language
 Work in the user's saved language (`python3 scripts/_lang.py`, see `references/language.md`). Ask once if none is saved.

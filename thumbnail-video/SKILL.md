@@ -6,7 +6,7 @@ description: Designs the reel cover (the first frame of the video, everything im
 # Cover and thumbnail — what reads on a phone
 
 **The engine is shared** with the reel skill. All `scripts/` and `references/` are here:
-`${CLAUDE_SKILL_DIR}/../video-editor`
+`${CLAUDE_SKILL_DIR}/../video-editor` (the `video-editor` folder that sits next to this skill's folder; if your agent runtime does not set `CLAUDE_SKILL_DIR`, use the folder that contains this SKILL.md)
 
 **Read first:** `references/thumbnails.md` — the minimum sizes and their sources. The grid shrinks a cover to 12%, so anything under the limit doesn't read.
 

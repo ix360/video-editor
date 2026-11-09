@@ -7,6 +7,10 @@
         Prints one JSON line: {ok, path, seconds, advice}.  Exit: 0 usable · 2 too short / empty · 1 error
   python3 39_voice_sample.py upload <file> [--name "My voice"]
         uploads the sample to ElevenLabs (instant clone) and prints the voice_id.  Needs ELEVENLABS_API_KEY (env or .env) and a plan with cloning.
+  python3 39_voice_sample.py voices
+        lists the ElevenLabs voices of the account (name · voice_id · category) through the REST API — for runtimes WITHOUT the ElevenLabs connector.  Needs ELEVENLABS_API_KEY.
+  python3 39_voice_sample.py speak --voice <voice_id> (--text-file <f> | --text "...") [--out vo.mp3] [--model eleven_multilingual_v2] [--yes]
+        text-to-speech through the REST API. Without --yes it only prints the character count (nothing is sent or billed); run it with --yes after the user agrees.
   python3 39_voice_sample.py script
         prints a short reading text to give the user if they have nothing to read (covers varied sounds and tones)
 
@@ -85,11 +89,41 @@ def upload(a):
     print("✅ voice_id:", res.get("voice_id"))
 
 
+def _api(path, key, body=None, accept="application/json"):
+    r = urllib.request.Request("https://api.elevenlabs.io" + path, data=(json.dumps(body).encode() if body is not None else None),
+                               headers={"xi-api-key": key, "Content-Type": "application/json", "Accept": accept})
+    return urllib.request.urlopen(r, timeout=300)
+
+
+def voices(a):
+    key = env("ELEVENLABS_API_KEY")
+    if not key: sys.exit("❌ No ELEVENLABS_API_KEY (env or .env). Create one at elevenlabs.io → Developers → API keys; never paste it into the chat.")
+    try: res = json.load(_api("/v1/voices", key))
+    except urllib.error.HTTPError as e: sys.exit("❌ %s %s" % (e.code, e.read()[:200].decode("utf-8", "ignore")))
+    for v in res.get("voices", []): print("%-34s %s  %s" % (v.get("name", "?"), v.get("voice_id"), v.get("category", "")))
+
+
+def speak(a):
+    vid = arg(a, "--voice"); out = arg(a, "--out", "vo.mp3"); model = arg(a, "--model", "eleven_multilingual_v2")
+    tf = arg(a, "--text-file"); text = open(tf, encoding="utf-8").read() if tf else arg(a, "--text")
+    if not vid or not text: sys.exit("usage: 39_voice_sample.py speak --voice <voice_id> (--text-file <f> | --text \"...\") [--out vo.mp3] [--yes]")
+    n = len(text.strip())
+    if "--yes" not in a:
+        print(json.dumps({"characters": n, "voice": vid, "model": model, "sent": False, "note": "ElevenLabs bills per character (see the user's plan). Tell the user, then re-run with --yes."})); return
+    key = env("ELEVENLABS_API_KEY")
+    if not key: sys.exit("❌ No ELEVENLABS_API_KEY (env or .env).")
+    try: data = _api("/v1/text-to-speech/%s?output_format=mp3_44100_128" % vid, key, {"text": text.strip(), "model_id": model}, "audio/mpeg").read()
+    except urllib.error.HTTPError as e: sys.exit("❌ %s %s" % (e.code, e.read()[:300].decode("utf-8", "ignore")))
+    open(out, "wb").write(data); print("✅ %s (%d characters, %.0f KB) — one take; another take is a new charge" % (out, n, len(data) / 1024))
+
+
 def main():
     a = sys.argv[1:]
     if not a: sys.exit(__doc__)
     if a[0] == "prepare": return prepare(a[1:])
     if a[0] == "upload": return upload(a[1:])
+    if a[0] == "voices": return voices(a[1:])
+    if a[0] == "speak": return speak(a[1:])
     if a[0] == "script":
         try: import _lang; print(READING.get(_lang.get(), READING["en"]))
         except Exception: print(READING["en"])

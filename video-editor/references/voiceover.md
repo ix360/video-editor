@@ -15,6 +15,8 @@ Look for tools ending in `creative_list_voices` and `creative_generate_speech` (
   3. After "done", re-check the tools. Still missing? Say so plainly and offer the free fallback (`edge-tts`, see `references/onboarding.md`).
 - The connector spends the user's ElevenLabs credits. Say so once.
 
+**No ElevenLabs connector in this runtime** (or you prefer no connector)? Use the REST helper with `ELEVENLABS_API_KEY` in the environment/.env: `python3 scripts/39_voice_sample.py voices` lists the account's voices; `python3 scripts/39_voice_sample.py speak --voice <id> --text-file <script> --out <work>/vo.mp3` prints the character count first (nothing billed), then re-run with `--yes` once the user agrees. Never ask for or print the key.
+
 ## 1. Pick the voice — three paths
 
 Ask one short question: **"Use one of your ElevenLabs voices, send me an mp3 of your own voice, or pick a ready-made voice?"**

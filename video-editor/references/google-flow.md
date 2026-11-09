@@ -34,6 +34,7 @@ Flow opens a project with a **chat agent** on the right ("What do you want to cr
 - Budget thinking: 12 credits per 4 s clip; reuse one clip in several scenes (`zoom`, `ox/oy`, `speed`, `pingpong`, `reverse`, `flip`, `blur`) rather than ordering ten.
 
 ## Procedure
+(Other runtimes: any browser-automation tool works for the same steps; with none, the user generates the clips in Flow and you only run the import.)
 Use the Chrome tools (`mcp__claude-in-chrome__*`; load them with ToolSearch in ONE call: `tabs_context_mcp, tabs_create_mcp, navigate, read_page, find, computer, javascript_tool`). Don't hard-code selectors — Google changes the UI. Find controls by reading the page (`read_page` / `find`) and verify with a screenshot.
 
 1. `tabs_context_mcp`, open a **new tab**, navigate to **labs.google/fx/tools/flow** (images/video) — or **aistudio.google.com** for Gemini/Imagen prompts.

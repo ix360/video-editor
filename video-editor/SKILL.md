@@ -13,7 +13,7 @@ The whole edit is code:
 Output: one MP4, ready to post.
 
 **Paths:** every `scripts/`, `references/` and `motion/` below lives in this skill's folder:
-`${CLAUDE_SKILL_DIR}`
+`${CLAUDE_SKILL_DIR}` (this skill's own folder; if the runtime doesn't set it, the folder containing this SKILL.md)
 
 ---
 

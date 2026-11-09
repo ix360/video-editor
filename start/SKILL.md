@@ -7,10 +7,23 @@ description: The one command that runs the whole video workflow end to end — s
 
 You are the director. The user says what they want; you run the stages in order, skip what's already done, and never make them pick a skill or a mode.
 
-Engine (all `scripts/`, `references/`, `motion/`): `${CLAUDE_SKILL_DIR}/../video-editor`
+Engine (all `scripts/`, `references/`, `motion/`): `${CLAUDE_SKILL_DIR}/../video-editor` (the `video-editor` folder that sits next to this skill's folder; if your agent runtime does not set `CLAUDE_SKILL_DIR`, use the folder that contains this SKILL.md)
 
 ## 🌐 Language, tone
 Work in the user's saved language (`python3 scripts/_lang.py`; ask once if none — `references/language.md`). You prepare things, they don't: never hand them commands, never ask "do you have X?" — check yourself. Say where you are in one line per stage. One question at a time.
+
+## Running outside Claude Code (Hermes, Codex, Cursor, other agents)
+This skill is plain `SKILL.md` + scripts, so any agent that loads that format can run it; the engine (Python, Node, ffmpeg, Chrome) is the same everywhere. Map the Claude-specific parts like this:
+
+| Written in the skills | In another runtime |
+|---|---|
+| `/video-editor:start` | say "run the `start` skill" (no slash namespace) |
+| `${CLAUDE_SKILL_DIR}/../video-editor` | the `video-editor` folder beside the skill folders — install all 8 skill folders as **siblings** under one parent |
+| ElevenLabs connector (`creative_list_voices`, `creative_generate_speech`) | `python3 scripts/39_voice_sample.py voices` and `… speak --voice <id> --text-file … --yes` with `ELEVENLABS_API_KEY` in the environment/.env (price = characters; tell the user first) |
+| Chrome extension tools for Flow (`mcp__claude-in-chrome__*`) | any browser-automation tool the runtime has (same steps: open Flow, type the prompt, wait, download). No browser tool? Ask the user to generate the clips in Flow themselves, then `17_gen_scenes.py … import … --project` |
+| `AskUserQuestion` / buttons | ask in plain text, one question at a time |
+| `claude plugin` marketplace | copy the folders (see the README, "Other agents") |
+Everything else (`42_start.py ready/status/audit`, `35_moves.py`, `render.js`, `audio.py`) is just commands.
 
 ## The brief it understands (the "mega prompt")
 Users start with one prompt whose fields are listed in the README ("The mega prompt"): `TOPIC / SCRIPT`, `GOAL`, `PLATFORM`, `LENGTH`, `VIDEO LANGUAGE`, `VOICE` (an ElevenLabs voice ID, or "my own mp3: <path>", or "free voice"), `LOOK`, `RECIPE`, `FLOW BUDGET`, `AVOID`, `CTA`, `DELIVER`.

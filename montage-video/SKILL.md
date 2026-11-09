@@ -6,7 +6,7 @@ description: Beat-synced montage of clips with no speech — a folder of clips (
 # Montage of clips with no speech
 
 **The engine is shared** with the reel skill. All `scripts/` and `references/` are here:
-`${CLAUDE_SKILL_DIR}/../video-editor`
+`${CLAUDE_SKILL_DIR}/../video-editor` (the `video-editor` folder that sits next to this skill's folder; if your agent runtime does not set `CLAUDE_SKILL_DIR`, use the folder that contains this SKILL.md)
 
 ## Steps
 

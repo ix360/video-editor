@@ -55,6 +55,15 @@ DELIVER        : the final mp4 + a small compressed copy + a contact sheet. A fi
 - **ElevenLabs:** your voice ID is in ElevenLabs → Voices → your voice → "ID". Don't have ElevenLabs? Use `my own mp3: <path>` (record it on your phone) or `free voice`.
 - Flow clips use your Google subscription's credits (about 12 per 4 s clip). If Google pauses Flow ("unusual activity"), the plugin stops, tells you, and reuses the clips and photos it already has.
 
+### Other agents: Hermes, Codex, Cursor… (not only Claude)
+The skills are plain `SKILL.md` folders and the engine is Python + Node + ffmpeg + Chrome, so any agent that loads the open skill format can run them. Copy **all 8 skill folders side by side** into the agent's skills folder:
+```bash
+git clone https://github.com/ix360/video-editor.git && cd video-editor
+mkdir -p ~/.hermes/skills/video          # Hermes; for a single project use <project>/.agents/skills/ (shared convention)
+cp -R start script-writer motion-video voiceover-video video-editor montage-video podcast-video thumbnail-video ~/.hermes/skills/video/
+```
+Then tell the agent: "run the `start` skill" and paste the mega prompt. What changes outside Claude: no `/video-editor:` slash command; ElevenLabs works through `ELEVENLABS_API_KEY` (`39_voice_sample.py voices` / `speak`) instead of the connector; Flow needs the agent's own browser tool (without one, generate the clips in Flow yourself and the plugin imports the files); questions are asked in plain text. Details: `start/SKILL.md` → "Running outside Claude Code", and `AGENTS.md`. *Tested so far in Claude Code only; the Hermes steps follow its documented skill format but haven't been run there yet.*
+
 ### One command for the whole workflow · a script writer
 - **`/video-editor:start`** runs everything in order — setup check → a one-message brief → script → voice → look and assets → build → delivery — and picks the right skill for you (reel, podcast, montage, motion film, cover). It remembers where you are, so you can stop and come back (`42_start.py status`).
 - **The `script-writer` skill:** three hooks to choose from (the first word already carries the point — no greetings), a story skeleton that fits your goal, **one** direct call to action, and a shot list saying what the viewer sees on every line → [`script-writing.md`](video-editor/references/script-writing.md).
