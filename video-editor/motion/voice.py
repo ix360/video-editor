@@ -17,6 +17,11 @@ script.json: [{"id":"l1","text":"...","rate":"+5%","pitch":"+0Hz","gap_after":0.
 """
 import sys, os, json, re, argparse, asyncio, hashlib, subprocess, tempfile, wave, difflib
 import numpy as np
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scripts'))
+try:
+    import _lang   # the user's saved language (VAE_LANG > ~/.video-ad-editor/lang.json > en)
+except Exception:
+    _lang = None
 
 SR = 48000
 DEF_VOICE = None   # ⛔ لا صوت افتراضي: المستخدم يختار (صفحة البداية) أو جرّب الأصوات على نصّه واختار الأوضح
@@ -77,8 +82,9 @@ def split_words(text):
 
 
 _WHISPER = {}
-def whisper_words(path, model='small', lang='ar', prompt=None):
+def whisper_words(path, model='small', lang=None, prompt=None):
     import whisper  # openai-whisper (installed for python3.9)
+    lang = lang or (_lang.whisper() if _lang else 'ar')   # was hard-coded 'ar': a French/English recording was transcribed as Arabic
     if model not in _WHISPER: _WHISPER[model] = whisper.load_model(model)
     r = _WHISPER[model].transcribe(path, language=lang, word_timestamps=True, fp16=False, initial_prompt=prompt, condition_on_previous_text=False)
     out = []
@@ -155,7 +161,9 @@ def main():
         src = os.path.abspath(a.own); x = decode(src); x = x if x.ndim == 1 else x.mean(1)
         print(f'🎙  صوتك: {os.path.basename(src)} ({len(x)/SR:.1f}s) → وِسبر {a.whisper_model} …', flush=True)
         tmpw = os.path.join(VO, '_own_48k.wav'); write_wav(tmpw, x)
-        heard = whisper_words(tmpw, a.whisper_model, prompt=' '.join(L['text'] for L in script)[:600])
+        _lc = _lang.whisper() if _lang else 'ar'
+        # the script as an initial prompt helps Arabic dialects, but derails other languages (a French take collapsed: 5 lines stacked at one timestamp)
+        heard = whisper_words(tmpw, a.whisper_model, prompt=(' '.join(L['text'] for L in script)[:600] if _lc == 'ar' else None))
         allw, owner = [], []
         for li, L in enumerate(script):
             for w in split_words(L['text']): allw.append(w); owner.append(li)

@@ -20,6 +20,7 @@ Look for tools ending in `creative_list_voices` and `creative_generate_speech` (
 Ask one short question: **"Use one of your ElevenLabs voices, send me an mp3 of your own voice, or pick a ready-made voice?"**
 
 ### A. One of my voices (default when they ask for "my voice")
+**Search without a language filter first** (`creative_list_voices` with `search` = their name, no `languages`). A clone is tagged with the language of the sample it was made from (often `en`), so filtering by the video's language hides it — tested: a French video, a clone tagged English, found only without the filter. The `category` field says `cloned` for their own voices. A clone speaking another language usually works with `eleven_v4`, but keeps some accent of the sample: say so once.
 `creative_list_voices` (set `context`). The result includes the workspace voices — a cloned voice the user already made shows there. Show **names only** (max ~8) and let them choose; remember the `voice_id`.
 No voice of theirs in the list? → path B.
 
